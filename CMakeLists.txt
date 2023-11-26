@@ -62,8 +62,21 @@ set(BUILD_SHARED_LIBS FALSE)
 
 FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
  
+set(MY_INCLUDES
+  include/components.h
+  include/constants.h
+  include/renderWindow.h
+  include/tags.h
+)
+
+set(MY_SRCS
+  src/main.cpp
+  src/renderWindow.cpp
+)
+
 set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
-add_executable(${PROJECT_NAME} src/main.cpp "include/constants.h" "include/components.h" "include/tags.h")
+
+add_executable(${PROJECT_NAME} ${MY_SRCS} ${MY_INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
 
