@@ -18,7 +18,8 @@ RenderWindow::RenderWindow(std::string_view title, int width, int height)
                   << std::endl;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
 // TODO: Put this function somewhere else.
