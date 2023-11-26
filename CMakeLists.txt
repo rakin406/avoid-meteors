@@ -50,7 +50,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # FetchContent_MakeAvailable(SDL2 SDL2_image)
 # 
 # set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
-add_executable(${PROJECT_NAME} src/main.cpp "include/constants.h" "include/components.h")
+add_executable(${PROJECT_NAME} src/main.cpp "include/constants.h" "include/components.h" "include/tags.h")
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 # target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES})
 
