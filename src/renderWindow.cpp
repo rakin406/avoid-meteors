@@ -1,7 +1,7 @@
 #include "renderWindow.h"
 
-#include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include "SDL.h"
+#include "SDL_image.h"
 
 #include <iostream>
 #include <string_view>
@@ -47,7 +47,7 @@ RenderWindow::RenderWindow(std::string_view title, int width, int height)
 //     return false;
 // }
 
-void RenderWindow::clear(Uint8 red = 255, Uint8 green = 255, Uint8 blue = 255)
+void RenderWindow::clear(Uint8 red, Uint8 green, Uint8 blue)
 {
     SDL_SetRenderDrawColor(renderer, red, green, blue, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
