@@ -15,12 +15,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ## Add dependencies
 
+find_package(SDL2 QUIET)
+find_package(SDL2_image QUIET)
 find_package(flecs QUIET)
-# find_package(SDL2 QUIET)
-# find_package(SDL2_image QUIET)
 
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
+
+# SDL2
+if (NOT SDL2_FOUND)
+  FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL.git
+    GIT_TAG         release-2.28.5
+    GIT_SHALLOW     TRUE
+    GIT_PROGRESS    TRUE
+  )
+endif()
+
+# SDL2_image
+if (NOT SDL2_image_FOUND)
+  FetchContent_Declare(
+    SDL2_image
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG         release-2.6.3
+    GIT_SHALLOW     TRUE
+    GIT_PROGRESS    TRUE
+  )
+endif()
 
 # flecs
 if (NOT flecs_FOUND)
@@ -33,46 +55,22 @@ if (NOT flecs_FOUND)
   )
 endif()
 
-# # SDL2
-# if (NOT SDL2_FOUND)
-#   FetchContent_Declare(
-#     SDL2
-#     GIT_REPOSITORY  https://github.com/libsdl-org/SDL.git
-#     GIT_TAG         release-2.28.5
-#     GIT_SHALLOW     TRUE
-#     GIT_PROGRESS    TRUE
-#   )
-# endif()
-# 
-# # SDL2_image
-# if (NOT SDL2_image_FOUND)
-#   FetchContent_Declare(
-#     SDL2_image
-#     GIT_REPOSITORY  https://github.com/libsdl-org/SDL_image.git
-#     GIT_TAG         release-2.6.3
-#     GIT_SHALLOW     TRUE
-#     GIT_PROGRESS    TRUE
-#   )
-# endif()
-# 
-# # START ADDITION
-# set(SDL2IMAGE_INSTALL OFF)
-# set(BUILD_SHARED_LIBS FALSE)
-# # END ADDITION
-# 
-# FetchContent_MakeAvailable(SDL2 SDL2_image)
-FetchContent_MakeAvailable(flecs)
+# START ADDITION
+set(SDL2IMAGE_INSTALL OFF)
+set(BUILD_SHARED_LIBS FALSE)
+# END ADDITION
+
+FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
  
-# set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
+set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
 add_executable(${PROJECT_NAME} src/main.cpp "include/constants.h" "include/components.h" "include/tags.h")
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE flecs::flecs_static)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
 
-# if (WIN32)
-#   add_custom_command(
-#     TARGET ${PROJECT_NAME} POST_BUILD
-#     COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-#     VERBATIM
-#   )
-# endif()
+if (WIN32)
+  add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    VERBATIM
+  )
+endif()
