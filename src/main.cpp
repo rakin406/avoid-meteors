@@ -1,7 +1,16 @@
+#include <flecs.h>
+
 #include <iostream>
 
 int main()
 {
-    std::cout << "Hello World\n";
+    flecs::world world;
+
+    auto player = world.entity();
+    std::cout << player.is_alive() << std::endl; // true!
+
+    player.destruct();
+    std::cout << player.is_alive() << std::endl; // false!
+
     return 0;
 }
