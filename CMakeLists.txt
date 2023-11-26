@@ -15,11 +15,24 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ## Add dependencies
 
+find_package(flecs QUIET)
 # find_package(SDL2 QUIET)
 # find_package(SDL2_image QUIET)
-# include(FetchContent)
-# set(FETCHCONTENT_QUIET FALSE)
-# 
+
+include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
+
+# flecs
+if (NOT flecs_FOUND)
+  FetchContent_Declare(
+    flecs
+    GIT_REPOSITORY  https://github.com/SanderMertens/flecs.git
+    GIT_TAG         v3.2.9
+    GIT_SHALLOW     TRUE
+    GIT_PROGRESS    TRUE
+  )
+endif()
+
 # # SDL2
 # if (NOT SDL2_FOUND)
 #   FetchContent_Declare(
@@ -48,11 +61,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # # END ADDITION
 # 
 # FetchContent_MakeAvailable(SDL2 SDL2_image)
-# 
+FetchContent_MakeAvailable(flecs)
+ 
 # set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
 add_executable(${PROJECT_NAME} src/main.cpp "include/constants.h" "include/components.h" "include/tags.h")
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 # target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE flecs::flecs_static)
 
 # if (WIN32)
 #   add_custom_command(
