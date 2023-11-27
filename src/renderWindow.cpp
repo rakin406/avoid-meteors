@@ -49,7 +49,7 @@ void RenderWindow::render(SDL_Texture* texture, int x, int y)
     src.w;
     src.h;
 
-    SDL_QueryTexture(texture, NULL, NULL, &src.w, &src.h);
+    SDL_QueryTexture(texture, nullptr, nullptr, &src.w, &src.h);
 
     SDL_Rect dst {};
     dst.x = x;
