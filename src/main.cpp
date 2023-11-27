@@ -46,10 +46,7 @@ int main(int argv, char** args)
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
-
-    // TODO: Add resources constants.
-    std::string_view bgImagePath { PROJECT_ROOT "res/gfx/background.jpg" };
-    SDL_Texture* bgTexture = window.loadTexture(bgImagePath);
+    SDL_Texture* bgTexture = window.loadTexture(BG_IMG_PATH);
 
     bool gameRunning { true };
     SDL_Event event {};
