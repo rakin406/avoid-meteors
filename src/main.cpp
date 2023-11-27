@@ -6,6 +6,9 @@
 #include "SDL_image.h"
 #include <flecs.h>
 
+#include <iostream>
+#include <string_view>
+
 namespace
 {
     /**
@@ -30,7 +33,7 @@ namespace
     }
 } // namespace
 
-int main()
+int main(int argv, char** args)
 {
     // flecs::world world;
 
@@ -40,8 +43,12 @@ int main()
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
+    // TODO: Add title and window size constants.
     RenderWindow window { "Avoid Meteors", 1000, 746 };
-    SDL_Texture* bgTexture = window.loadTexture("res/gfx/background.jpg");
+
+    // TODO: Add resources constants.
+    std::string_view bgImagePath { PROJECT_ROOT "res/gfx/background.jpg" };
+    SDL_Texture* bgTexture = window.loadTexture(bgImagePath);
 
     bool gameRunning { true };
     SDL_Event event {};
@@ -54,6 +61,10 @@ int main()
             if (isQuitRequested(event))
                 gameRunning = false;
         }
+
+        window.clear();
+
+        window.render(bgTexture, 0, 0);
 
         window.display();
     }
