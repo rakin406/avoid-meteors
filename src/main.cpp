@@ -42,8 +42,21 @@ int main(int argv, char** args)
     // auto player = world.entity();
     // player.add<Player>();
 
-    SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+    // Initialize SDL's systems and check for errors
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    {
+        std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError()
+                  << std::endl;
+        return -1;
+    }
+
+    // Initialize SDL image
+    if (!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)))
+    {
+        std::cout << "IMG_init has failed. Error: " << SDL_GetError()
+                  << std::endl;
+        return -2;
+    }
 
     RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
     SDL_Texture* bgTexture = window.loadTexture(BG_IMG_PATH);
