@@ -29,11 +29,19 @@ public:
 
     /**
      * @brief Render texture on screen.
-     * @param texture 
-     * @param x 
-     * @param y 
-    */
+     * @param texture
+     * @param x
+     * @param y
+     */
     void render(SDL_Texture* texture, int x, int y);
+
+    /**
+     * @brief Render texture on screen.
+     * @param texture
+     * @param src Source
+     * @param dst Destination
+     */
+    void render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst);
 
     /**
      * @brief Display screen.

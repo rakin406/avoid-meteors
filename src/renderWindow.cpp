@@ -65,6 +65,11 @@ void RenderWindow::render(SDL_Texture* texture, int x, int y)
     SDL_RenderCopy(renderer, texture, &src, &dst);
 }
 
+void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)
+{
+    SDL_RenderCopy(renderer, texture, src, dst);
+}
+
 void RenderWindow::display() { SDL_RenderPresent(renderer); }
 
 void RenderWindow::destroy()
