@@ -75,7 +75,8 @@ int main(int argv, char** args)
 
         window.clear();
 
-        window.render(bgTexture, 0, 0);
+        // Draw the background
+        window.render(bgTexture, nullptr, nullptr);
 
         window.display();
     }
