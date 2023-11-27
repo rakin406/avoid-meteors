@@ -29,6 +29,14 @@ public:
     SDL_Texture* loadTexture(std::string_view filePath);
 
     /**
+     * @brief Render texture on screen.
+     * @param texture 
+     * @param x 
+     * @param y 
+    */
+    void render(SDL_Texture* texture, int x, int y);
+
+    /**
      * @brief Display screen.
      */
     void display();
