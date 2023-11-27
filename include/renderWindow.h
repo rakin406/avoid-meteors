@@ -5,7 +5,6 @@
 
 #include <string_view>
 
-// TODO: Create render() function.
 class RenderWindow
 {
 public:
