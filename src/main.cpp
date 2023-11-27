@@ -1,4 +1,5 @@
 #include "components.h"
+#include "constants.h"
 #include "renderWindow.h"
 #include "tags.h"
 
@@ -35,6 +36,7 @@ namespace
 
 int main(int argv, char** args)
 {
+    using namespace constants;
     // flecs::world world;
 
     // auto player = world.entity();
@@ -43,8 +45,7 @@ int main(int argv, char** args)
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
-    // TODO: Add title and window size constants.
-    RenderWindow window { "Avoid Meteors", 1000, 746 };
+    RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
 
     // TODO: Add resources constants.
     std::string_view bgImagePath { PROJECT_ROOT "res/gfx/background.jpg" };

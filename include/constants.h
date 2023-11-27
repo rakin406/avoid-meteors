@@ -3,7 +3,8 @@
 
 namespace constants
 {
-    // inline constexpr float CUBE_SIZE { 2.0F };
+    inline constexpr int WINDOW_WIDTH { 1280 };
+    inline constexpr int WINDOW_HEIGHT { 720 };
 } // namespace constants
 
 #endif
