@@ -8,9 +8,8 @@
 
 RenderWindow::RenderWindow(std::string_view title, int width, int height)
 {
-    window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED, width, height,
-                              SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width, height, 0);
 
     if (window == nullptr)
     {
