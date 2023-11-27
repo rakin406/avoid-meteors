@@ -22,32 +22,6 @@ RenderWindow::RenderWindow(std::string_view title, int width, int height)
         window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
-// TODO: Put this function somewhere else.
-/**
- * @brief Return true if user requests quit. For use in main loop.
- *
- * @return boolean.
- */
-// bool isQuitRequested()
-//{
-//     SDL_Event event {};
-//
-//     // Check for events
-//     while (SDL_PollEvent(&event) != 0)
-//     {
-//         if (event.type == SDL_QUIT)
-//             return true;
-//
-//         if (event.type == SDL_KEYDOWN)
-//         {
-//             if (event.key.keysym.sym == SDLK_ESCAPE)
-//                 return true;
-//         }
-//     }
-//
-//     return false;
-// }
-
 void RenderWindow::clear(Uint8 red, Uint8 green, Uint8 blue)
 {
     SDL_SetRenderDrawColor(renderer, red, green, blue, SDL_ALPHA_OPAQUE);
