@@ -8,17 +8,23 @@
 
 RenderWindow::RenderWindow(std::string_view title, int width, int height)
 {
+    // Attempt to create a window
     window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width, height, 0);
-
     if (window == nullptr)
     {
         std::cout << "Window failed to init. Error: " << SDL_GetError()
                   << std::endl;
     }
 
+    // Attempt to create rendering context
     renderer = SDL_CreateRenderer(
         window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == nullptr)
+    {
+        std::cout << "Unable to create rendering context. Error: " << SDL_GetError()
+                  << std::endl;
+    }
 }
 
 void RenderWindow::clear(Uint8 red, Uint8 green, Uint8 blue)
