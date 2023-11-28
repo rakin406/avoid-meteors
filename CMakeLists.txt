@@ -67,11 +67,13 @@ set(MY_INCLUDES
   include/constants.h
   include/renderWindow.h
   include/tags.h
+  deps/flecs_components_transform.h
 )
 
 set(MY_SRCS
   src/main.cpp
   src/renderWindow.cpp
+  deps/flecs_components_transform.c
 )
 
 set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
