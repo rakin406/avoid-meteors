@@ -59,7 +59,10 @@ int main(int argv, char** args)
     }
 
     RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
-    SDL_Texture* bgTexture = window.loadTexture(BG_IMG_PATH);
+    SDL_Texture* bgTexture { window.loadTexture(BG_IMG_PATH) };
+
+    // NOTE: This is only for idle sprite.
+    SDL_Texture* playerTex { window.loadTexture(IDLE_SPRITE) };
 
     bool gameRunning { true };
     SDL_Event event {};
