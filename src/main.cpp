@@ -54,7 +54,7 @@ int main(int argv, char** args)
         return -2;
     }
 
-    RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
+    RenderWindow window { WINDOW_WIDTH, WINDOW_HEIGHT, "Avoid Meteors" };
     SDL_Texture* bgTexture { window.loadTexture(BG_IMG_PATH) };
 
     flecs::world world;

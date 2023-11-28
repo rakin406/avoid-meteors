@@ -10,11 +10,11 @@ class RenderWindow
 public:
     /**
      * @brief Initialize the window.
-     * @param title Window title.
      * @param width Window width.
      * @param height Window height.
+     * @param title Window title.
     */
-    RenderWindow(std::string_view title, int width, int height);
+    RenderWindow(int width, int height, std::string_view title);
 
     /**
      * @brief Clear screen with background color. Default is white.

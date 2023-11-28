@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string_view>
 
-RenderWindow::RenderWindow(std::string_view title, int width, int height)
+RenderWindow::RenderWindow(int width, int height, std::string_view title)
 {
     // Attempt to create a window
     window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED,
