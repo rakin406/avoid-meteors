@@ -15,7 +15,6 @@ namespace
 {
     /**
      * @brief Return true if user requests quit. For use in main loop.
-     *
      * @param event SDL_Event&
      * @return bool
      */

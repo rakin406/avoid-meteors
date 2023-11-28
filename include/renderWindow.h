@@ -20,14 +20,12 @@ public:
 
     /**
      * @brief Set background color.
-     *
      * @param color
      */
     void clear(const SDL_Color& color);
 
     /**
      * @brief Load texture from file.
-     *
      * @param fileName Image file name.
      * @return texture Image texture.
      */
