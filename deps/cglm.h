@@ -184,7 +184,7 @@ typedef CGLM_ALIGN_MAT    vec4  mat4[4];
 #endif
 
 #if defined(__SSE3__)
-#  include <x86intrin.h>
+#  include <immintrin.h>
 #  ifndef CGLM_SIMD_x86
 #    define CGLM_SIMD_x86
 #  endif
