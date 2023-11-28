@@ -64,6 +64,7 @@ FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
  
 set(MY_INCLUDES
   include/animationSystem.h
+  include/colors.h
   include/components.h
   include/constants.h
   include/renderWindow.h
