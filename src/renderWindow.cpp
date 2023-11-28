@@ -1,5 +1,5 @@
-#include "components.h"
 #include "renderWindow.h"
+#include "components.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -71,7 +71,8 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
 void RenderWindow::render(SDL_Texture* texture, const Position& position,
                           const SDL_Color& tint)
 {
-    render(texture, position.x, position.y, tint);
+    render(texture, static_cast<int>(position.x), static_cast<int>(position.y),
+           tint);
 }
 
 void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)
