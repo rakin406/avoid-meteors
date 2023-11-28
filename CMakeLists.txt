@@ -67,20 +67,38 @@ set(MY_INCLUDES
   include/constants.h
   include/renderWindow.h
   include/tags.h
-  deps/flecs_components_transform.h
 )
 
 set(MY_SRCS
   src/main.cpp
   src/renderWindow.cpp
+)
+
+## Flecs modules
+
+set(DEPS_HEADERS
+  deps/cglm.h
+  deps/flecs_components_cglm.h
+  deps/flecs_components_transform.h
+)
+
+set(DEPS_IMPL
+  deps/cglm.c
+  deps/flecs_components_cglm.c
   deps/flecs_components_transform.c
 )
 
 set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
 
-add_executable(${PROJECT_NAME} ${MY_SRCS} ${MY_INCLUDES})
+add_executable(${PROJECT_NAME} ${MY_SRCS} ${DEPS_IMPL} ${MY_INCLUDES} ${DEPS_HEADERS})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/")
+target_compile_definitions(${PROJECT_NAME} PRIVATE 
+  PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/"
+  _WINDOWS
+  _USRDLL
+  CGLM_EXPORTS
+  CGLM_DLL
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
 
 if (WIN32)
