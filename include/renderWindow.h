@@ -34,10 +34,10 @@ public:
     /**
      * @brief Render texture on screen.
      * @param texture
-     * @param x
-     * @param y
+     * @param posX
+     * @param posY
      */
-    void render(SDL_Texture* texture, int x, int y);
+    void render(SDL_Texture* texture, int posX, int posY);
 
     /**
      * @brief Render texture on screen.

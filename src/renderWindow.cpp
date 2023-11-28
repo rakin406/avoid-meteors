@@ -46,7 +46,7 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
     return texture;
 }
 
-void RenderWindow::render(SDL_Texture* texture, int x, int y)
+void RenderWindow::render(SDL_Texture* texture, int posX, int posY)
 {
     SDL_Rect src {};
     src.x = 0;
@@ -57,8 +57,8 @@ void RenderWindow::render(SDL_Texture* texture, int x, int y)
     SDL_QueryTexture(texture, nullptr, nullptr, &src.w, &src.h);
 
     SDL_Rect dst {};
-    dst.x = x;
-    dst.y = y;
+    dst.x = posX;
+    dst.y = posY;
     dst.w = src.w;
     dst.h = src.h;
 
