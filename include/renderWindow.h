@@ -8,6 +8,12 @@
 class RenderWindow
 {
 public:
+    /**
+     * @brief Initialize the window.
+     * @param title Window title.
+     * @param width Window width.
+     * @param height Window height.
+    */
     RenderWindow(std::string_view title, int width, int height);
 
     /**
