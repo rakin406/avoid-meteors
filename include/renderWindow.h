@@ -13,17 +13,15 @@ public:
      * @param width Window width.
      * @param height Window height.
      * @param title Window title.
-    */
+     */
     RenderWindow(int width, int height, std::string_view title);
 
     /**
-     * @brief Clear screen with background color. Default is white.
+     * @brief Set background color. Default is white.
      *
-     * @param red Default = 255
-     * @param green Default = 255
-     * @param blue Default = 255
+     * @param color Default is { 255, 255, 255 }
      */
-    void clear(Uint8 red = 255, Uint8 green = 255, Uint8 blue = 255);
+    void clear(const SDL_Color& color = { 255, 255, 255 });
 
     /**
      * @brief Load texture from file.
