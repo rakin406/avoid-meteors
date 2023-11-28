@@ -1,16 +1,11 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-struct Position
-{
-    float x;
-    float y;
-};
+#include "../deps/flecs_components_transform.h"
 
-struct Velocity
-{
-    float dx;
-    float dy;
-};
+using namespace flecs::components;
+
+// Shortcuts to imported components
+using Position = transform::Position2;
 
 #endif
