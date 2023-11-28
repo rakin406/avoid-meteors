@@ -1,3 +1,4 @@
+#include "colors.h"
 #include "components.h"
 #include "constants.h"
 #include "renderWindow.h"
@@ -77,7 +78,7 @@ int main(int argv, char** args)
                 gameRunning = false;
         }
 
-        window.clear();
+        window.clear(WHITE);
 
         // Draw the background
         window.render(bgTexture, nullptr, nullptr);

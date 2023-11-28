@@ -17,11 +17,11 @@ public:
     RenderWindow(int width, int height, std::string_view title);
 
     /**
-     * @brief Set background color. Default is white.
+     * @brief Set background color.
      *
-     * @param color Default is { 255, 255, 255 }
+     * @param color
      */
-    void clear(const SDL_Color& color = { 255, 255, 255 });
+    void clear(const SDL_Color& color);
 
     /**
      * @brief Load texture from file.

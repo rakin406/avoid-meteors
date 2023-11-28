@@ -29,7 +29,7 @@ RenderWindow::RenderWindow(int width, int height, std::string_view title)
 
 void RenderWindow::clear(const SDL_Color& color)
 {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderClear(renderer);
 }
 
