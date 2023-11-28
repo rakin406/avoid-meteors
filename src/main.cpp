@@ -37,10 +37,6 @@ namespace
 int main(int argv, char** args)
 {
     using namespace constants;
-    // flecs::world world;
-
-    // auto player = world.entity();
-    // player.add<Player>();
 
     // Initialize SDL's systems and check for errors
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -61,8 +57,13 @@ int main(int argv, char** args)
     RenderWindow window { "Avoid Meteors", WINDOW_WIDTH, WINDOW_HEIGHT };
     SDL_Texture* bgTexture { window.loadTexture(BG_IMG_PATH) };
 
+    flecs::world world;
+
+    auto player { world.entity() };
+    player.add<Player>();
     // NOTE: This is only for idle sprite.
-    SDL_Texture* playerTex { window.loadTexture(IDLE_SPRITE) };
+    player.set<SDL_Texture*>(window.loadTexture(IDLE_SPRITE))
+        .set<Position>({ 500, 500 });
 
     bool gameRunning { true };
     SDL_Event event {};
