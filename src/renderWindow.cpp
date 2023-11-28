@@ -1,3 +1,4 @@
+#include "components.h"
 #include "renderWindow.h"
 
 #include "SDL.h"
@@ -65,6 +66,12 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
 
     SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
     SDL_RenderCopy(renderer, texture, &src, &dst);
+}
+
+void RenderWindow::render(SDL_Texture* texture, const Position& position,
+                          const SDL_Color& tint)
+{
+    render(texture, position.x, position.y, tint);
 }
 
 void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)

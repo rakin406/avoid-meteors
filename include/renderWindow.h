@@ -1,6 +1,8 @@
 #ifndef RENDER_WINDOW_H
 #define RENDER_WINDOW_H
 
+#include "components.h"
+
 #include "SDL.h"
 
 #include <string_view>
@@ -39,6 +41,15 @@ public:
      * @param tint
      */
     void render(SDL_Texture* texture, int posX, int posY,
+                const SDL_Color& tint);
+
+    /**
+     * @brief Render a texture.
+     * @param texture
+     * @param position
+     * @param tint
+     */
+    void render(SDL_Texture* texture, const Position& position,
                 const SDL_Color& tint);
 
     /**
