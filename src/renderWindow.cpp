@@ -22,8 +22,8 @@ RenderWindow::RenderWindow(int width, int height, std::string_view title)
         window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == nullptr)
     {
-        std::cout << "Unable to create rendering context. Error: " << SDL_GetError()
-                  << std::endl;
+        std::cout << "Unable to create rendering context. Error: "
+                  << SDL_GetError() << std::endl;
     }
 }
 
@@ -46,7 +46,8 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
     return texture;
 }
 
-void RenderWindow::render(SDL_Texture* texture, int posX, int posY)
+void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
+                          const SDL_Color& tint)
 {
     SDL_Rect src {};
     src.x = 0;
@@ -62,6 +63,7 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY)
     dst.w = src.w;
     dst.h = src.h;
 
+    SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
     SDL_RenderCopy(renderer, texture, &src, &dst);
 }
 

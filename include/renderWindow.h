@@ -32,12 +32,14 @@ public:
     SDL_Texture* loadTexture(std::string_view fileName);
 
     /**
-     * @brief Render texture on screen.
+     * @brief Render a texture.
      * @param texture
      * @param posX
      * @param posY
+     * @param tint
      */
-    void render(SDL_Texture* texture, int posX, int posY);
+    void render(SDL_Texture* texture, int posX, int posY,
+                const SDL_Color& tint);
 
     /**
      * @brief Render texture on screen.
