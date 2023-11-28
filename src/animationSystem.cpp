@@ -3,8 +3,8 @@
 
 #include "SDL.h"
 
-AnimationSystem::AnimationSystem(SDL_Texture* texture, const Position& pos)
-    : texture { texture }, pos { pos }
+AnimationSystem::AnimationSystem(SDL_Texture* texture, const Position& position)
+    : texture { texture }, position { position }
 {
     currentFrame.x = 0;
     currentFrame.y = 0;
