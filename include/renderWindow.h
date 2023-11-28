@@ -26,12 +26,12 @@ public:
     void clear(Uint8 red = 255, Uint8 green = 255, Uint8 blue = 255);
 
     /**
-     * @brief Load texture from image.
+     * @brief Load texture from file.
      *
-     * @param filePath Image
-     * @return texture
+     * @param fileName Image file name.
+     * @return texture Image texture.
      */
-    SDL_Texture* loadTexture(std::string_view filePath);
+    SDL_Texture* loadTexture(std::string_view fileName);
 
     /**
      * @brief Render texture on screen.
