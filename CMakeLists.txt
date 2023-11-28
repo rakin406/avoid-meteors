@@ -98,6 +98,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   _USRDLL
   CGLM_EXPORTS
   CGLM_DLL
+  _CRT_SECURE_NO_WARNINGS
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
 
