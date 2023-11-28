@@ -62,8 +62,9 @@ int main(int argv, char** args)
     auto player { world.entity() };
     player.add<Player>();
     // NOTE: This is only for idle sprite.
-    player.set<SDL_Texture*>(window.loadTexture(IDLE_SPRITE))
-        .set<Position>({ 500, 500 });
+    // FIX: SDL_Texture can't be added to flecs?
+    //player.set<SDL_Texture*>(window.loadTexture(IDLE_SPRITE))
+    //    .set<Position>({ 500, 500 });
 
     bool gameRunning { true };
     SDL_Event event {};
@@ -80,6 +81,7 @@ int main(int argv, char** args)
 
         window.clear(WHITE);
 
+        // TODO: Change this.
         // Draw the background
         window.render(bgTexture, nullptr, nullptr);
 
