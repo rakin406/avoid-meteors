@@ -53,9 +53,9 @@ public:
     void display();
 
     /**
-     * @brief Kill and exit window.
+     * @brief Close window.
      */
-    void destroy();
+    void close();
 
 private:
     SDL_Window* window { nullptr };

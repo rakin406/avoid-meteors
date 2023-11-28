@@ -72,7 +72,7 @@ void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)
 
 void RenderWindow::display() { SDL_RenderPresent(renderer); }
 
-void RenderWindow::destroy()
+void RenderWindow::close()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

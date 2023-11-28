@@ -69,6 +69,7 @@ int main(int argv, char** args)
     bool gameRunning { true };
     SDL_Event event {};
 
+    // Main game loop
     while (gameRunning)
     {
         // Get our controls and events
@@ -86,7 +87,8 @@ int main(int argv, char** args)
         window.display();
     }
 
-    window.destroy();
+    // De-Initialization
+    window.close();
 
     return 0;
 }
