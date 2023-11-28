@@ -79,12 +79,16 @@ set(MY_SRCS
 set(DEPS_HEADERS
   deps/cglm.h
   deps/flecs_components_cglm.h
+  deps/flecs_components_graphics.h
+  deps/flecs_components_physics.h
   deps/flecs_components_transform.h
 )
 
 set(DEPS_IMPL
   deps/cglm.c
   deps/flecs_components_cglm.c
+  deps/flecs_components_graphics.c
+  deps/flecs_components_physics.c
   deps/flecs_components_transform.c
 )
 
