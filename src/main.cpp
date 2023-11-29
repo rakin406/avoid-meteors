@@ -16,6 +16,31 @@
 namespace
 {
     /**
+     * @brief Initialize all SDL systems.
+     * @return true if success.
+     */
+    bool init()
+    {
+        // Initialize SDL's systems and check for errors
+        if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+        {
+            std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: "
+                      << SDL_GetError() << std::endl;
+            return false;
+        }
+
+        // Initialize SDL image
+        if (!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)))
+        {
+            std::cout << "IMG_init has failed. Error: " << SDL_GetError()
+                      << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @brief Return true if user requests quit. For use in main loop.
      * @param event SDL_Event&
      * @return bool
@@ -40,21 +65,8 @@ int main(int argv, char** args)
 {
     using namespace constants;
 
-    // Initialize SDL's systems and check for errors
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-    {
-        std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError()
-                  << std::endl;
+    if (!(init()))
         return -1;
-    }
-
-    // Initialize SDL image
-    if (!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)))
-    {
-        std::cout << "IMG_init has failed. Error: " << SDL_GetError()
-                  << std::endl;
-        return -2;
-    }
 
     RenderWindow window { WINDOW_WIDTH, WINDOW_HEIGHT, "Avoid Meteors" };
     SDL_Texture* bgTexture { window.loadTexture(BG_IMG_PATH) };
