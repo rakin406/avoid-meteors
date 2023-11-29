@@ -5,20 +5,6 @@ struct Player
 {
 };
 
-/**
- * @brief Player idle state.
-*/
-struct Idle
-{
-};
-
-/**
- * @brief Player running state.
-*/
-struct Running
-{
-};
-
 struct Meteor
 {
 };
