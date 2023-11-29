@@ -68,6 +68,7 @@ set(MY_INCLUDES
   include/components.h
   include/constants.h
   include/renderWindow.h
+  include/states.h
   include/tags.h
   include/tools.h
 )
