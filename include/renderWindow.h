@@ -57,7 +57,7 @@ public:
      * @param tint
      */
     void renderEx(SDL_Texture* texture, const SDL_Point& position,
-                  float rotation, float scale, const SDL_Color& tint);
+                  double rotation, int scale, const SDL_Color& tint);
 
     /**
      * @brief Render a part of a texture defined by a rectangle.

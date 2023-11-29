@@ -74,7 +74,7 @@ void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
 }
 
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
-                            float rotation, float scale, const SDL_Color& tint)
+                            double rotation, int scale, const SDL_Color& tint)
 {
     SDL_Point textureSize { getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
