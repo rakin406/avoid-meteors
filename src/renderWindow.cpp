@@ -74,25 +74,16 @@ void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
     renderEx(texture, position, 0, 1, tint);
 }
 
-// TODO: Finish this function.
 void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
                             float rotation, float scale, const SDL_Color& tint)
 {
-    SDL_Rect source { 0, 0, texture.width, texture.height };
-    SDL_Rect dest { position.x, position.y, texture.width * scale,
-                    texture.height * scale };
+    SDL_Point textureSize { getSize(texture) };
+    SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
+    SDL_Rect dest { position.x, position.y, textureSize.x * scale,
+                    textureSize.y * scale };
     Position origin { 0, 0 };
 
-    SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
-    SDL_RenderCopyEx(renderer, texture, const SDL_Rect* srcrect,
-                     const SDL_Rect* dstrect, rotation, &position,
-                     const SDL_RendererFlip flip);
-}
-
-// TODO: Remove this function.
-void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)
-{
-    SDL_RenderCopy(renderer, texture, src, dst);
+    renderPro(texture, source, dest, origin, rotation, tint);
 }
 
 void RenderWindow::display() { SDL_RenderPresent(renderer); }
