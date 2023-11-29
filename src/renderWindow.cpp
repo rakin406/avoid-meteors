@@ -7,6 +7,21 @@
 #include <iostream>
 #include <string_view>
 
+namespace
+{
+    /**
+     * @brief Get size of texture.
+     * @param texture
+     * @return size
+     */
+    SDL_Point getSize(SDL_Texture* texture)
+    {
+        SDL_Point size {};
+        SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
+        return size;
+    }
+} // namespace
+
 RenderWindow::RenderWindow(int width, int height, std::string_view title)
 {
     // Attempt to create a window
@@ -50,7 +65,7 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
                           const SDL_Color& tint)
 {
-    renderEx(texture, {posX, posY}, 0, 1, tint);
+    renderEx(texture, { posX, posY }, 0, 1, tint);
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
@@ -63,6 +78,11 @@ void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
 void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
                             float rotation, float scale, const SDL_Color& tint)
 {
+    SDL_Rect source { 0, 0, texture.width, texture.height };
+    SDL_Rect dest { position.x, position.y, texture.width * scale,
+                    texture.height * scale };
+    Position origin { 0, 0 };
+
     SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
     SDL_RenderCopyEx(renderer, texture, const SDL_Rect* srcrect,
                      const SDL_Rect* dstrect, rotation, &position,
