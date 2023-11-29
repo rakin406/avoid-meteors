@@ -4,7 +4,6 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include <cmath>
 #include <iostream>
 #include <string_view>
 
@@ -21,13 +20,6 @@ namespace
         SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
         return size;
     }
-
-    /**
-     * @brief Convert degree to radian.
-     * @param d
-     * @return radian
-     */
-    double deg2Rad(double d) { return (d / 180.0) * static_cast<double>(M_PI); }
 } // namespace
 
 RenderWindow::RenderWindow(int width, int height, std::string_view title)
