@@ -66,8 +66,8 @@ int main(int argv, char** args)
     player.add<Player>()
         .add(Movement::Idle)
         .add(Direction::Right); // TODO: Make start direction random
-    // player.add<Idle>().set<Texture>({ window.loadTexture(IDLE_SPRITE) });
-    // player.add<Running>(Texture { window.loadTexture(RUNNING_SPRITE) });
+    player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) });
+    player.set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) });
     player.set<Position>({ 500, 500 });
     
     //std::cout << player.type().str().c_str() << "\n";

@@ -5,14 +5,14 @@
 
 struct Position
 {
-    float x {};
-    float y {};
+    int x {};
+    int y {};
 };
 
 struct Velocity
 {
-    float x {};
-    float y {};
+    int x {};
+    int y {};
 };
 
 struct Texture
