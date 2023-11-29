@@ -68,7 +68,7 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
     SDL_RenderCopy(renderer, texture, &src, &dst);
 }
 
-void RenderWindow::render(SDL_Texture* texture, const Position& position,
+void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
                           const SDL_Color& tint)
 {
     render(texture, static_cast<int>(position.x), static_cast<int>(position.y),

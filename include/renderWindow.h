@@ -7,7 +7,6 @@
 
 #include <string_view>
 
-// TODO: Create renderPro() function that takes source and destination rects.
 class RenderWindow
 {
 public:
@@ -43,14 +42,48 @@ public:
                 const SDL_Color& tint);
 
     /**
-     * @brief Render a texture.
+     * @brief Render a texture with position.
      * @param texture
      * @param position
      * @param tint
      */
-    void render(SDL_Texture* texture, const Position& position,
-                const SDL_Color& tint);
+    void renderV(SDL_Texture* texture, const Position& position,
+                 const SDL_Color& tint);
 
+    /**
+     * @brief Render a texture with extended parameters.
+     * @param texture
+     * @param position
+     * @param rotation
+     * @param scale
+     * @param tint
+     */
+    void renderEx(SDL_Texture* texture, const Position& position,
+                  float rotation, float scale, const SDL_Color& tint);
+
+    /**
+     * @brief Render a part of a texture defined by a rectangle.
+     * @param texture 
+     * @param source 
+     * @param position 
+     * @param tint 
+    */
+    void renderRec(SDL_Texture* texture, SDL_Rect* source,
+                   const Position& position, const SDL_Color& tint);
+
+    /**
+     * @brief Render a part of a texture defined by a rectangle with 'pro' parameters.
+     * @param texture 
+     * @param source 
+     * @param dest 
+     * @param origin 
+     * @param rotation 
+     * @param tint 
+    */
+    void renderPro(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest,
+                   const Position& origin, float rotation, const SDL_Color& tint);
+
+    // TODO: Remove this function.
     /**
      * @brief Render texture on screen.
      * @param texture
