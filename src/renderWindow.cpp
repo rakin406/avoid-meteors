@@ -86,6 +86,15 @@ void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
     renderPro(texture, source, dest, origin, rotation, tint);
 }
 
+void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
+                             const Position& position, const SDL_Color& tint)
+{
+    SDL_Rect dest { position.x, position.y, source->x, source->y };
+    Position origin { 0, 0 };
+
+    renderPro(texture, source, dest, origin, 0.0f, tint);
+}
+
 void RenderWindow::display() { SDL_RenderPresent(renderer); }
 
 void RenderWindow::close()
