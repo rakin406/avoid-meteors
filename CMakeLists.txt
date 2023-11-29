@@ -69,12 +69,14 @@ set(MY_INCLUDES
   include/constants.h
   include/renderWindow.h
   include/tags.h
+  include/tools.h
 )
 
 set(MY_SRCS
   src/animationSystem.cpp
   src/main.cpp
   src/renderWindow.cpp
+  src/tools.cpp
 )
 
 set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)

@@ -1,25 +1,11 @@
 #include "renderWindow.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
 
 #include <iostream>
 #include <string_view>
-
-namespace
-{
-    /**
-     * @brief Get size of texture.
-     * @param texture
-     * @return size
-     */
-    SDL_Point getSize(SDL_Texture* texture)
-    {
-        SDL_Point size {};
-        SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
-        return size;
-    }
-} // namespace
 
 RenderWindow::RenderWindow(int width, int height, std::string_view title)
 {
@@ -76,7 +62,7 @@ void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
                             double rotation, int scale, const SDL_Color& tint)
 {
-    SDL_Point textureSize { getSize(texture) };
+    SDL_Point textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
     SDL_Rect dest { position.x, position.y, textureSize.x * scale,
                     textureSize.y * scale };
