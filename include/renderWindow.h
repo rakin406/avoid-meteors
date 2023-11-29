@@ -63,25 +63,27 @@ public:
 
     /**
      * @brief Render a part of a texture defined by a rectangle.
-     * @param texture 
-     * @param source 
-     * @param position 
-     * @param tint 
-    */
+     * @param texture
+     * @param source
+     * @param position
+     * @param tint
+     */
     void renderRec(SDL_Texture* texture, SDL_Rect* source,
                    const Position& position, const SDL_Color& tint);
 
     /**
-     * @brief Render a part of a texture defined by a rectangle with 'pro' parameters.
-     * @param texture 
-     * @param source 
-     * @param dest 
-     * @param origin 
-     * @param rotation 
-     * @param tint 
-    */
+     * @brief Render a part of a texture defined by a rectangle with 'pro'
+     * parameters.
+     * @param texture
+     * @param source
+     * @param dest
+     * @param origin
+     * @param rotation
+     * @param tint
+     */
     void renderPro(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest,
-                   const Position& origin, float rotation, const SDL_Color& tint);
+                   const Position& origin, float rotation,
+                   const SDL_Color& tint);
 
     // TODO: Remove this function.
     /**

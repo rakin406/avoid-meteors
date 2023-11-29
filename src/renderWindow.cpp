@@ -50,22 +50,7 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
                           const SDL_Color& tint)
 {
-    SDL_Rect src {};
-    src.x = 0;
-    src.y = 0;
-    src.w;
-    src.h;
-
-    SDL_QueryTexture(texture, nullptr, nullptr, &src.w, &src.h);
-
-    SDL_Rect dst {};
-    dst.x = posX;
-    dst.y = posY;
-    dst.w = src.w;
-    dst.h = src.h;
-
-    SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
-    SDL_RenderCopy(renderer, texture, &src, &dst);
+    renderEx(texture, {posX, posY}, 0, 1, tint);
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
@@ -74,11 +59,13 @@ void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
     render(texture, position.x, position.y, tint);
 }
 
+// TODO: Finish this function.
 void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
                             float rotation, float scale, const SDL_Color& tint)
 {
+    SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
     SDL_RenderCopyEx(renderer, texture, const SDL_Rect* srcrect,
-                     const SDL_Rect* dstrect, rotation, const SDL_Point* center,
+                     const SDL_Rect* dstrect, rotation, &position,
                      const SDL_RendererFlip flip);
 }
 
