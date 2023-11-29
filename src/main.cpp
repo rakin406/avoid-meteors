@@ -83,7 +83,7 @@ int main(int argv, char** args)
 
         // TODO: Change this.
         // Draw the background
-        window.render(bgTexture, nullptr, nullptr);
+        //window.render(bgTexture, nullptr, nullptr);
 
         window.display();
     }

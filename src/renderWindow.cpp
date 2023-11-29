@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
+#include <cmath>
 #include <iostream>
 #include <string_view>
 
@@ -20,6 +21,13 @@ namespace
         SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
         return size;
     }
+
+    /**
+     * @brief Convert degree to radian.
+     * @param d
+     * @return radian
+     */
+    double deg2Rad(double d) { return (d / 180.0) * static_cast<double>(M_PI); }
 } // namespace
 
 RenderWindow::RenderWindow(int width, int height, std::string_view title)
@@ -83,16 +91,84 @@ void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
                     textureSize.y * scale };
     Position origin { 0, 0 };
 
-    renderPro(texture, source, dest, origin, rotation, tint);
+    renderPro(texture, &source, &dest, origin, rotation, tint);
 }
 
 void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
                              const Position& position, const SDL_Color& tint)
 {
-    SDL_Rect dest { position.x, position.y, source->x, source->y };
+    SDL_Rect dest { position.x, position.y, source->w, source->h };
     Position origin { 0, 0 };
 
-    renderPro(texture, source, dest, origin, 0.0f, tint);
+    renderPro(texture, source, &dest, origin, 0.0f, tint);
+}
+
+// NOTE: origin is relative to destination rectangle size
+void RenderWindow::renderPro(SDL_Texture* texture, SDL_Rect* source,
+                             SDL_Rect* dest, const Position& origin,
+                             float rotation, const SDL_Color& tint)
+{
+    // Check if texture is valid
+    if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr))
+    {
+        SDL_Point size { getSize(texture) };
+        int width { size.x };
+        int height { size.y };
+
+        bool flipX { false };
+
+        if (source->w < 0)
+        {
+            flipX = true;
+            source->w *= -1;
+        }
+        if (source->h < 0)
+            source->y -= source->h;
+
+        Position topLeft { 0 };
+        Position topRight { 0 };
+        Position bottomLeft { 0 };
+        Position bottomRight { 0 };
+
+        // Only calculate rotation if needed
+        if (rotation == 0.0f)
+        {
+            int x { dest->x - origin.x };
+            int y { dest->y - origin.y };
+            topLeft = { x, y };
+            topRight = { x + dest->w, y };
+            bottomLeft = { x, y + dest->h };
+            bottomRight = { x + dest->w, y + dest->h };
+        }
+        else
+        {
+            float sinRotation { std::sinf(deg2Rad(rotation)) };
+            float cosRotation { std::cosf(deg2Rad(rotation)) };
+            float x { dest->x };
+            float y { dest->y };
+            float dx { -origin.x };
+            float dy { -origin.y };
+
+            topLeft.x = x + dx * cosRotation - dy * sinRotation;
+            topLeft.y = y + dx * sinRotation + dy * cosRotation;
+
+            topRight.x = x + (dx + dest->w) * cosRotation - dy * sinRotation;
+            topRight.y = y + (dx + dest->w) * sinRotation + dy * cosRotation;
+
+            bottomLeft.x =
+                x + dx * cosRotation - (dy + dest->h) * sinRotation;
+            bottomLeft.y =
+                y + dx * sinRotation + (dy + dest->h) * cosRotation;
+
+            bottomRight.x = x + (dx + dest->w) * cosRotation -
+                            (dy + dest->h) * sinRotation;
+            bottomRight.y = y + (dx + dest->w) * sinRotation +
+                            (dy + dest->h) * cosRotation;
+        }
+
+        SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
+        // TODO: Add more code here.
+    }
 }
 
 void RenderWindow::display() { SDL_RenderPresent(renderer); }
