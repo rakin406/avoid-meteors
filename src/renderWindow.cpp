@@ -83,7 +83,7 @@ void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
                     textureSize.y * scale };
     Position origin { 0, 0 };
 
-    renderPro(texture, &source, &dest, &origin, rotation, tint);
+    renderPro(texture, &source, &dest, rotation, &origin, tint);
 }
 
 void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
@@ -92,7 +92,7 @@ void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
     SDL_Rect dest { position.x, position.y, source->w, source->h };
     Position origin { 0, 0 };
 
-    renderPro(texture, source, &dest, &origin, 0.0f, tint);
+    renderPro(texture, source, &dest, 0.0f, &origin, tint);
 }
 
 // TODO: Maybe add a flip parameter?
