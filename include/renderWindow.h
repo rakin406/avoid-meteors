@@ -74,16 +74,20 @@ public:
     /**
      * @brief Render a part of a texture defined by a rectangle with 'pro'
      * parameters.
-     * @param texture
-     * @param source
-     * @param dest
-     * @param origin
-     * @param rotation
-     * @param tint
+     * @param texture The source texture.
+     * @param source the source SDL_Rect structure or NULL for the entire
+     * texture.
+     * @param dest The destination SDL_Rect structure or NULL for the entire
+     * rendering target.
+     * @param angle An angle in degrees that indicates the rotation that will be
+     * applied to dest, rotating it in a clockwise direction.
+     * @param center A pointer to a point indicating the point around which
+     * dest will be rotated (if NULL, rotation will be done around
+     * dest.w / 2, dest.h / 2).
+     * @param tint Additional color value.
      */
     void renderPro(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest,
-                   const Position& origin, float rotation,
-                   const SDL_Color& tint);
+                   double angle, Position* center, const SDL_Color& tint);
 
     /**
      * @brief Display screen.
