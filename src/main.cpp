@@ -65,9 +65,11 @@ int main(int argv, char** args)
     player.add<Player>()
         .add(Movement::Idle)
         .add(Direction::Right); // TODO: Make start direction random
-    player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) });
-    player.set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) });
-    player.set<Position>({ 500, 500 });
+    player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) })
+        .set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) })
+        .set<Color>(WHITE)
+        // TODO: Start position should be center and on ground.
+        .set<Position>({ 500, 500 });
 
     bool gameRunning { true };
     SDL_Event event {};

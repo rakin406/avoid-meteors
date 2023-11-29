@@ -3,6 +3,8 @@
 
 #include "SDL.h"
 
+using Color = SDL_Color;
+
 struct Position
 {
     int x {};
@@ -22,7 +24,7 @@ struct Texture
 
 /**
  * @brief Player idle texture.
-*/
+ */
 struct IdleTexture
 {
     SDL_Texture* texture {};
@@ -30,7 +32,7 @@ struct IdleTexture
 
 /**
  * @brief Player running texture.
-*/
+ */
 struct RunningTexture
 {
     SDL_Texture* texture {};
