@@ -11,7 +11,7 @@ namespace tools
      * @param max 
      * @return int
     */
-    inline int getRandomValue(int min, int max);
+    int getRandomValue(int min, int max);
 
     /**
      * @brief Get size of texture.

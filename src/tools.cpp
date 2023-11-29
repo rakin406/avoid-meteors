@@ -2,7 +2,7 @@
 
 #include <random>
 
-inline int tools::getRandomValue(int min, int max)
+int tools::getRandomValue(int min, int max)
 {
     static std::random_device rd {};
     static std::mt19937 mt { rd() };
