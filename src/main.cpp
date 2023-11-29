@@ -2,6 +2,7 @@
 #include "components.h"
 #include "constants.h"
 #include "renderWindow.h"
+#include "states.h"
 #include "tags.h"
 #include "tools.h"
 
@@ -60,13 +61,16 @@ int main(int argv, char** args)
 
     flecs::world world {};
 
-    flecs::entity player { world.entity() };
     // TODO: Think!!!
-    player.add<Player>();
-    player.add<Idle>().set<Texture>({ window.loadTexture(IDLE_SPRITE) });
-    //std::cout << player.has<Idle>() << std::endl;
-    //player.add<Running>(Texture { window.loadTexture(RUNNING_SPRITE) });
+    flecs::entity player { world.entity() };
+    player.add<Player>()
+        .add(Movement::Idle)
+        .add(Direction::Right); // TODO: Make start direction random
+    // player.add<Idle>().set<Texture>({ window.loadTexture(IDLE_SPRITE) });
+    // player.add<Running>(Texture { window.loadTexture(RUNNING_SPRITE) });
     player.set<Position>({ 500, 500 });
+    
+    //std::cout << player.type().str().c_str() << "\n";
 
     bool gameRunning { true };
     SDL_Event event {};
