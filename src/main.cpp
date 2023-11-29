@@ -61,7 +61,6 @@ int main(int argv, char** args)
 
     flecs::world world {};
 
-    // TODO: Think!!!
     flecs::entity player { world.entity() };
     player.add<Player>()
         .add(Movement::Idle)
@@ -69,8 +68,6 @@ int main(int argv, char** args)
     player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) });
     player.set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) });
     player.set<Position>({ 500, 500 });
-    
-    //std::cout << player.type().str().c_str() << "\n";
 
     bool gameRunning { true };
     SDL_Event event {};
