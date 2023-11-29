@@ -56,7 +56,7 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
 void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
                            const SDL_Color& tint)
 {
-    render(texture, position.x, position.y, tint);
+    renderEx(texture, position, 0, 1, tint);
 }
 
 // TODO: Finish this function.
