@@ -1,5 +1,4 @@
 #include "renderWindow.h"
-#include "components.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -68,36 +67,36 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
     renderEx(texture, { posX, posY }, 0, 1, tint);
 }
 
-void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
+void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
                            const SDL_Color& tint)
 {
     renderEx(texture, position, 0, 1, tint);
 }
 
-void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
+void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
                             float rotation, float scale, const SDL_Color& tint)
 {
     SDL_Point textureSize { getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
     SDL_Rect dest { position.x, position.y, textureSize.x * scale,
                     textureSize.y * scale };
-    Position origin { 0, 0 };
+    SDL_Point origin { 0, 0 };
 
     renderPro(texture, &source, &dest, rotation, &origin, tint);
 }
 
 void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
-                             const Position& position, const SDL_Color& tint)
+                             const SDL_Point& position, const SDL_Color& tint)
 {
     SDL_Rect dest { position.x, position.y, source->w, source->h };
-    Position origin { 0, 0 };
+    SDL_Point origin { 0, 0 };
 
     renderPro(texture, source, &dest, 0.0f, &origin, tint);
 }
 
 // TODO: Maybe add a flip parameter?
 void RenderWindow::renderPro(SDL_Texture* texture, SDL_Rect* source,
-                             SDL_Rect* dest, double angle, Position* center,
+                             SDL_Rect* dest, double angle, SDL_Point* center,
                              const SDL_Color& tint)
 {
     // Check if texture is valid

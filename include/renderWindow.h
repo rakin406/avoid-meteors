@@ -1,8 +1,6 @@
 #ifndef RENDER_WINDOW_H
 #define RENDER_WINDOW_H
 
-#include "components.h"
-
 #include "SDL.h"
 
 #include <string_view>
@@ -47,7 +45,7 @@ public:
      * @param position
      * @param tint
      */
-    void renderV(SDL_Texture* texture, const Position& position,
+    void renderV(SDL_Texture* texture, const SDL_Point& position,
                  const SDL_Color& tint);
 
     /**
@@ -58,7 +56,7 @@ public:
      * @param scale
      * @param tint
      */
-    void renderEx(SDL_Texture* texture, const Position& position,
+    void renderEx(SDL_Texture* texture, const SDL_Point& position,
                   float rotation, float scale, const SDL_Color& tint);
 
     /**
@@ -69,7 +67,7 @@ public:
      * @param tint
      */
     void renderRec(SDL_Texture* texture, SDL_Rect* source,
-                   const Position& position, const SDL_Color& tint);
+                   const SDL_Point& position, const SDL_Color& tint);
 
     /**
      * @brief Render a part of a texture defined by a rectangle with 'pro'
@@ -87,7 +85,7 @@ public:
      * @param tint Additional color value.
      */
     void renderPro(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest,
-                   double angle, Position* center, const SDL_Color& tint);
+                   double angle, SDL_Point* center, const SDL_Color& tint);
 
     /**
      * @brief Display screen.
