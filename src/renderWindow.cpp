@@ -86,7 +86,7 @@ void RenderWindow::renderPro(SDL_Texture* texture, SDL_Rect* source,
                              const SDL_Color& tint)
 {
     // Check if texture is valid
-    if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr))
+    if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
     {
         SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
         // NOTE: Texture will not flip.

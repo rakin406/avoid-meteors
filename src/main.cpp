@@ -3,6 +3,7 @@
 #include "constants.h"
 #include "renderWindow.h"
 #include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -82,9 +83,7 @@ int main(int argv, char** args)
         window.clear(WHITE);
 
         // Draw the background
-        //window.renderPro(
-        //    bgTexture, SDL_Rect { 0, 0, bgTexture.width, -bgTexture.height },
-        //    SDL_Rect { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT }, 0, { 0, 0 }, WHITE);
+        window.renderPro(bgTexture, nullptr, nullptr, 0, nullptr, WHITE);
 
         window.display();
     }
