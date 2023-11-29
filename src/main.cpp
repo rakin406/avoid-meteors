@@ -58,14 +58,15 @@ int main(int argv, char** args)
     RenderWindow window { WINDOW_WIDTH, WINDOW_HEIGHT, "Avoid Meteors" };
     SDL_Texture* bgTexture { window.loadTexture(BG_IMG_PATH) };
 
-    flecs::world world;
+    flecs::world world {};
 
-    auto player { world.entity() };
+    flecs::entity player { world.entity() };
+    // TODO: Think!!!
     player.add<Player>();
-    // NOTE: This is only for idle sprite.
-    // FIX: SDL_Texture can't be added to flecs?
-    // player.set<SDL_Texture*>(window.loadTexture(IDLE_SPRITE))
-    //    .set<Position>({ 500, 500 });
+    player.add<Idle>().set<Texture>({ window.loadTexture(IDLE_SPRITE) });
+    //std::cout << player.has<Idle>() << std::endl;
+    //player.add<Running>(Texture { window.loadTexture(RUNNING_SPRITE) });
+    player.set<Position>({ 500, 500 });
 
     bool gameRunning { true };
     SDL_Event event {};
