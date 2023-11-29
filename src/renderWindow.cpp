@@ -69,12 +69,20 @@ void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const Position& position,
-                          const SDL_Color& tint)
+                           const SDL_Color& tint)
 {
-    render(texture, static_cast<int>(position.x), static_cast<int>(position.y),
-           tint);
+    render(texture, position.x, position.y, tint);
 }
 
+void RenderWindow::renderEx(SDL_Texture* texture, const Position& position,
+                            float rotation, float scale, const SDL_Color& tint)
+{
+    SDL_RenderCopyEx(renderer, texture, const SDL_Rect* srcrect,
+                     const SDL_Rect* dstrect, rotation, const SDL_Point* center,
+                     const SDL_RendererFlip flip);
+}
+
+// TODO: Remove this function.
 void RenderWindow::render(SDL_Texture* texture, SDL_Rect* src, SDL_Rect* dst)
 {
     SDL_RenderCopy(renderer, texture, src, dst);
