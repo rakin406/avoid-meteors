@@ -67,6 +67,7 @@ set(MY_INCLUDES
   include/colors.h
   include/components.h
   include/constants.h
+  include/game.h
   include/renderWindow.h
   include/states.h
   include/tags.h
@@ -75,6 +76,7 @@ set(MY_INCLUDES
 
 set(MY_SRCS
   src/animationSystem.cpp
+  src/game.cpp
   src/main.cpp
   src/renderWindow.cpp
   src/tools.cpp
