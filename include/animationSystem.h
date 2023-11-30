@@ -15,11 +15,11 @@ public:
      * @brief Initialize the animation system.
      * @param texture Texture of the sprite image.
      * @param position Position of the texture.
-    */
+     */
     AnimationSystem(SDL_Texture* texture, const Position& position);
 
 private:
-    SDL_Texture* texture {nullptr};
+    SDL_Texture* texture { nullptr };
     SDL_Rect currentFrame {};
     Position position {};
 };
