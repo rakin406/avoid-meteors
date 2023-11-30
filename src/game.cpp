@@ -42,17 +42,17 @@ namespace
      */
     bool isQuitRequested(const SDL_Event& event)
     {
-        if (event.type == SDL_QUIT)
+        switch (event.type)
         {
+        case SDL_QUIT:
             return true;
-        }
-        else if (event.type == SDL_KEYDOWN)
-        {
+        case SDL_KEYDOWN:
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 return true;
+            break;
+        default:
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -99,8 +99,8 @@ void Game::init()
     createStates(world);
 
     flecs::system playerSystem { world.system<Player, Position>().each(
-        [](Position& pos) 
-        { 
+        [](Position& pos)
+        {
             SDL_PumpEvents();
             const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
