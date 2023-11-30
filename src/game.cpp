@@ -125,12 +125,15 @@ void Game::init()
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
-    // TODO: Add velocity component to player.
     player.add<Player>()
         .add<SpriteRenderer>()
+        .add<SpriteAnimation>()
         .add(Movement::Idle)
         .add(randomDirection);
-    player.set<SDL_Color>(WHITE);
+    player.set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
+        .set<Sprite>({})
+        .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED })
+        .set<SDL_Color>(WHITE);
 
     playerSystem.run();
 }
