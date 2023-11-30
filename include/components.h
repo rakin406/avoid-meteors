@@ -32,4 +32,10 @@ struct SpriteAnimation
     int framesSpeed {};
 };
 
+struct Velocity
+{
+    int x {};
+    int y {};
+};
+
 #endif
