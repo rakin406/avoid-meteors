@@ -11,20 +11,17 @@ namespace constants
     inline constexpr int WINDOW_WIDTH { 1280 };
     inline constexpr int WINDOW_HEIGHT { 720 };
 
-    // Based off of background texture ground
-    inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
-
     inline constexpr std::string_view BG_IMG_PATH { PROJECT_ROOT
                                                     "res/gfx/background.jpg" };
-    inline constexpr std::string_view IDLE_SPRITE { PROJECT_ROOT
-                                                    "res/gfx/player/idle.png" };
-    inline constexpr std::string_view RUNNING_SPRITE {
-        PROJECT_ROOT "res/gfx/player/running.png"
-    };
+
+    // Based off of background texture ground
+    inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
 
     inline constexpr std::array<Direction, 2> ALL_DIRECTIONS {
         Direction::Left, Direction::Right
     };
+
+    inline constexpr int PLAYER_SPEED { 1 };
 } // namespace constants
 
 #endif
