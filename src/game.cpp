@@ -131,7 +131,7 @@ void Game::init()
         .add(Movement::Idle)
         .add(randomDirection);
     player.set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
-        .set<Sprite>({})
+        .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED })
         .set<SDL_Color>(WHITE);
 
