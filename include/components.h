@@ -2,60 +2,34 @@
 #define COMPONENTS_H
 
 #include "SDL.h"
-
-
-struct Position
-{
-    int x {};
-    int y {};
-};
+#include <glm/glm.hpp>
 
 struct Rotation
 {
     double angle {};
-    int x {};
-    int y {};
-};
-
-struct Velocity
-{
-    int x {};
-    int y {};
+    glm::ivec2 center {};
 };
 
 struct Transform
 {
-    Position position {};
+    glm::ivec2 position {};
+    Rotation rotation {};
+    glm::ivec2 scale {};
 };
 
 struct Sprite
 {
-    // spritesheet, cutout in spritesheet
-};
-
-struct SpriteRenderer
-{
-}; // empty intentionally
-
-struct Texture
-{
     SDL_Texture* texture {};
 };
 
-/**
- * @brief Player idle texture.
- */
-struct IdleTexture
+struct SpriteAnimation
 {
     SDL_Texture* texture {};
-};
-
-/**
- * @brief Player running texture.
- */
-struct RunningTexture
-{
-    SDL_Texture* texture {};
+    glm::ivec2 position {};
+    SDL_Rect frameRec {};
+    int currentFrame {};
+    int framesCounter {};
+    int framesSpeed {};
 };
 
 #endif
