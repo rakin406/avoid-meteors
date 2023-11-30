@@ -98,8 +98,8 @@ void Game::init()
 
     createStates(world);
 
-    flecs::system playerSystem { world.system<const Player, Position>().each(
-        [](const Player& tag, Position& pos)
+    flecs::system playerSystem { world.system<const Player, Transform>().each(
+        [](const Player& tag, Transform& transform)
         {
             SDL_PumpEvents();
             const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -114,17 +114,22 @@ void Game::init()
             }
         }) };
 
+    flecs::system spriteRendererSystem {
+        world.system<const Transform, const Sprite, const SpriteRenderer>()
+            .each([](const Transform& transform, const Sprite& sprite,
+                     const SpriteRenderer& spriteRenderer) {})
+    };
+
     flecs::entity player { world.entity("Player") };
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
     // TODO: Add velocity component to player.
-    player.add<Player>().add(Movement::Idle).add(randomDirection);
-    player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) })
-        .set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) })
-        .set<SDL_Color>(WHITE)
-        // TODO: Start position should be center and on ground.
-        .set<Position>({ 500, 500 });
+    player.add<Player>()
+        .add<SpriteRenderer>()
+        .add(Movement::Idle)
+        .add(randomDirection);
+    player.set<SDL_Color>(WHITE);
 
     playerSystem.run();
 }
