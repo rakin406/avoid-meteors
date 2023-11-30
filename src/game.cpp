@@ -50,6 +50,8 @@ namespace
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 return true;
             break;
+        default:
+            break;
         }
 
         return false;
