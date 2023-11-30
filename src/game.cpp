@@ -96,11 +96,9 @@ void Game::init()
 {
     using namespace constants;
 
-    flecs::world world {};
-
     createStates(world);
 
-    playerSystem = world.system<const Player, Position>().each(
+    flecs::system playerSystem { world.system<const Player, Position>().each(
         [](const Player& tag, Position& pos)
         {
             SDL_PumpEvents();
@@ -115,7 +113,7 @@ void Game::init()
             else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
             {
             }
-        });
+        }) };
 
     flecs::entity player { world.entity("Player") };
     Direction randomDirection {
@@ -128,6 +126,8 @@ void Game::init()
         .set<SDL_Color>(WHITE)
         // TODO: Start position should be center and on ground.
         .set<Position>({ 500, 500 });
+
+    playerSystem.run();
 }
 
 void Game::update()
@@ -139,7 +139,7 @@ void Game::update()
             running = false;
     }
 
-    playerSystem.run();
+    world.progress();
 
     window.clear(WHITE);
 

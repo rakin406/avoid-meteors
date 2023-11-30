@@ -17,7 +17,7 @@ private:
     RenderWindow window;
     SDL_Texture* background {};
     SDL_Event event {};
-    flecs::system playerSystem {};
+    flecs::world world {};
 
     /**
      * @brief Initialize everything.
