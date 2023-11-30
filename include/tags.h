@@ -9,6 +9,10 @@ struct Meteor
 {
 };
 
+struct SpriteRenderer
+{
+};
+
 /**
  * @brief Meteor and player collision tag.
 */
