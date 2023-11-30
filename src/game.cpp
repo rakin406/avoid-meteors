@@ -114,6 +114,7 @@ void Game::init()
             }
         }) };
 
+    // TODO: Finish system.
     flecs::system spriteRendererSystem {
         world.system<const Transform, const Sprite, const SpriteRenderer>()
             .each([](const Transform& transform, const Sprite& sprite,

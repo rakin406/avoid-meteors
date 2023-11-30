@@ -11,6 +11,9 @@ namespace constants
     inline constexpr int WINDOW_WIDTH { 1280 };
     inline constexpr int WINDOW_HEIGHT { 720 };
 
+    // Based off of background texture ground
+    inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
+
     inline constexpr std::string_view BG_IMG_PATH { PROJECT_ROOT
                                                     "res/gfx/background.jpg" };
     inline constexpr std::string_view IDLE_SPRITE { PROJECT_ROOT
