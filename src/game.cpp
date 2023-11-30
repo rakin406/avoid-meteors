@@ -50,9 +50,9 @@ namespace
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 return true;
             break;
-        default:
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -98,8 +98,8 @@ void Game::init()
 
     createStates(world);
 
-    flecs::system playerSystem { world.system<Player, Position>().each(
-        [](Position& pos)
+    flecs::system playerSystem { world.system<const Player, Position>().each(
+        [](const Player& tag, Position& pos)
         {
             SDL_PumpEvents();
             const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -107,6 +107,7 @@ void Game::init()
             // Continuous-response keys
             if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
             {
+                std::cout << "it works!\n";
                 // TODO: Change position.
             }
             else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
