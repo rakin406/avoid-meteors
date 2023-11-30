@@ -1,15 +1,10 @@
 #include "animationSystem.h"
-#include "components.h"
 
 #include "SDL.h"
 
-AnimationSystem::AnimationSystem(SDL_Texture* texture, const Position& position)
-    : texture { texture }, position { position }
+AnimationSystem::AnimationSystem(SDL_Texture* texture,
+                                 const SDL_Point& position, int framesSpeed)
+    : texture { texture }, position { position }, currentFrame { 0 },
+      framesCounter { 0 }, framesSpeed { framesSpeed }
 {
-    currentFrame.x = 0;
-    currentFrame.y = 0;
-    currentFrame.w = 32;
-    currentFrame.h = 32;
-    SDL_QueryTexture(texture, nullptr, nullptr, &currentFrame.w,
-                     &currentFrame.h);
 }

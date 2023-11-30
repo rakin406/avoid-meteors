@@ -13,8 +13,10 @@ public:
      * @brief Initialize the animation system.
      * @param texture Texture of the sprite image.
      * @param position Position of the texture.
+     * @param framesSpeed Number of spritesheet frames shown by second.
      */
-    AnimationSystem(SDL_Texture* texture, const SDL_Point& position);
+    AnimationSystem(SDL_Texture* texture, const SDL_Point& position,
+                    int framesSpeed);
 
 private:
     SDL_Texture* texture {};
@@ -22,7 +24,7 @@ private:
     SDL_Rect frameRec {};
     int currentFrame {};
     int framesCounter {};
-    int framesSpeed {}; // Number of spritesheet frames shown by second
+    int framesSpeed {};
 };
 
 #endif
