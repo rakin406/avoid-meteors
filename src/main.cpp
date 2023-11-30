@@ -74,12 +74,13 @@ int main(int argv, char** args)
     flecs::world world {};
 
     flecs::entity player { world.entity() };
-    player.add<Player>()
-        .add(Movement::Idle)
-        .add(Direction::Right); // TODO: Make start direction random
+    Direction randomDirection {
+        ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
+    };
+    player.add<Player>().add(Movement::Idle).add(randomDirection);
     player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) })
         .set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) })
-        .set<Color>(WHITE)
+        .set<SDL_Color>(WHITE)
         // TODO: Start position should be center and on ground.
         .set<Position>({ 500, 500 });
 

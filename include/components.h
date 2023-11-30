@@ -3,8 +3,6 @@
 
 #include "SDL.h"
 
-using Color = SDL_Color;
-
 struct Position
 {
     int x {};
