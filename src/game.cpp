@@ -79,6 +79,7 @@ Game::Game()
                                  constants::WINDOW_HEIGHT, "Avoid Meteors" },
       background { window.loadTexture(constants::BG_IMG_PATH) }
 {
+    initSDL();
 }
 
 void Game::run()
@@ -92,9 +93,6 @@ void Game::run()
 void Game::init()
 {
     using namespace constants;
-
-    // TODO: Maybe call this in constructor instead?
-    initSDL();
 
     flecs::world world {};
 
