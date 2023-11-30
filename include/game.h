@@ -8,12 +8,13 @@
 class Game
 {
 public:
+    Game();
     void run();
 
 private:
-    bool running { true };
+    bool running {};
     RenderWindow window;
-    SDL_Texture* background { nullptr };
+    SDL_Texture* background {};
     SDL_Event event {};
 
     /**

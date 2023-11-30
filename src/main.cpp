@@ -2,8 +2,7 @@
 
 int main(int argv, char** args)
 {
-    // FIX: Fix error.
-    Game game;
-    game.Run();
+    Game game {};
+    game.run();
     return 0;
 }

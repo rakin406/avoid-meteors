@@ -17,7 +17,7 @@ namespace
 {
     /**
      * @brief Initialize SDL systems.
-    */
+     */
     void initSDL()
     {
         // Initialize SDL's systems and check for errors
@@ -56,6 +56,13 @@ namespace
     }
 } // namespace
 
+Game::Game()
+    : running { true }, window { constants::WINDOW_WIDTH,
+                                 constants::WINDOW_HEIGHT, "Avoid Meteors" },
+      background { window.loadTexture(constants::BG_IMG_PATH) }
+{
+}
+
 void Game::run()
 {
     init();
@@ -69,9 +76,6 @@ void Game::init()
     using namespace constants;
 
     initSDL();
-
-    window = { WINDOW_WIDTH, WINDOW_HEIGHT, "Avoid Meteors" };
-    background = window.loadTexture(BG_IMG_PATH);
 
     flecs::world world {};
 
@@ -104,7 +108,4 @@ void Game::update()
     window.display();
 }
 
-void Game::stop()
-{
-    window.close();
-}
+void Game::stop() { window.close(); }

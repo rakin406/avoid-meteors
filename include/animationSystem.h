@@ -19,7 +19,7 @@ public:
     AnimationSystem(SDL_Texture* texture, const Position& position);
 
 private:
-    SDL_Texture* texture { nullptr };
+    SDL_Texture* texture {};
     SDL_Rect currentFrame {};
     Position position {};
 };
