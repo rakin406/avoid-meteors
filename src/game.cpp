@@ -107,7 +107,6 @@ void Game::init()
             // Continuous-response keys
             if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
             {
-                std::cout << "it works!\n";
                 // TODO: Change position.
             }
             else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
