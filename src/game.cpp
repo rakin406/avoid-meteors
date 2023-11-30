@@ -75,6 +75,7 @@ void Game::init()
 {
     using namespace constants;
 
+    // TODO: Maybe call this in constructor instead?
     initSDL();
 
     flecs::world world {};
