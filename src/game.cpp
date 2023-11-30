@@ -98,10 +98,27 @@ void Game::init()
 
     createStates(world);
 
+    flecs::system playerSystem { world.system<Player, Position>().each(
+        [](Position& pos) 
+        { 
+            SDL_PumpEvents();
+            const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
+
+            // Continuous-response keys
+            if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+            {
+                // TODO: Change position.
+            }
+            else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
+            {
+            }
+        }) };
+
     flecs::entity player { world.entity("Player") };
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
+    // TODO: Add velocity component to player.
     player.add<Player>().add(Movement::Idle).add(randomDirection);
     player.set<IdleTexture>({ window.loadTexture(IDLE_SPRITE) })
         .set<RunningTexture>({ window.loadTexture(RUNNING_SPRITE) })
