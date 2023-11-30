@@ -100,7 +100,7 @@ void Game::init()
 
     createStates(world);
 
-    flecs::system playerSystem { world.system<const Player, Position>().each(
+    playerSystem = world.system<const Player, Position>().each(
         [](const Player& tag, Position& pos)
         {
             SDL_PumpEvents();
@@ -115,7 +115,7 @@ void Game::init()
             else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
             {
             }
-        }) };
+        });
 
     flecs::entity player { world.entity("Player") };
     Direction randomDirection {
@@ -138,6 +138,8 @@ void Game::update()
         if (isQuitRequested(event))
             running = false;
     }
+
+    playerSystem.run();
 
     window.clear(WHITE);
 

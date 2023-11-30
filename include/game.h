@@ -4,6 +4,7 @@
 #include "renderWindow.h"
 
 #include "SDL.h"
+#include <flecs.h>
 
 class Game
 {
@@ -16,6 +17,7 @@ private:
     RenderWindow window;
     SDL_Texture* background {};
     SDL_Event event {};
+    flecs::system playerSystem {};
 
     /**
      * @brief Initialize everything.
