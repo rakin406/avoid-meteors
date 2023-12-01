@@ -76,7 +76,7 @@ FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
 # FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
-  include/animationSystem.h
+  #include/animationSystem.h
   include/colors.h
   include/components.h
   include/constants.h
@@ -88,7 +88,7 @@ set(MY_INCLUDES
 )
 
 set(MY_SRCS
-  src/animationSystem.cpp
+  #src/animationSystem.cpp
   src/game.cpp
   src/main.cpp
   src/renderWindow.cpp

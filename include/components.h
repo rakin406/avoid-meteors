@@ -11,9 +11,9 @@ struct Rotation
 
 struct Transform
 {
-    SDL_Point* position {};
+    SDL_Point position {};
     Rotation rotation {};
-    SDL_Point* scale {};
+    SDL_Point scale {};
 };
 
 struct Sprite

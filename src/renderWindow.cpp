@@ -50,13 +50,13 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
                           const SDL_Color* tint)
 {
-    renderEx(texture, { posX, posY }, 0, nullptr, 1, tint);
+    renderEx(texture, { posX, posY }, 0, nullptr, { 1, 1 }, tint);
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
                            const SDL_Color* tint)
 {
-    renderEx(texture, position, 0, nullptr, 1, tint);
+    renderEx(texture, position, 0, nullptr, { 1, 1 }, tint);
 }
 
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
@@ -92,6 +92,7 @@ void RenderWindow::renderPro(SDL_Texture* texture, const SDL_Rect* source,
             // Apply tint to texture
             SDL_SetTextureColorMod(texture, tint->r, tint->g, tint->b);
         // NOTE: Texture will not flip.
+        // TODO: Test if angle is not null.
         SDL_RenderCopyEx(renderer, texture, source, dest, angle, center,
                          SDL_FLIP_NONE);
     }
