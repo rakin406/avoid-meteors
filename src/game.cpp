@@ -81,8 +81,8 @@ void Game::init()
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
 
-    flecs::system playerSystem {
-        world.system<Transform, const Velocity, const Player>().each(
+    world.system<Transform, const Velocity, const Player>("PlayerSystem")
+        .each(
             [](flecs::entity entity, Transform& transform, const Velocity& vel,
                const Player& tag)
             {
@@ -105,24 +105,21 @@ void Game::init()
                 {
                     entity.add(Movement::Idle);
                 }
-            })
-    };
+            });
 
-    // TODO: Finish system.
-    flecs::system spriteRendererSystem {
-        world.system<const Transform, const Sprite, const SpriteRenderer>()
-            .each(
-                [this](flecs::entity entity, const Transform& transform,
-                       const Sprite& sprite,
-                       const SpriteRenderer& spriteRenderer)
-                {
-                    const SDL_Color* tint { entity.get<SDL_Color>() };
-                    window.renderEx(sprite.texture, transform.position,
-                                    transform.rotation.angle,
-                                    transform.rotation.center, transform.scale,
-                                    tint);
-                })
-    };
+    world
+        .system<const Transform, const Sprite, const SpriteRenderer>(
+            "SpriteRendererSystem")
+        .each(
+            [this](flecs::entity entity, const Transform& transform,
+                   const Sprite& sprite, const SpriteRenderer& spriteRenderer)
+            {
+                const SDL_Color* tint { entity.get<SDL_Color>() };
+                window.renderEx(sprite.texture, transform.position,
+                                transform.rotation.angle,
+                                transform.rotation.center, transform.scale,
+                                tint);
+            });
 
     flecs::entity player { world.entity("Player") };
     Direction randomDirection {
@@ -136,9 +133,6 @@ void Game::init()
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
-
-    // playerSystem.run();
-    spriteRendererSystem.run();
 }
 
 void Game::update()
