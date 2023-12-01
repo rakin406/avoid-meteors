@@ -119,14 +119,16 @@ void Game::init()
                     const SDL_Color* tint { entity.get<SDL_Color>() };
                     if (tint)
                     {
-                        // TODO: Fix this mess...
+                        // TODO: Clean this mess...
                         window.renderEx(sprite.texture, *transform.position, 
-                            transform.rotation.angle, transform.scale.x, tint);
+                            transform.rotation.angle, transform.rotation.center, 
+                            *transform.scale, tint);
                     }
                     else
                     {
-                        window.renderEx(sprite.texture, transform.position, 
-                            transform.rotation.angle, transform.scale);
+                        window.renderEx(sprite.texture, *transform.position, 
+                            transform.rotation.angle, transform.rotation.center, 
+                            *transform.scale);
                     }
                 })
     };
@@ -140,6 +142,7 @@ void Game::init()
         .add<SpriteAnimation>()
         .add(Movement::Idle)
         .add(randomDirection)
+        // FIX:
         .set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });

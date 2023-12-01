@@ -60,13 +60,13 @@ void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
 }
 
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
-                            double angle, const SDL_Point* center, int scale,
-                            const SDL_Color* tint)
+                            double angle, const SDL_Point* center,
+                            const SDL_Point& scale, const SDL_Color* tint)
 {
     SDL_Point textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
-    SDL_Rect dest { position.x, position.y, textureSize.x * scale,
-                    textureSize.y * scale };
+    SDL_Rect dest { position.x, position.y, textureSize.x * scale.x,
+                    textureSize.y * scale.y };
 
     renderPro(texture, &source, &dest, angle, center, tint);
 }

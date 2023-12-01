@@ -57,11 +57,11 @@ public:
      * @param center A pointer to a point indicating the point around which
      * dest will be rotated (if NULL, rotation will be done around
      * dest.w / 2, dest.h / 2).
-     * @param scale Texture scale.
+     * @param scale Texture scale. Default = { 1, 1 }
      * @param tint Additional color value. By default, it's null.
      */
     void renderEx(SDL_Texture* texture, const SDL_Point& position, double angle,
-                  const SDL_Point* center, int scale,
+                  const SDL_Point* center, const SDL_Point& scale = { 1, 1 },
                   const SDL_Color* tint = nullptr);
 
     /**
