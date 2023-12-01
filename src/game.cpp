@@ -56,24 +56,6 @@ namespace
 
         return false;
     }
-
-    /**
-     * @brief Create all the necessary states for the world.
-     * @param world
-     */
-    void createStates(flecs::world& world)
-    {
-        world.component<Movement>().add(flecs::Union);
-        world.component<Direction>().add(flecs::Union);
-
-        // Create a few entities with various state combinations
-        world.entity("IdleLeft").add(Movement::Idle).add(Direction::Left);
-        world.entity("IdleRight").add(Movement::Idle).add(Direction::Right);
-        world.entity("RunningLeft").add(Movement::Running).add(Direction::Left);
-        world.entity("RunningRight")
-            .add(Movement::Running)
-            .add(Direction::Right);
-    }
 } // namespace
 
 Game::Game()
@@ -96,7 +78,8 @@ void Game::init()
 {
     using namespace constants;
 
-    createStates(world);
+    world.component<Movement>().add(flecs::Union);
+    world.component<Direction>().add(flecs::Union);
 
     flecs::system playerSystem { world.system<const Player, Transform>().each(
         [](const Player& tag, Transform& transform)
