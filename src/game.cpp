@@ -111,8 +111,25 @@ void Game::init()
     // TODO: Finish system.
     flecs::system spriteRendererSystem {
         world.system<const Transform, const Sprite, const SpriteRenderer>()
-            .each([](const Transform& transform, const Sprite& sprite,
-                     const SpriteRenderer& spriteRenderer) {})
+            .each(
+                [this](flecs::entity entity, const Transform& transform,
+                       const Sprite& sprite,
+                       const SpriteRenderer& spriteRenderer)
+                {
+                    const SDL_Color* color { entity.get<SDL_Color>() };
+                    if (color)
+                    {
+                        window.renderEx(sprite.texture, transform.position,
+                                        transform.rotation, transform.scale,
+                                        *color);
+                    }
+                    else
+                    {
+                        window.renderEx(sprite.texture, transform.position,
+                                        transform.rotation, transform.scale,
+                                        {});
+                    }
+                })
     };
 
     flecs::entity player { world.entity("Player") };
