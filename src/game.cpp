@@ -81,8 +81,8 @@ void Game::init()
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
 
-    flecs::system playerSystem { world.system<const Player, Transform>().each(
-        [](const Player& tag, Transform& transform)
+    flecs::system playerSystem { world.system<Transform, const Player>().each(
+        [](flecs::entity entity, Transform& transform, const Player& tag)
         {
             SDL_PumpEvents();
             const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -112,8 +112,8 @@ void Game::init()
         .add<SpriteRenderer>()
         .add<SpriteAnimation>()
         .add(Movement::Idle)
-        .add(randomDirection);
-    player.set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
+        .add(randomDirection)
+        .set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED })
         .set<SDL_Color>(WHITE);
