@@ -48,19 +48,19 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
 }
 
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
-                          const SDL_Color& tint)
+                          const SDL_Color* tint)
 {
     renderEx(texture, { posX, posY }, 0, 1, tint);
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
-                           const SDL_Color& tint)
+                           const SDL_Color* tint)
 {
     renderEx(texture, position, 0, 1, tint);
 }
 
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
-                            double rotation, int scale, const SDL_Color& tint)
+                            double rotation, int scale, const SDL_Color* tint)
 {
     SDL_Point textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
@@ -72,7 +72,7 @@ void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
 }
 
 void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
-                             const SDL_Point& position, const SDL_Color& tint)
+                             const SDL_Point& position, const SDL_Color* tint)
 {
     SDL_Rect dest { position.x, position.y, source->w, source->h };
     SDL_Point origin { 0, 0 };
@@ -81,14 +81,16 @@ void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
 }
 
 // TODO: Maybe add a flip parameter?
-void RenderWindow::renderPro(SDL_Texture* texture, SDL_Rect* source,
-                             SDL_Rect* dest, double angle, SDL_Point* center,
-                             const SDL_Color& tint)
+void RenderWindow::renderPro(SDL_Texture* texture, const SDL_Rect* source,
+                             const SDL_Rect* dest, double angle,
+                             const SDL_Point* center, const SDL_Color* tint)
 {
     // Check if texture is valid
     if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
     {
-        SDL_SetTextureColorMod(texture, tint.r, tint.g, tint.b);
+        if (tint)
+            // Apply tint to texture
+            SDL_SetTextureColorMod(texture, tint->r, tint->g, tint->b);
         // NOTE: Texture will not flip.
         SDL_RenderCopyEx(renderer, texture, source, dest, angle, center,
                          SDL_FLIP_NONE);

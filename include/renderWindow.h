@@ -34,19 +34,19 @@ public:
      * @param texture
      * @param posX
      * @param posY
-     * @param tint
+     * @param tint Default = null
      */
     void render(SDL_Texture* texture, int posX, int posY,
-                const SDL_Color& tint);
+                const SDL_Color* tint = nullptr);
 
     /**
      * @brief Render a texture with position.
      * @param texture
      * @param position
-     * @param tint
+     * @param tint Default = null
      */
     void renderV(SDL_Texture* texture, const SDL_Point& position,
-                 const SDL_Color& tint);
+                 const SDL_Color* tint = nullptr);
 
     /**
      * @brief Render a texture with extended parameters.
@@ -54,20 +54,20 @@ public:
      * @param position
      * @param rotation
      * @param scale
-     * @param tint
+     * @param tint Default = null
      */
     void renderEx(SDL_Texture* texture, const SDL_Point& position,
-                  double rotation, int scale, const SDL_Color& tint);
+                  double rotation, int scale, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Render a part of a texture defined by a rectangle.
      * @param texture
      * @param source
      * @param position
-     * @param tint
+     * @param tint Default = null
      */
     void renderRec(SDL_Texture* texture, SDL_Rect* source,
-                   const SDL_Point& position, const SDL_Color& tint);
+                   const SDL_Point& position, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Render a part of a texture defined by a rectangle with 'pro'
@@ -82,10 +82,11 @@ public:
      * @param center A pointer to a point indicating the point around which
      * dest will be rotated (if NULL, rotation will be done around
      * dest.w / 2, dest.h / 2).
-     * @param tint Additional color value.
+     * @param tint Additional color value. By default, it's null.
      */
-    void renderPro(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* dest,
-                   double angle, SDL_Point* center, const SDL_Color& tint);
+    void renderPro(SDL_Texture* texture, const SDL_Rect* source,
+                   const SDL_Rect* dest, double angle, const SDL_Point* center,
+                   const SDL_Color* tint = nullptr);
 
     /**
      * @brief Display screen.
