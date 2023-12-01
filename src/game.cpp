@@ -81,21 +81,32 @@ void Game::init()
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
 
-    flecs::system playerSystem { world.system<Transform, const Player>().each(
-        [](flecs::entity entity, Transform& transform, const Player& tag)
-        {
-            SDL_PumpEvents();
-            const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
+    flecs::system playerSystem {
+        world.system<Transform, const Velocity, const Player>().each(
+            [](flecs::entity entity, Transform& transform, const Velocity& vel,
+               const Player& tag)
+            {
+                SDL_PumpEvents();
+                const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
-            // Continuous-response keys
-            if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
-            {
-                // TODO: Change position.
-            }
-            else if (keyState[SDL_SCANCODE_RIGHT] || keyState[SDL_SCANCODE_D])
-            {
-            }
-        }) };
+                // Continuous-response keys
+                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+                {
+                    entity.add(Movement::Running).add(Direction::Left);
+                    transform.position.x -= vel.x;
+                }
+                else if (keyState[SDL_SCANCODE_RIGHT] ||
+                         keyState[SDL_SCANCODE_D])
+                {
+                    entity.add(Movement::Running).add(Direction::Right);
+                    transform.position.x += vel.x;
+                }
+                else
+                {
+                    entity.add(Movement::Idle);
+                }
+            })
+    };
 
     // TODO: Finish system.
     flecs::system spriteRendererSystem {
