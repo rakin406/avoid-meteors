@@ -107,6 +107,9 @@ void Game::init()
                 }
             });
 
+    world.system<const Sprite, SpriteAnimation>("SpriteAnimationSystem")
+        .each([](const Sprite& sprite, SpriteAnimation& animation) {});
+
     world
         .system<const Transform, const Sprite, const SpriteRenderer>(
             "SpriteRendererSystem")

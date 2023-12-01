@@ -23,7 +23,6 @@ struct Sprite
 
 struct SpriteAnimation
 {
-    SDL_Texture* texture {};
     SDL_Rect frameRec {};
     int currentFrame {};
     int framesCounter {};
