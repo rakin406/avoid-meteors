@@ -116,18 +116,17 @@ void Game::init()
                        const Sprite& sprite,
                        const SpriteRenderer& spriteRenderer)
                 {
-                    const SDL_Color* color { entity.get<SDL_Color>() };
-                    if (color)
+                    const SDL_Color* tint { entity.get<SDL_Color>() };
+                    if (tint)
                     {
-                        window.renderEx(sprite.texture, transform.position,
-                                        transform.rotation, transform.scale,
-                                        *color);
+                        // TODO: Fix this mess...
+                        window.renderEx(sprite.texture, *transform.position, 
+                            transform.rotation.angle, transform.scale.x, tint);
                     }
                     else
                     {
-                        window.renderEx(sprite.texture, transform.position,
-                                        transform.rotation, transform.scale,
-                                        {});
+                        window.renderEx(sprite.texture, transform.position, 
+                            transform.rotation.angle, transform.scale);
                     }
                 })
     };
@@ -143,8 +142,7 @@ void Game::init()
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, {}, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
-        .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED })
-        .set<SDL_Color>(WHITE);
+        .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 
     playerSystem.run();
 }
@@ -163,7 +161,7 @@ void Game::update()
     window.clear(WHITE);
 
     // Draw the background
-    window.renderPro(background, nullptr, nullptr, 0, nullptr, WHITE);
+    window.renderPro(background, nullptr, nullptr, 0, nullptr);
 
     window.display();
 }
