@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(SDL2 QUIET)
 find_package(SDL2_image QUIET)
 find_package(flecs QUIET)
-find_package(glm QUIET)
+# find_package(glm QUIET)
 
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
@@ -57,22 +57,23 @@ if (NOT flecs_FOUND)
 endif()
 
 # glm
-if (NOT glm_FOUND)
-  FetchContent_Declare(
-    glm
-    GIT_REPOSITORY  https://github.com/g-truc/glm.git
-    GIT_TAG         0.9.9.8
-    GIT_SHALLOW     TRUE
-    GIT_PROGRESS    TRUE
-  )
-endif()
+#if (NOT glm_FOUND)
+#  FetchContent_Declare(
+#    glm
+#    GIT_REPOSITORY  https://github.com/g-truc/glm.git
+#    GIT_TAG         0.9.9.8
+#    GIT_SHALLOW     TRUE
+#    GIT_PROGRESS    TRUE
+#  )
+#endif()
 
 # START ADDITION
 set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
 # END ADDITION
 
-FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
+FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
+# FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
   include/animationSystem.h
@@ -99,7 +100,8 @@ set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static
 add_executable(${PROJECT_NAME} ${MY_SRCS} ${MY_INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/")
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static glm::glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
+# target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static glm::glm)
 
 if (WIN32)
   add_custom_command(

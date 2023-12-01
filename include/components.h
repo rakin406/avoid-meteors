@@ -2,19 +2,18 @@
 #define COMPONENTS_H
 
 #include "SDL.h"
-#include <glm/glm.hpp>
 
 struct Rotation
 {
     double angle {};
-    glm::ivec2 center {};
+    SDL_Point center {};
 };
 
 struct Transform
 {
-    glm::ivec2 position {};
+    SDL_Point position {};
     Rotation rotation {};
-    glm::ivec2 scale {};
+    SDL_Point scale {};
 };
 
 struct Sprite
@@ -25,7 +24,7 @@ struct Sprite
 struct SpriteAnimation
 {
     SDL_Texture* texture {};
-    glm::ivec2 position {};
+    SDL_Point position {};
     SDL_Rect frameRec {};
     int currentFrame {};
     int framesCounter {};
