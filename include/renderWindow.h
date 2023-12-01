@@ -50,14 +50,19 @@ public:
 
     /**
      * @brief Render a texture with extended parameters.
-     * @param texture
-     * @param position
-     * @param rotation
-     * @param scale
-     * @param tint Default = null
+     * @param texture The source texture.
+     * @param position The texture position.
+     * @param angle An angle in degrees that indicates the rotation that will be
+     * applied to dest, rotating it in a clockwise direction.
+     * @param center A pointer to a point indicating the point around which
+     * dest will be rotated (if NULL, rotation will be done around
+     * dest.w / 2, dest.h / 2).
+     * @param scale Texture scale.
+     * @param tint Additional color value. By default, it's null.
      */
-    void renderEx(SDL_Texture* texture, const SDL_Point& position,
-                  double rotation, int scale, const SDL_Color* tint = nullptr);
+    void renderEx(SDL_Texture* texture, const SDL_Point& position, double angle,
+                  const SDL_Point* center, int scale,
+                  const SDL_Color* tint = nullptr);
 
     /**
      * @brief Render a part of a texture defined by a rectangle.

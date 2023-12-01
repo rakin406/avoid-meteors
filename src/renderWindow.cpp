@@ -50,25 +50,25 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
                           const SDL_Color* tint)
 {
-    renderEx(texture, { posX, posY }, 0, 1, tint);
+    renderEx(texture, { posX, posY }, 0, nullptr, 1, tint);
 }
 
 void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
                            const SDL_Color* tint)
 {
-    renderEx(texture, position, 0, 1, tint);
+    renderEx(texture, position, 0, nullptr, 1, tint);
 }
 
 void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
-                            double rotation, int scale, const SDL_Color* tint)
+                            double angle, const SDL_Point* center, int scale,
+                            const SDL_Color* tint)
 {
     SDL_Point textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
     SDL_Rect dest { position.x, position.y, textureSize.x * scale,
                     textureSize.y * scale };
-    SDL_Point origin { 0, 0 };
 
-    renderPro(texture, &source, &dest, rotation, &origin, tint);
+    renderPro(texture, &source, &dest, angle, center, tint);
 }
 
 void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
