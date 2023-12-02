@@ -141,11 +141,11 @@ void Game::init()
     };
     player.add<Player>()
         .add<SpriteRenderer>()
-        .add<SpriteAnimation>()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
+        .set<SpriteAnimation>({})
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 
