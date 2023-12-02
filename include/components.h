@@ -3,6 +3,8 @@
 
 #include "SDL.h"
 
+#include <vector>
+
 struct Rotation
 {
     double angle {};
@@ -23,10 +25,8 @@ struct Sprite
 
 struct SpriteAnimation
 {
-    SDL_Rect frameRec {};
-    int currentFrame {};
-    int framesCounter {};
-    int framesSpeed {};
+    int animationFrames {};
+    std::vector<SDL_Rect> spriteClips {};
 };
 
 struct Velocity
