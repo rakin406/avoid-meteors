@@ -208,7 +208,7 @@ void Game::update()
     window.clear(WHITE);
 
     // Draw the background
-    window.renderPro(background, nullptr, nullptr, 0, nullptr);
+    window.render(background, nullptr, nullptr, 0, nullptr);
 
     world.progress();
 

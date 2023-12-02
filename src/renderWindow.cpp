@@ -88,40 +88,40 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view path)
 void RenderWindow::render(SDL_Texture* texture, int posX, int posY,
                           const SDL_Color* tint)
 {
-    renderEx(texture, { posX, posY }, 0, nullptr, { 1, 1 }, tint);
+    render(texture, { posX, posY }, 0, nullptr, { 1, 1 }, tint);
 }
 
-void RenderWindow::renderV(SDL_Texture* texture, const SDL_Point& position,
-                           const SDL_Color* tint)
+void RenderWindow::render(SDL_Texture* texture, const SDL_Point& position,
+                          const SDL_Color* tint)
 {
-    renderEx(texture, position, 0, nullptr, { 1, 1 }, tint);
+    render(texture, position, 0, nullptr, { 1, 1 }, tint);
 }
 
-void RenderWindow::renderEx(SDL_Texture* texture, const SDL_Point& position,
-                            double angle, const SDL_Point* center,
-                            const SDL_Point& scale, const SDL_Color* tint)
+void RenderWindow::render(SDL_Texture* texture, const SDL_Point& position,
+                          double angle, const SDL_Point* center,
+                          const SDL_Point& scale, const SDL_Color* tint)
 {
     SDL_Point textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
     SDL_Rect dest { position.x, position.y, textureSize.x * scale.x,
                     textureSize.y * scale.y };
 
-    renderPro(texture, &source, &dest, angle, center, tint);
+    render(texture, &source, &dest, angle, center, tint);
 }
 
-void RenderWindow::renderRec(SDL_Texture* texture, SDL_Rect* source,
-                             const SDL_Point& position, const SDL_Color* tint)
+void RenderWindow::render(SDL_Texture* texture, SDL_Rect* source,
+                          const SDL_Point& position, const SDL_Color* tint)
 {
     SDL_Rect dest { position.x, position.y, source->w, source->h };
     SDL_Point origin { 0, 0 };
 
-    renderPro(texture, source, &dest, 0.0f, &origin, tint);
+    render(texture, source, &dest, 0.0f, &origin, tint);
 }
 
 // TODO: Maybe add a flip parameter?
-void RenderWindow::renderPro(SDL_Texture* texture, const SDL_Rect* source,
-                             const SDL_Rect* dest, double angle,
-                             const SDL_Point* center, const SDL_Color* tint)
+void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
+                          const SDL_Rect* dest, double angle,
+                          const SDL_Point* center, const SDL_Color* tint)
 {
     // Check if texture is valid
     if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
