@@ -12,9 +12,30 @@
 #include <flecs.h>
 
 #include <iostream>
+#include <vector>
 
 namespace
 {
+    // TODO: Finish this function.
+    std::vector<SDL_Rect> splitSpriteSheet(int frames, const SDL_Point& size)
+    {
+        std::vector<SDL_Rect> clips {};
+        SDL_Point currentPosition {};
+
+        for (int frameIndex { 0 }; frameIndex < frames; ++frameIndex)
+        {
+            // NOTE: This function assumes that there is 6 frames in each rows.
+            if ((frameIndex + 1) % 6 == 0)
+            {
+            }
+            clips[frameIndex].x = currentPosition.x;
+            clips[frameIndex].y = currentPosition.y;
+            // TODO: Set rect size based on texture size ratio.
+            clips[frameIndex].w = 64;
+            clips[frameIndex].h = 205;
+        }
+    }
+
     /**
      * @brief Return true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -38,7 +59,8 @@ namespace
     }
 
     // TODO: Finish this.
-    void handleIdle(const Direction& direction) {
+    void handleIdle(const Direction& direction)
+    {
         switch (direction)
         {
         case Direction::Left:
@@ -145,7 +167,10 @@ void Game::init()
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
         .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
-        .set<SpriteAnimation>({})
+        // TODO: Finish this
+        .set<SpriteAnimation>({
+            PLAYER_FRAMES,
+        })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 
