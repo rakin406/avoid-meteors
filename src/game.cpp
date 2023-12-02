@@ -16,23 +16,43 @@
 
 namespace
 {
-    // TODO: Finish this function.
-    std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, const SDL_Point& size)
+    /**
+     * @brief Split sprite sheet into a collection of rectangles.
+     * @param frames Total number of frames in sheet.
+     * @param rows Total rows in one column.
+     * @param columns Total number of columns.
+     * @param spriteSize Full sprite size.
+     * @return std::vector<SDL_Rect>
+    */
+    std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, int columns,
+                                           const SDL_Point& spriteSize)
     {
+        const int FRAME_WIDTH { spriteSize.x / rows };
+        const int FRAME_HEIGHT { spriteSize.y / columns };
+
         std::vector<SDL_Rect> clips {};
-        SDL_Point currentPosition {};
+        SDL_Point currentPosition { 0, 0 };
 
         for (int frameIndex { 0 }; frameIndex < frames; ++frameIndex)
         {
-            if ((frameIndex + 1) % rows == 0)
-            {
-            }
             clips[frameIndex].x = currentPosition.x;
             clips[frameIndex].y = currentPosition.y;
             // TODO: Set rect size based on texture size ratio.
             clips[frameIndex].w = 64;
             clips[frameIndex].h = 205;
+
+            if ((frameIndex + 1) % rows == 0)
+            {
+                currentPosition.x = 0;
+                currentPosition.y += FRAME_HEIGHT; // Go to next column
+            }
+            else
+            {
+                currentPosition.x += FRAME_WIDTH; // Go to next row
+            }
         }
+
+        return clips;
     }
 
     /**
