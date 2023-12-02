@@ -190,8 +190,9 @@ void Game::init()
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
         .set<Sprite>({ playerSprite })
         .set<SpriteAnimation>(
-            { PLAYER_FRAMES,
-              splitSpriteSheet(PLAYER_FRAMES, 6, 2, tools::getSize(playerSprite)) })
+            { PLAYER_FRAMES, 0, nullptr,
+              splitSpriteSheet(PLAYER_FRAMES, 6, 2,
+                               tools::getSize(playerSprite)) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 

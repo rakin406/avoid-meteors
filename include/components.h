@@ -25,7 +25,9 @@ struct Sprite
 
 struct SpriteAnimation
 {
-    int animationFrames {};
+    int totalFrames {};
+    int currentFrame {};
+    SDL_Rect* currentClip {};
     std::vector<SDL_Rect> spriteClips {};
 };
 
