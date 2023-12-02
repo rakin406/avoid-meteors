@@ -16,26 +16,6 @@
 namespace
 {
     /**
-     * @brief Initialize SDL systems.
-     */
-    void initSDL()
-    {
-        // Initialize SDL's systems and check for errors
-        if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-        {
-            std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: "
-                      << SDL_GetError() << std::endl;
-        }
-
-        // Initialize SDL image
-        if (!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)))
-        {
-            std::cout << "IMG_init has failed. Error: " << SDL_GetError()
-                      << std::endl;
-        }
-    }
-
-    /**
      * @brief Return true if user requests quit. For use in main loop.
      * @param event SDL_Event&
      * @return bool
@@ -56,6 +36,21 @@ namespace
 
         return false;
     }
+
+    // TODO: Finish this.
+    void handleIdle(const Direction& direction) {
+        switch (direction)
+        {
+        case Direction::Left:
+            break;
+        case Direction::Right:
+            break;
+        default:
+            break;
+        }
+    }
+
+    // handleRunning();
 } // namespace
 
 Game::Game()
@@ -63,7 +58,6 @@ Game::Game()
                                  constants::WINDOW_HEIGHT, "Avoid Meteors" },
       background { window.loadTexture(constants::BG_IMG_PATH) }
 {
-    initSDL();
 }
 
 void Game::run()
@@ -117,26 +111,10 @@ void Game::init()
                 switch (movement)
                 {
                 case Movement::Idle:
-                    switch (direction)
-                    {
-                    case Direction::Left:
-                        break;
-                    case Direction::Right:
-                        break;
-                    default:
-                        break;
-                    }
+                    // handleIdle();
                     break;
                 case Movement::Running:
-                    switch (direction)
-                    {
-                    case Direction::Left:
-                        break;
-                    case Direction::Right:
-                        break;
-                    default:
-                        break;
-                    }
+                    // handleRunning();
                     break;
                 default:
                     break;

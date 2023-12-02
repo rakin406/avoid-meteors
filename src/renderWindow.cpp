@@ -7,24 +7,59 @@
 #include <iostream>
 #include <string_view>
 
+namespace
+{
+    /**
+     * @brief Starts up SDL.
+     * @return true if success.
+     */
+    bool initSDL()
+    {
+        // Initialization flag
+        bool success { true };
+
+        // Initialize SDL
+        if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+        {
+            std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: "
+                      << SDL_GetError() << std::endl;
+            success = false;
+        }
+
+        // Initialize SDL image
+        if (!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)))
+        {
+            std::cout << "IMG_init has failed. Error: " << SDL_GetError()
+                      << std::endl;
+            success = false;
+        }
+
+        return success;
+    }
+} // namespace
+
 RenderWindow::RenderWindow(int width, int height, std::string_view title)
 {
-    // Attempt to create a window
-    window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED, width, height, 0);
-    if (window == nullptr)
+    if (initSDL())
     {
-        std::cout << "Window failed to init. Error: " << SDL_GetError()
-                  << std::endl;
-    }
+        // Create window
+        window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED,
+                                  SDL_WINDOWPOS_UNDEFINED, width, height,
+                                  SDL_WINDOW_SHOWN);
+        if (window == nullptr)
+        {
+            std::cout << "Window failed to init. Error: " << SDL_GetError()
+                      << std::endl;
+        }
 
-    // Attempt to create rendering context
-    renderer = SDL_CreateRenderer(
-        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == nullptr)
-    {
-        std::cout << "Unable to create rendering context. Error: "
-                  << SDL_GetError() << std::endl;
+        // Create rendering context
+        renderer = SDL_CreateRenderer(
+            window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        if (renderer == nullptr)
+        {
+            std::cout << "Unable to create rendering context. Error: "
+                      << SDL_GetError() << std::endl;
+        }
     }
 }
 
