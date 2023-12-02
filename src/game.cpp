@@ -107,8 +107,23 @@ void Game::init()
                 }
             });
 
-    world.system<const Sprite, SpriteAnimation>("SpriteAnimationSystem")
-        .each([](const Sprite& sprite, SpriteAnimation& animation) {});
+    world
+        .system<const Movement, const Sprite, SpriteAnimation>(
+            "SpriteAnimationSystem")
+        .each(
+            [](const Movement& movement, const Sprite& sprite,
+               SpriteAnimation& animation)
+            {
+                switch (movement)
+                {
+                case Movement::Idle:
+                    break;
+                case Movement::Running:
+                    break;
+                default:
+                    break;
+                }
+            });
 
     world
         .system<const Transform, const Sprite, const SpriteRenderer>(
