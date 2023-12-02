@@ -108,17 +108,35 @@ void Game::init()
             });
 
     world
-        .system<const Movement, const Sprite, SpriteAnimation>(
+        .system<const Movement, const Direction, const Sprite, SpriteAnimation>(
             "SpriteAnimationSystem")
         .each(
-            [](const Movement& movement, const Sprite& sprite,
-               SpriteAnimation& animation)
+            [](const Movement& movement, const Direction& direction,
+               const Sprite& sprite, SpriteAnimation& animation)
             {
                 switch (movement)
                 {
                 case Movement::Idle:
+                    switch (direction)
+                    {
+                    case Direction::Left:
+                        break;
+                    case Direction::Right:
+                        break;
+                    default:
+                        break;
+                    }
                     break;
                 case Movement::Running:
+                    switch (direction)
+                    {
+                    case Direction::Left:
+                        break;
+                    case Direction::Right:
+                        break;
+                    default:
+                        break;
+                    }
                     break;
                 default:
                     break;
