@@ -140,12 +140,13 @@ void RenderWindow::display() { SDL_RenderPresent(renderer); }
 
 void RenderWindow::close()
 {
-    SDL_DestroyRenderer(renderer);
-
     // Destroy window
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    renderer = nullptr;
     window = nullptr;
 
     // Quit SDL subsystems
+    IMG_Quit();
     SDL_Quit();
 }
