@@ -23,11 +23,11 @@ public:
     void clear(const SDL_Color& color);
 
     /**
-     * @brief Load texture from file.
-     * @param fileName Image file name.
+     * @brief Load image as texture.
+     * @param path Image file path.
      * @return texture Image texture.
      */
-    SDL_Texture* loadTexture(std::string_view fileName);
+    SDL_Texture* loadTexture(std::string_view path);
 
     /**
      * @brief Render a texture.

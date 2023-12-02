@@ -72,9 +72,9 @@ void RenderWindow::clear(const SDL_Color& color)
     SDL_RenderClear(renderer);
 }
 
-SDL_Texture* RenderWindow::loadTexture(std::string_view fileName)
+SDL_Texture* RenderWindow::loadTexture(std::string_view path)
 {
-    SDL_Texture* texture { IMG_LoadTexture(renderer, fileName.data()) };
+    SDL_Texture* texture { IMG_LoadTexture(renderer, path.data()) };
 
     if (texture == nullptr)
     {
