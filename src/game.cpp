@@ -17,15 +17,14 @@
 namespace
 {
     // TODO: Finish this function.
-    std::vector<SDL_Rect> splitSpriteSheet(int frames, const SDL_Point& size)
+    std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, const SDL_Point& size)
     {
         std::vector<SDL_Rect> clips {};
         SDL_Point currentPosition {};
 
         for (int frameIndex { 0 }; frameIndex < frames; ++frameIndex)
         {
-            // NOTE: This function assumes that there is 6 frames in each rows.
-            if ((frameIndex + 1) % 6 == 0)
+            if ((frameIndex + 1) % rows == 0)
             {
             }
             clips[frameIndex].x = currentPosition.x;
