@@ -23,7 +23,7 @@ namespace
      * @param columns Total number of columns.
      * @param spriteSize Full sprite size.
      * @return std::vector<SDL_Rect>
-    */
+     */
     std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, int columns,
                                            const SDL_Point& spriteSize)
     {
@@ -177,19 +177,21 @@ void Game::init()
             });
 
     flecs::entity player { world.entity("Player") };
+    SDL_Texture* playerSprite { window.loadTexture(
+        constants::PLAYER_SHEET_PATH) };
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
+
     player.add<Player>()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
-        .set<Sprite>({ window.loadTexture(constants::PLAYER_SHEET_PATH) })
-        // TODO: Finish this
-        .set<SpriteAnimation>({
-            PLAYER_FRAMES,
-        })
+        .set<Sprite>({ playerSprite })
+        .set<SpriteAnimation>(
+            { PLAYER_FRAMES,
+              splitSpriteSheet(12, 6, 2, tools::getSize(playerSprite)) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 
