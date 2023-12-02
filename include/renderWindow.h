@@ -99,7 +99,7 @@ public:
     void display();
 
     /**
-     * @brief Close window.
+     * @brief Shut down SDL.
      */
     void close();
 

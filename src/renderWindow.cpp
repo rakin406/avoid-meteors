@@ -138,6 +138,11 @@ void RenderWindow::display() { SDL_RenderPresent(renderer); }
 void RenderWindow::close()
 {
     SDL_DestroyRenderer(renderer);
+
+    // Destroy window
     SDL_DestroyWindow(window);
+    window = nullptr;
+
+    // Quit SDL subsystems
     SDL_Quit();
 }
