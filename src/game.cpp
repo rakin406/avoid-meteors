@@ -214,6 +214,7 @@ void Game::init()
         .add(randomDirection)
         .set<Transform>({ { WINDOW_WIDTH / 2, 200 }, 0, PLAYER_SCALE })
         .set<Sprite>({ playerSprite, nullptr })
+        // TODO: Set sdl_rect nullptr.
         .set<Animation>({ { 0, 0, 32, 32 }, { 32, 32 }, 250 })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
