@@ -9,6 +9,9 @@ struct Meteor
 {
 };
 
+/**
+ * @brief Handles rendering 2D sprites on the screen.
+ */
 struct SpriteRenderer
 {
 };

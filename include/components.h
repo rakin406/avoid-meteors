@@ -11,6 +11,9 @@ struct Rotation
     SDL_Point* center {};
 };
 
+/**
+ * @brief Contains position, rotation, and scale information for an entity.
+ */
 struct Transform
 {
     SDL_Point position {};
@@ -20,7 +23,7 @@ struct Transform
 
 /**
  * @brief Information about an entity’s visual representation.
-*/
+ */
 struct Sprite
 {
     SDL_Texture* texture {};
@@ -29,7 +32,7 @@ struct Sprite
 
 /**
  * @brief Represents an entity’s movement speed and direction.
-*/
+ */
 struct Velocity
 {
     int x {};
@@ -38,7 +41,7 @@ struct Velocity
 
 /**
  * @brief Manages animations.
-*/
+ */
 struct Animation
 {
     int totalFrames {};
