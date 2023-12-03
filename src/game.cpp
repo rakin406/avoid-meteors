@@ -191,9 +191,11 @@ void Game::init()
                 if (entity.has<Player>() && entity.has<Animation>())
                 {
                     Animation* animation { entity.get_mut<Animation>() };
-                    // TODO: Move this somewhere else.
-                    // animation->frameRec.w *= transform.scale.x;
-                    // animation->frameRec.h *= transform.scale.y;
+                    // FIX: Scale
+                    animation->frameRec.w =
+                        animation->frameSize.x * transform.scale.x;
+                    animation->frameRec.h =
+                        animation->frameSize.y * transform.scale.y;
                     window.render(sprite.texture, &animation->frameRec,
                                   transform.position, sprite.color);
                 }
