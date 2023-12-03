@@ -153,22 +153,21 @@ void Game::init()
                 }
             });
 
-    world
-        .system<const Transform, const Movement, const Direction, const Sprite,
-                Animation>("AnimationSystem")
+    world.system<const Transform, const Sprite, Animation>("AnimationSystem")
         .each(
-            [this](const Transform& transform, const Movement movement,
-                   const Direction direction, const Sprite& sprite,
-                   Animation& animation)
+            [this](flecs::entity entity, const Transform& transform,
+                   const Sprite& sprite, Animation& animation)
             {
-                switch (movement)
+                // Get the current value of the states
+                const Movement* movement { entity.get<Movement>() };
+                const Direction* direction { entity.get<Direction>() };
+
+                switch (*movement)
                 {
                 case Movement::Idle:
-                    handleIdle(direction, animation);
-                    break;
+                    handleIdle(*direction, animation);
                 case Movement::Running:
                     // handleRunning();
-                    break;
                 default:
                     ++animation.currentFrame;
                     window.render(sprite.texture, animation.currentClip,
