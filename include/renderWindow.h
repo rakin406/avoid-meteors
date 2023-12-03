@@ -71,7 +71,7 @@ public:
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, SDL_Rect* source,
+    void render(SDL_Texture* texture, const SDL_Rect* source,
                 const SDL_Point& position, const SDL_Color* tint = nullptr);
 
     /**

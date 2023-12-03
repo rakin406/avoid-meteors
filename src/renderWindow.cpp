@@ -109,7 +109,7 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_Point& position,
     render(texture, &source, &dest, angle, center, tint);
 }
 
-void RenderWindow::render(SDL_Texture* texture, SDL_Rect* source,
+void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
                           const SDL_Point& position, const SDL_Color* tint)
 {
     SDL_Rect dest { position.x, position.y, source->w, source->h };
