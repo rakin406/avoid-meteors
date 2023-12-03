@@ -191,13 +191,12 @@ void Game::init()
                 if (entity.has<Player>() && entity.has<Animation>())
                 {
                     Animation* animation { entity.get_mut<Animation>() };
-                    // FIX: Scale
-                    animation->frameRec.w =
-                        animation->frameSize.x * transform.scale.x;
-                    animation->frameRec.h =
-                        animation->frameSize.y * transform.scale.y;
-                    window.render(sprite.texture, &animation->frameRec,
-                                  transform.position, sprite.color);
+                    SDL_Rect dest { transform.position.x, transform.position.y,
+                                    animation->frameSize.x * transform.scale.x,
+                                    animation->frameSize.y *
+                                        transform.scale.y };
+                    window.render(sprite.texture, &animation->frameRec, &dest,
+                                  transform.rotation, nullptr, sprite.color);
                 }
             });
 
