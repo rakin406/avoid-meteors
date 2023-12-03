@@ -30,16 +30,16 @@ namespace
         const int FRAME_WIDTH { spriteSize.x / rows };
         const int FRAME_HEIGHT { spriteSize.y / columns };
 
-        std::vector<SDL_Rect> clips {};
+        std::vector<SDL_Rect> clips(frames);
         SDL_Point currentPosition { 0, 0 };
 
         for (int frameIndex { 0 }; frameIndex < frames; ++frameIndex)
         {
-            clips[frameIndex].x = currentPosition.x;
-            clips[frameIndex].y = currentPosition.y;
+            clips.at(frameIndex).x = currentPosition.x;
+            clips.at(frameIndex).y = currentPosition.y;
             // TODO: Set rect size based on texture size ratio.
-            clips[frameIndex].w = 64;
-            clips[frameIndex].h = 205;
+            clips.at(frameIndex).w = 64;
+            clips.at(frameIndex).h = 205;
 
             if ((frameIndex + 1) % rows == 0)
             {
@@ -154,28 +154,30 @@ void Game::init()
                 }
             });
 
-    world
-        .system<const Transform, const Movement, const Direction, const Sprite,
-                SpriteAnimation>("SpriteAnimationSystem")
-        .each(
-            [this](const Transform& transform, const Movement& movement,
-                   const Direction& direction, const Sprite& sprite,
-                   SpriteAnimation& animation)
-            {
-                switch (movement)
-                {
-                case Movement::Idle:
-                    handleIdle(direction, animation);
-                    break;
-                case Movement::Running:
-                    // handleRunning();
-                    break;
-                default:
-                    ++animation.currentFrame;
-                    //window.render(animation.currentClip, transform.position);
-                    break;
-                }
-            });
+    // world
+    //     .system<const Transform, const Movement, const Direction, const
+    //     Sprite,
+    //             SpriteAnimation>("SpriteAnimationSystem")
+    //     .each(
+    //         [this](const Transform& transform, const Movement& movement,
+    //                const Direction& direction, const Sprite& sprite,
+    //                SpriteAnimation& animation)
+    //         {
+    //             switch (movement)
+    //             {
+    //             case Movement::Idle:
+    //                 handleIdle(direction, animation);
+    //                 break;
+    //             case Movement::Running:
+    //                 // handleRunning();
+    //                 break;
+    //             default:
+    //                 ++animation.currentFrame;
+    //                 window.render(sprite.texture, animation.currentClip,
+    //                               transform.position);
+    //                 break;
+    //             }
+    //         });
 
     // world
     //     .system<const Transform, const Sprite, const SpriteRenderer>(
