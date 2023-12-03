@@ -154,30 +154,30 @@ void Game::init()
                 }
             });
 
-    // world
-    //     .system<const Transform, const Movement, const Direction, const
-    //     Sprite,
-    //             SpriteAnimation>("SpriteAnimationSystem")
-    //     .each(
-    //         [this](const Transform& transform, const Movement& movement,
-    //                const Direction& direction, const Sprite& sprite,
-    //                SpriteAnimation& animation)
-    //         {
-    //             switch (movement)
-    //             {
-    //             case Movement::Idle:
-    //                 handleIdle(direction, animation);
-    //                 break;
-    //             case Movement::Running:
-    //                 // handleRunning();
-    //                 break;
-    //             default:
-    //                 ++animation.currentFrame;
-    //                 window.render(sprite.texture, animation.currentClip,
-    //                               transform.position);
-    //                 break;
-    //             }
-    //         });
+     world
+         .system<const Transform, const Movement, const Direction, const
+         Sprite,
+                 SpriteAnimation>("SpriteAnimationSystem")
+         .each(
+             [this](const Transform& transform, const Movement& movement,
+                    const Direction& direction, const Sprite& sprite,
+                    SpriteAnimation& animation)
+             {
+                 switch (movement)
+                 {
+                 case Movement::Idle:
+                     handleIdle(direction, animation);
+                     break;
+                 case Movement::Running:
+                     // handleRunning();
+                     break;
+                 default:
+                     ++animation.currentFrame;
+                     window.render(sprite.texture, animation.currentClip,
+                                   transform.position);
+                     break;
+                 }
+             });
 
     // world
     //     .system<const Transform, const Sprite, const SpriteRenderer>(
@@ -191,7 +191,7 @@ void Game::init()
     //             // window.render(sprite.texture);
     //         });
 
-    flecs::entity player { world.entity("Player") };
+    auto player { world.entity("Player") };
     SDL_Texture* playerSprite { window.loadTexture(
         constants::PLAYER_SHEET_PATH) };
     Direction randomDirection {
