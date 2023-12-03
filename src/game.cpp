@@ -156,6 +156,14 @@ void Game::init()
                 const Movement* movement { entity.get<Movement>() };
                 const Direction* direction { entity.get<Direction>() };
 
+                // Calculate the current frame based on time
+                Uint32 currentTime { SDL_GetTicks() };
+                int frameIndex { (currentTime / animation.frameDuration) %
+                                 animation.totalFrames };
+
+                // Update the x-coordinate of the source rectangle
+                animation.frameRec.x = animation.frameSize.x * frameIndex;
+
                 switch (*movement)
                 {
                 case Movement::Idle:
@@ -196,9 +204,13 @@ void Game::init()
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, 0, { 1, 1 } })
         .set<Sprite>({ playerSprite, nullptr })
-        .set<Animation>({ PLAYER_FRAMES, 0, nullptr,
+        .set<Animation>({ { 0, 0, 32, 32 },
                           splitSpriteSheet(PLAYER_FRAMES, 6, 2,
-                                           tools::getSize(playerSprite)) })
+                                           tools::getSize(playerSprite)),
+                          { 32, 32 },
+                          1000,
+                          12,
+                          0 })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 

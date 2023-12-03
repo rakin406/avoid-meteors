@@ -38,10 +38,12 @@ struct Velocity
  */
 struct Animation
 {
+    SDL_Rect frameRec {};
+    std::vector<SDL_Rect> spriteFrames {};
+    SDL_Point frameSize {};
+    int frameDuration {}; //  NOTE: Unit is milliseconds
     int totalFrames {};
     int currentFrame {};
-    SDL_Rect* currentClip {};
-    std::vector<SDL_Rect> spriteClips {};
 };
 
 #endif
