@@ -160,23 +160,28 @@ void Game::init()
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
-                Uint32 frameIndex { (currentTime / animation.frameDuration) %
-                                    animation.totalFrames };
+                // animation.currentFrame =
+                //     (currentTime / animation.frameDuration) %
+                //     animation.totalFrames;
+                animation.currentFrame =
+                    (currentTime / animation.frameDuration) % 6;
+                std::cout << animation.currentFrame << std::endl;
 
                 switch (*movement)
                 {
                 case Movement::Idle:
                     // handleIdle(*direction, animation);
-                    //  Update the x-coordinate of the source rectangle
-                    animation.frameRec.x = animation.frameSize.x * frameIndex;
+                    // Update the x-coordinate of the source rectangle
+                    animation.frameRec.x =
+                        animation.frameSize.x * animation.currentFrame;
                 // case Movement::Running:
                 //     // handleRunning();
                 default:
                     // Cycle animation
-                    //++animation.currentFrame;
-                    // if ((animation.currentFrame / PLAYER_FRAMES) >=
-                    //    PLAYER_FRAMES)
+                    // if (animation.currentFrame == 6)
+                    //{
                     //    animation.currentFrame = 0;
+                    //}
                     break;
                 }
             });
@@ -215,7 +220,7 @@ void Game::init()
                           splitSpriteSheet(PLAYER_FRAMES, 6, 2,
                                            tools::getSize(playerSprite)),
                           { 32, 32 },
-                          1000,
+                          250,
                           12,
                           0 })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
