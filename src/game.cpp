@@ -152,7 +152,7 @@ void Game::init()
 
     world.system<Animation>("AnimationSystem")
         .each(
-            [this](flecs::entity entity, Animation& animation)
+            [](flecs::entity entity, Animation& animation)
             {
                 // Get the current value of the states
                 const Movement* movement { entity.get<Movement>() };
@@ -181,24 +181,30 @@ void Game::init()
                 }
             });
 
-    // world
-    //     .system<const Transform, const Sprite, const SpriteRenderer>(
-    //         "SpriteRendererSystem")
-    //     .each(
-    //         [this](flecs::entity entity, const Transform& transform,
-    //                const Sprite& sprite, const SpriteRenderer&
-    //                spriteRenderer)
-    //         {
-    //             // window.render(sprite.texture);
-    //         });
+    world
+        .system<const Transform, const Sprite, const SpriteRenderer>(
+            "SpriteRendererSystem")
+        .each(
+            [this](flecs::entity entity, const Transform& transform,
+                   const Sprite& sprite, const SpriteRenderer& spriteRenderer)
+            {
+                // Render player
+                if (entity.has<Player>() && entity.has<Animation>())
+                {
+                    const Animation* animation { entity.get<Animation>() };
+                    window.render(sprite.texture, &animation->frameRec,
+                                  transform.position, sprite.color);
+                }
+            });
 
     auto player { world.entity("Player") };
     SDL_Texture* playerSprite { window.loadTexture(
-        constants::PLAYER_SHEET_PATH) };
+        constants::PLAYER_SHEET_PATH) }; // Load player sprite sheet
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
 
+    // Set player components
     player.add<Player>()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
