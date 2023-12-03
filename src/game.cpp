@@ -96,11 +96,6 @@ namespace
                 &animation.spriteClips[animation.currentFrame / PLAYER_FRAMES];
             break;
         default:
-            // Cycle animation
-            if ((animation.currentFrame / PLAYER_FRAMES) >= PLAYER_FRAMES)
-            {
-                animation.currentFrame = 0;
-            }
             break;
         }
     }
@@ -169,7 +164,11 @@ void Game::init()
                 case Movement::Running:
                     // handleRunning();
                 default:
+                    // Cycle animation
                     ++animation.currentFrame;
+                    if ((animation.currentFrame / PLAYER_FRAMES) >=
+                        PLAYER_FRAMES)
+                        animation.currentFrame = 0;
                     window.render(sprite.texture, animation.currentClip,
                                   transform.position);
                     break;
