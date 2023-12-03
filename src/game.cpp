@@ -80,25 +80,27 @@ namespace
     }
 
     // TODO: Finish this.
-    void handleIdle(const Direction& direction, Animation& animation)
-    {
-        using namespace constants;
+    // void handleIdle(const Direction& direction, Animation& animation)
+    //{
+    //    using namespace constants;
 
-        switch (direction)
-        {
-        // TODO: Add flip for direction.
-        case Direction::Left:
-            animation.currentClip =
-                &animation.spriteClips[animation.currentFrame / PLAYER_FRAMES];
-            break;
-        case Direction::Right:
-            animation.currentClip =
-                &animation.spriteClips[animation.currentFrame / PLAYER_FRAMES];
-            break;
-        default:
-            break;
-        }
-    }
+    //    switch (direction)
+    //    {
+    //    // TODO: Add flip for direction.
+    //    case Direction::Left:
+    //        animation.currentClip =
+    //            &animation.spriteClips[animation.currentFrame /
+    //            PLAYER_FRAMES];
+    //        break;
+    //    case Direction::Right:
+    //        animation.currentClip =
+    //            &animation.spriteClips[animation.currentFrame /
+    //            PLAYER_FRAMES];
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
     // handleRunning();
 } // namespace
@@ -154,28 +156,27 @@ void Game::init()
             {
                 // Get the current value of the states
                 const Movement* movement { entity.get<Movement>() };
-                const Direction* direction { entity.get<Direction>() };
+                // const Direction* direction { entity.get<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
-                int frameIndex { (currentTime / animation.frameDuration) %
-                                 animation.totalFrames };
-
-                // Update the x-coordinate of the source rectangle
-                animation.frameRec.x = animation.frameSize.x * frameIndex;
+                Uint32 frameIndex { (currentTime / animation.frameDuration) %
+                                    animation.totalFrames };
 
                 switch (*movement)
                 {
                 case Movement::Idle:
-                    handleIdle(*direction, animation);
-                case Movement::Running:
-                    // handleRunning();
+                    // handleIdle(*direction, animation);
+                    //  Update the x-coordinate of the source rectangle
+                    animation.frameRec.x = animation.frameSize.x * frameIndex;
+                // case Movement::Running:
+                //     // handleRunning();
                 default:
                     // Cycle animation
-                    ++animation.currentFrame;
-                    if ((animation.currentFrame / PLAYER_FRAMES) >=
-                        PLAYER_FRAMES)
-                        animation.currentFrame = 0;
+                    //++animation.currentFrame;
+                    // if ((animation.currentFrame / PLAYER_FRAMES) >=
+                    //    PLAYER_FRAMES)
+                    //    animation.currentFrame = 0;
                     break;
                 }
             });
