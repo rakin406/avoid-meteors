@@ -5,20 +5,14 @@
 
 #include <vector>
 
-struct Rotation
-{
-    double angle {};
-    SDL_Point* center {};
-};
-
 /**
  * @brief Contains position, rotation, and scale information for an entity.
  */
 struct Transform
 {
-    SDL_Point position {};
-    Rotation rotation {};
-    SDL_Point scale {};
+    SDL_Point position {}; // 2D position (x, y)
+    double rotation {};    // Rotation angle in degrees
+    SDL_Point scale {};    // Scale factors (x, y)
 };
 
 /**
