@@ -148,10 +148,9 @@ void Game::init()
                 }
             });
 
-    world.system<const Sprite, Animation>("AnimationSystem")
+    world.system<Animation>("AnimationSystem")
         .each(
-            [this](flecs::entity entity, const Sprite& sprite,
-                   Animation& animation)
+            [this](flecs::entity entity, Animation& animation)
             {
                 // Get the current value of the states
                 const Movement* movement { entity.get<Movement>() };
