@@ -33,15 +33,15 @@ namespace
         std::vector<SDL_Rect> clips(frames);
         SDL_Point currentPosition { 0, 0 };
 
-        for (int frameIndex { 0 }; frameIndex < frames; ++frameIndex)
+        for (int i { 0 }; auto& frame : clips)
         {
-            clips.at(frameIndex).x = currentPosition.x;
-            clips.at(frameIndex).y = currentPosition.y;
+            frame.x = currentPosition.x;
+            frame.y = currentPosition.y;
             // TODO: Set rect size based on texture size ratio.
-            clips.at(frameIndex).w = 64;
-            clips.at(frameIndex).h = 205;
+            frame.w = 64;
+            frame.h = 205;
 
-            if ((frameIndex + 1) % rows == 0)
+            if ((i + 1) % rows == 0)
             {
                 currentPosition.x = 0;
                 currentPosition.y += FRAME_HEIGHT; // Go to next column
@@ -50,6 +50,8 @@ namespace
             {
                 currentPosition.x += FRAME_WIDTH; // Go to next row
             }
+
+            ++i;
         }
 
         return clips;
@@ -154,30 +156,29 @@ void Game::init()
                 }
             });
 
-     world
-         .system<const Transform, const Movement, const Direction, const
-         Sprite,
-                 SpriteAnimation>("SpriteAnimationSystem")
-         .each(
-             [this](const Transform& transform, const Movement& movement,
-                    const Direction& direction, const Sprite& sprite,
-                    SpriteAnimation& animation)
-             {
-                 switch (movement)
-                 {
-                 case Movement::Idle:
-                     handleIdle(direction, animation);
-                     break;
-                 case Movement::Running:
-                     // handleRunning();
-                     break;
-                 default:
-                     ++animation.currentFrame;
-                     window.render(sprite.texture, animation.currentClip,
-                                   transform.position);
-                     break;
-                 }
-             });
+    //world
+    //    .system<const Transform, const Movement, const Direction, const Sprite,
+    //            SpriteAnimation>("SpriteAnimationSystem")
+    //    .each(
+    //        [this](const Transform& transform, const Movement& movement,
+    //               const Direction& direction, const Sprite& sprite,
+    //               SpriteAnimation& animation)
+    //        {
+    //            switch (movement)
+    //            {
+    //            case Movement::Idle:
+    //                handleIdle(direction, animation);
+    //                break;
+    //            case Movement::Running:
+    //                // handleRunning();
+    //                break;
+    //            default:
+    //                ++animation.currentFrame;
+    //                window.render(sprite.texture, animation.currentClip,
+    //                              transform.position);
+    //                break;
+    //            }
+    //        });
 
     // world
     //     .system<const Transform, const Sprite, const SpriteRenderer>(
