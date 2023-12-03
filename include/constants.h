@@ -3,6 +3,8 @@
 
 #include "states.h"
 
+#include "SDL.h"
+
 #include <array>
 #include <string_view>
 
@@ -13,6 +15,7 @@ namespace constants
     inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
     inline constexpr int PLAYER_FRAMES { 12 };
     inline constexpr int PLAYER_SPEED { 10 };
+    inline constexpr SDL_Point PLAYER_SCALE { 2, 2 };
 
     inline constexpr std::string_view BG_IMG_PATH { PROJECT_ROOT
                                                     "res/gfx/background.jpg" };

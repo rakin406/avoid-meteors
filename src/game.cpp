@@ -160,12 +160,11 @@ void Game::init()
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
-                animation.currentFrame =
-                    (currentTime / animation.frameDuration) % 6;
+                int currentFrame { (currentTime / animation.frameDuration) %
+                                   6 };
 
                 // Update the x-coordinate of the source rectangle
-                animation.frameRec.x =
-                    animation.frameSize.x * animation.currentFrame;
+                animation.frameRec.x = animation.frameSize.x * currentFrame;
 
                 switch (*movement)
                 {
@@ -191,7 +190,10 @@ void Game::init()
                 // Render player
                 if (entity.has<Player>() && entity.has<Animation>())
                 {
-                    const Animation* animation { entity.get<Animation>() };
+                    Animation* animation { entity.get_mut<Animation>() };
+                    // TODO: Move this somewhere else.
+                    // animation->frameRec.w *= transform.scale.x;
+                    // animation->frameRec.h *= transform.scale.y;
                     window.render(sprite.texture, &animation->frameRec,
                                   transform.position, sprite.color);
                 }
@@ -209,15 +211,9 @@ void Game::init()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
-        .set<Transform>({ { 200, 200 }, 0, { 1, 1 } })
+        .set<Transform>({ { WINDOW_WIDTH / 2, 200 }, 0, PLAYER_SCALE })
         .set<Sprite>({ playerSprite, nullptr })
-        .set<Animation>({ { 0, 0, 32, 32 },
-                          splitSpriteSheet(PLAYER_FRAMES, 6, 2,
-                                           tools::getSize(playerSprite)),
-                          { 32, 32 },
-                          250,
-                          12,
-                          0 })
+        .set<Animation>({ { 0, 0, 32, 32 }, { 32, 32 }, 250 })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 
