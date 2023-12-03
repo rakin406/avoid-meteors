@@ -80,7 +80,7 @@ namespace
     }
 
     // TODO: Finish this.
-    void handleIdle(const Direction& direction, SpriteAnimation& animation)
+    void handleIdle(const Direction& direction, Animation& animation)
     {
         using namespace constants;
 
@@ -158,11 +158,11 @@ void Game::init()
 
     //world
     //    .system<const Transform, const Movement, const Direction, const Sprite,
-    //            SpriteAnimation>("SpriteAnimationSystem")
+    //            Animation>("AnimationSystem")
     //    .each(
     //        [this](const Transform& transform, const Movement& movement,
     //               const Direction& direction, const Sprite& sprite,
-    //               SpriteAnimation& animation)
+    //               Animation& animation)
     //        {
     //            switch (movement)
     //            {
@@ -205,7 +205,7 @@ void Game::init()
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
         .set<Sprite>({ playerSprite })
-        .set<SpriteAnimation>(
+        .set<Animation>(
             { PLAYER_FRAMES, 0, nullptr,
               splitSpriteSheet(PLAYER_FRAMES, 6, 2,
                                tools::getSize(playerSprite)) })
