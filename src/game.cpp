@@ -78,15 +78,27 @@ namespace
     }
 
     // TODO: Finish this.
-    void handleIdle(const Direction& direction)
+    void handleIdle(const Direction& direction, SpriteAnimation& animation)
     {
+        using namespace constants;
+
         switch (direction)
         {
+        // TODO: Add flip for direction.
         case Direction::Left:
+            animation.currentClip =
+                &animation.spriteClips[animation.currentFrame / PLAYER_FRAMES];
             break;
         case Direction::Right:
+            animation.currentClip =
+                &animation.spriteClips[animation.currentFrame / PLAYER_FRAMES];
             break;
         default:
+            // Cycle animation
+            if ((animation.currentFrame / PLAYER_FRAMES) >= PLAYER_FRAMES)
+            {
+                animation.currentFrame = 0;
+            }
             break;
         }
     }
@@ -143,38 +155,39 @@ void Game::init()
             });
 
     world
-        .system<const Movement, const Direction, const Sprite, SpriteAnimation>(
-            "SpriteAnimationSystem")
+        .system<const Transform, const Movement, const Direction, const Sprite,
+                SpriteAnimation>("SpriteAnimationSystem")
         .each(
-            [](const Movement& movement, const Direction& direction,
-               const Sprite& sprite, SpriteAnimation& animation)
+            [this](const Transform& transform, const Movement& movement,
+                   const Direction& direction, const Sprite& sprite,
+                   SpriteAnimation& animation)
             {
                 switch (movement)
                 {
                 case Movement::Idle:
-                    // handleIdle();
+                    handleIdle(direction, animation);
                     break;
                 case Movement::Running:
                     // handleRunning();
                     break;
                 default:
+                    ++animation.currentFrame;
+                    //window.render(animation.currentClip, transform.position);
                     break;
                 }
             });
 
-    world
-        .system<const Transform, const Sprite, const SpriteRenderer>(
-            "SpriteRendererSystem")
-        .each(
-            [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, const SpriteRenderer& spriteRenderer)
-            {
-                const SDL_Color* tint { entity.get<SDL_Color>() };
-                window.renderEx(sprite.texture, transform.position,
-                                transform.rotation.angle,
-                                transform.rotation.center, transform.scale,
-                                tint);
-            });
+    // world
+    //     .system<const Transform, const Sprite, const SpriteRenderer>(
+    //         "SpriteRendererSystem")
+    //     .each(
+    //         [this](flecs::entity entity, const Transform& transform,
+    //                const Sprite& sprite, const SpriteRenderer&
+    //                spriteRenderer)
+    //         {
+    //             const SDL_Color* tint { entity.get<SDL_Color>() };
+    //             // window.render(sprite.texture);
+    //         });
 
     flecs::entity player { world.entity("Player") };
     SDL_Texture* playerSprite { window.loadTexture(
