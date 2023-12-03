@@ -6,17 +6,17 @@
 namespace tools
 {
     /**
-     * @brief Get a random value between min and max (both included).
-     * @param min 
-     * @param max 
-     * @return int
-    */
+     * @brief Gets a random value between min and max (both included).
+     * @param min Minimum integer.
+     * @param max Maximum integer.
+     * @return Random integer.
+     */
     int getRandomValue(int min, int max);
 
     /**
-     * @brief Get size of texture.
+     * @brief Gets size of texture.
      * @param texture
-     * @return size
+     * @return Size
      */
     SDL_Point getSize(SDL_Texture* texture);
 } // namespace tools

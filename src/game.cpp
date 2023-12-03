@@ -17,12 +17,12 @@
 namespace
 {
     /**
-     * @brief Split sprite sheet into a collection of rectangles.
+     * @brief Splits sprite sheet into a collection of rectangles.
      * @param frames Total number of frames in sheet.
      * @param rows Total rows in one column.
      * @param columns Total number of columns.
      * @param spriteSize Full sprite size.
-     * @return std::vector<SDL_Rect>
+     * @return A vector of SDL rectangles.
      */
     std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, int columns,
                                            const SDL_Point& spriteSize)
@@ -58,7 +58,7 @@ namespace
     }
 
     /**
-     * @brief Return true if user requests quit. For use in main loop.
+     * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
      * @return bool
      */

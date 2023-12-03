@@ -20,17 +20,17 @@ private:
     flecs::world world {};
 
     /**
-     * @brief Initialize everything.
+     * @brief Initializes everything.
      */
     void init();
 
     /**
-     * @brief Update and draw game.
+     * @brief Updates and draws game.
      */
     void update();
 
     /**
-     * @brief Stop all subsystems.
+     * @brief Stops all subsystems.
      */
     void stop();
 };

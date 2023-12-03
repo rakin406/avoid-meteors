@@ -9,7 +9,7 @@ class RenderWindow
 {
 public:
     /**
-     * @brief Initialize the window.
+     * @brief Initializes the window.
      * @param width Window width.
      * @param height Window height.
      * @param title Window title.
@@ -17,20 +17,20 @@ public:
     RenderWindow(int width, int height, std::string_view title);
 
     /**
-     * @brief Set background color.
+     * @brief Sets background color.
      * @param color
      */
     void clear(const SDL_Color& color);
 
     /**
-     * @brief Load image as texture.
+     * @brief Loads image as texture.
      * @param path Image file path.
-     * @return texture Image texture.
+     * @return Texture
      */
     SDL_Texture* loadTexture(std::string_view path);
 
     /**
-     * @brief Render a texture.
+     * @brief Renders a texture.
      * @param texture
      * @param posX
      * @param posY
@@ -40,7 +40,7 @@ public:
                 const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Render a texture with position.
+     * @brief Renders a texture with position.
      * @param texture
      * @param position
      * @param tint Default = null
@@ -49,7 +49,7 @@ public:
                 const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Render a texture with extended parameters.
+     * @brief Renders a texture with extended parameters.
      * @param texture The source texture.
      * @param position The texture position.
      * @param angle An angle in degrees that indicates the rotation that will be
@@ -65,7 +65,7 @@ public:
                 const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Render a part of a texture defined by a rectangle.
+     * @brief Renders a part of a texture defined by a rectangle.
      * @param texture
      * @param source
      * @param position
@@ -75,7 +75,7 @@ public:
                 const SDL_Point& position, const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Render a part of a texture defined by a rectangle with 'pro'
+     * @brief Renders a part of a texture defined by a rectangle with 'pro'
      * parameters.
      * @param texture The source texture.
      * @param source the source SDL_Rect structure or NULL for the entire
@@ -94,12 +94,12 @@ public:
                 const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Display screen.
+     * @brief Displays screen.
      */
     void display();
 
     /**
-     * @brief Shut down SDL.
+     * @brief Shuts down SDL.
      */
     void close();
 
