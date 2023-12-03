@@ -203,7 +203,7 @@ void Game::init()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
-        .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
+        .set<Transform>({ { 200, 200 }, 0, { 1, 1 } })
         .set<Sprite>({ playerSprite, nullptr })
         .set<Animation>({ PLAYER_FRAMES, 0, nullptr,
                           splitSpriteSheet(PLAYER_FRAMES, 6, 2,
