@@ -156,29 +156,30 @@ void Game::init()
                 }
             });
 
-    //world
-    //    .system<const Transform, const Movement, const Direction, const Sprite,
-    //            Animation>("AnimationSystem")
-    //    .each(
-    //        [this](const Transform& transform, const Movement& movement,
-    //               const Direction& direction, const Sprite& sprite,
-    //               Animation& animation)
-    //        {
-    //            switch (movement)
-    //            {
-    //            case Movement::Idle:
-    //                handleIdle(direction, animation);
-    //                break;
-    //            case Movement::Running:
-    //                // handleRunning();
-    //                break;
-    //            default:
-    //                ++animation.currentFrame;
-    //                window.render(sprite.texture, animation.currentClip,
-    //                              transform.position);
-    //                break;
-    //            }
-    //        });
+    // world
+    //     .system<const Transform, const Movement, const Direction, const
+    //     Sprite,
+    //             Animation>("AnimationSystem")
+    //     .each(
+    //         [this](const Transform& transform, const Movement& movement,
+    //                const Direction& direction, const Sprite& sprite,
+    //                Animation& animation)
+    //         {
+    //             switch (movement)
+    //             {
+    //             case Movement::Idle:
+    //                 handleIdle(direction, animation);
+    //                 break;
+    //             case Movement::Running:
+    //                 // handleRunning();
+    //                 break;
+    //             default:
+    //                 ++animation.currentFrame;
+    //                 window.render(sprite.texture, animation.currentClip,
+    //                               transform.position);
+    //                 break;
+    //             }
+    //         });
 
     // world
     //     .system<const Transform, const Sprite, const SpriteRenderer>(
@@ -188,7 +189,6 @@ void Game::init()
     //                const Sprite& sprite, const SpriteRenderer&
     //                spriteRenderer)
     //         {
-    //             const SDL_Color* tint { entity.get<SDL_Color>() };
     //             // window.render(sprite.texture);
     //         });
 
@@ -204,11 +204,10 @@ void Game::init()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ { 200, 200 }, { 0, nullptr }, { 1, 1 } })
-        .set<Sprite>({ playerSprite })
-        .set<Animation>(
-            { PLAYER_FRAMES, 0, nullptr,
-              splitSpriteSheet(PLAYER_FRAMES, 6, 2,
-                               tools::getSize(playerSprite)) })
+        .set<Sprite>({ playerSprite, nullptr })
+        .set<Animation>({ PLAYER_FRAMES, 0, nullptr,
+                          splitSpriteSheet(PLAYER_FRAMES, 6, 2,
+                                           tools::getSize(playerSprite)) })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 
