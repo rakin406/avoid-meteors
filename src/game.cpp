@@ -148,10 +148,10 @@ void Game::init()
                 }
             });
 
-    world.system<const Transform, const Sprite, Animation>("AnimationSystem")
+    world.system<const Sprite, Animation>("AnimationSystem")
         .each(
-            [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, Animation& animation)
+            [this](flecs::entity entity, const Sprite& sprite,
+                   Animation& animation)
             {
                 // Get the current value of the states
                 const Movement* movement { entity.get<Movement>() };
@@ -169,8 +169,6 @@ void Game::init()
                     if ((animation.currentFrame / PLAYER_FRAMES) >=
                         PLAYER_FRAMES)
                         animation.currentFrame = 0;
-                    window.render(sprite.texture, animation.currentClip,
-                                  transform.position);
                     break;
                 }
             });
