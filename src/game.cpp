@@ -127,9 +127,6 @@ void Game::init()
 {
     using namespace constants;
 
-    world.component<Movement>().add(flecs::Union);
-    world.component<Direction>().add(flecs::Union);
-
     world.system<Transform, const Velocity, const Player>("PlayerSystem")
         .each(
             [](flecs::entity entity, Transform& transform, const Velocity& vel,
@@ -156,30 +153,29 @@ void Game::init()
                 }
             });
 
-    // world
-    //     .system<const Transform, const Movement, const Direction, const
-    //     Sprite,
-    //             Animation>("AnimationSystem")
-    //     .each(
-    //         [this](const Transform& transform, const Movement& movement,
-    //                const Direction& direction, const Sprite& sprite,
-    //                Animation& animation)
-    //         {
-    //             switch (movement)
-    //             {
-    //             case Movement::Idle:
-    //                 handleIdle(direction, animation);
-    //                 break;
-    //             case Movement::Running:
-    //                 // handleRunning();
-    //                 break;
-    //             default:
-    //                 ++animation.currentFrame;
-    //                 window.render(sprite.texture, animation.currentClip,
-    //                               transform.position);
-    //                 break;
-    //             }
-    //         });
+    world
+        .system<const Transform, const Movement, const Direction, const Sprite,
+                Animation>("AnimationSystem")
+        .each(
+            [this](const Transform& transform, const Movement movement,
+                   const Direction direction, const Sprite& sprite,
+                   Animation& animation)
+            {
+                switch (movement)
+                {
+                case Movement::Idle:
+                    handleIdle(direction, animation);
+                    break;
+                case Movement::Running:
+                    // handleRunning();
+                    break;
+                default:
+                    ++animation.currentFrame;
+                    window.render(sprite.texture, animation.currentClip,
+                                  transform.position);
+                    break;
+                }
+            });
 
     // world
     //     .system<const Transform, const Sprite, const SpriteRenderer>(
