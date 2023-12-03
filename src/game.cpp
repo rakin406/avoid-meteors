@@ -160,28 +160,23 @@ void Game::init()
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
-                // animation.currentFrame =
-                //     (currentTime / animation.frameDuration) %
-                //     animation.totalFrames;
                 animation.currentFrame =
                     (currentTime / animation.frameDuration) % 6;
-                std::cout << animation.currentFrame << std::endl;
+
+                // Update the x-coordinate of the source rectangle
+                animation.frameRec.x =
+                    animation.frameSize.x * animation.currentFrame;
 
                 switch (*movement)
                 {
                 case Movement::Idle:
-                    // handleIdle(*direction, animation);
-                    // Update the x-coordinate of the source rectangle
-                    animation.frameRec.x =
-                        animation.frameSize.x * animation.currentFrame;
-                // case Movement::Running:
-                //     // handleRunning();
+                    animation.frameRec.y = 0;
+                    break;
+                case Movement::Running:
+                    // TODO: Refactor this.
+                    animation.frameRec.y = animation.frameSize.y;
+                    break;
                 default:
-                    // Cycle animation
-                    // if (animation.currentFrame == 6)
-                    //{
-                    //    animation.currentFrame = 0;
-                    //}
                     break;
                 }
             });
