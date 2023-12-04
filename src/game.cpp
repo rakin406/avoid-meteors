@@ -191,7 +191,7 @@ void Game::init()
         .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                             static_cast<int>(player::FRAME_SIZE) },
                           { player::FRAME_SIZE, player::FRAME_SIZE },
-                          250 })
+                          player::FRAME_DURATION })
         .set<Velocity>({ player::SPEED, 0.0f });
 }
 

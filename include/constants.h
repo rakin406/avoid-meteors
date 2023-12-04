@@ -22,9 +22,11 @@ namespace constants::window
 
 namespace constants::player
 {
-    inline constexpr float SPEED { 5.0f };
+    inline constexpr float SPEED { 300.0f };
     inline constexpr float FRAME_SCALE { 5.0f };
     inline constexpr float FRAME_SIZE { 32.0f };
+    // NOTE: I don't know what I'm doing here lol
+    inline constexpr int FRAME_DURATION { static_cast<int>(SPEED) / 2 };
     inline constexpr SDL_FPoint STARTING_POSITION {
         (window::WIDTH / 2) - (FRAME_SIZE * (FRAME_SCALE / 2)),
         window::HEIGHT - 195 // Ground y-axis
