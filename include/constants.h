@@ -13,7 +13,6 @@ namespace constants
     inline constexpr int WINDOW_WIDTH { 1280 };
     inline constexpr int WINDOW_HEIGHT { 720 };
     inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
-    inline constexpr int PLAYER_FRAMES { 12 };
     inline constexpr int PLAYER_SPEED { 10 };
     inline constexpr SDL_Point PLAYER_SCALE { 4, 4 };
 
