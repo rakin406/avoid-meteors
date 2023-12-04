@@ -90,27 +90,38 @@ void Game::init()
     world
         .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
         .iter(
-            [this](flecs::iter& it, flecs::entity entity, Transform& transform,
-                   const Velocity& vel, const Player& tag)
+            [](flecs::iter& it, Transform* transform, const Velocity* vel,
+               const Player*)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
-                // Continuous-response keys
-                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+                // Iterate entities
+                for (auto i : it)
                 {
-                    entity.add(Movement::Running).add(Direction::Left);
-                    transform.position.x -= vel.x * it.delta_time();
-                }
-                else if (keyState[SDL_SCANCODE_RIGHT] ||
-                         keyState[SDL_SCANCODE_D])
-                {
-                    entity.add(Movement::Running).add(Direction::Right);
-                    transform.position.x += vel.x * it.delta_time();
-                }
-                else
-                {
-                    entity.add(Movement::Idle);
+                    // Continuous-response keys
+                    if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+                    {
+                        it.entity(i)
+                            .add(Movement::Running)
+                            .add(Direction::Left);
+                        // FIX: position not changing
+                        transform->position.x -=
+                            vel->x * static_cast<int>(it.delta_time());
+                    }
+                    else if (keyState[SDL_SCANCODE_RIGHT] ||
+                             keyState[SDL_SCANCODE_D])
+                    {
+                        it.entity(i)
+                            .add(Movement::Running)
+                            .add(Direction::Right);
+                        transform->position.x +=
+                            vel->x * static_cast<int>(it.delta_time());
+                    }
+                    else
+                    {
+                        it.entity(i).add(Movement::Idle);
+                    }
                 }
             });
 
@@ -149,7 +160,7 @@ void Game::init()
             "SpriteRendererSystem")
         .each(
             [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, const SpriteRenderer& spriteRenderer)
+                   const Sprite& sprite, SpriteRenderer)
             {
                 // Render player
                 if (entity.has<Player>() && entity.has<Animation>())
@@ -166,9 +177,8 @@ void Game::init()
 
     auto player { world.entity("Player") };
     SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
-    Direction randomDirection {
-        ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
-    };
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
     // Set player components
     player.add<Player>()
