@@ -12,6 +12,7 @@
 #include <flecs.h>
 
 #include <array>
+#include <chrono>
 #include <iostream>
 
 namespace
@@ -86,12 +87,30 @@ void Game::run()
 void Game::init()
 {
     using namespace constants;
+    using namespace std::chrono;
 
-    world.system<Transform, const Velocity, const Player>("PlayerSystem")
+    // Capture start time
+    auto startTime { steady_clock::now() };
+
+    world
+        .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
         .each(
-            [](flecs::entity entity, Transform& transform, const Velocity& vel,
-               const Player& tag)
+            [&startTime](flecs::entity entity, Transform& transform,
+                         const Velocity& vel, const Player& tag)
             {
+                // Capture current time
+                auto now { steady_clock::now() };
+
+                // Calculate elapsed time in milliseconds
+                auto elapsedTime {
+                    duration_cast<milliseconds>(now - startTime).count()
+                };
+
+                // Convert to seconds
+                int deltaTime { static_cast<int>(elapsedTime) / 1000 };
+
+                std::cout << deltaTime << std::endl;
+
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
@@ -99,13 +118,13 @@ void Game::init()
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
                     entity.add(Movement::Running).add(Direction::Left);
-                    transform.position.x -= vel.x;
+                    transform.position.x = vel.x * deltaTime;
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
                     entity.add(Movement::Running).add(Direction::Right);
-                    transform.position.x += vel.x;
+                    transform.position.x = vel.x / deltaTime;
                 }
                 else
                 {
@@ -177,10 +196,10 @@ void Game::init()
         .set<Transform>({ player::STARTING_POSITION, 0, player::FRAME_SCALE })
         .set<Sprite>({ playerSprite, nullptr })
         // TODO: Set sdl_rect nullptr.
-        .set<Animation>({ { 0, 0, player::FRAME_SIZE.x, player::FRAME_SIZE.y },
+        .set<Animation>({ { 0, 0, player::FRAME_SIZE, player::FRAME_SIZE },
                           player::FRAME_SIZE,
                           250 })
-        .set<Velocity>({ player::SPEED, player::SPEED });
+        .set<Velocity>({ player::SPEED, 0 });
 }
 
 void Game::update()
