@@ -22,7 +22,7 @@ namespace constants::window
 
 namespace constants::player
 {
-    inline constexpr int SPEED { 10 };
+    inline constexpr int SPEED { 5 };
     inline constexpr int FRAME_SCALE { 5 };
     inline constexpr int FRAME_SIZE { 32 };
     inline constexpr SDL_Point STARTING_POSITION {
