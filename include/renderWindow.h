@@ -5,6 +5,8 @@
 
 #include <string_view>
 
+// TODO: Remove redundant render methods.
+
 class RenderWindow
 {
 public:
@@ -89,10 +91,13 @@ public:
      * dest will be rotated (if NULL, rotation will be done around
      * dest.w / 2, dest.h / 2).
      * @param tint Additional color value. By default, it's null.
+     * @param flip A SDL_RendererFlip value stating which flipping actions
+     * should be performed on the texture.
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
                 const SDL_FRect* dest, double angle, const SDL_FPoint* center,
-                const SDL_Color* tint = nullptr);
+                const SDL_Color* tint = nullptr,
+                const SDL_RendererFlip* flip = nullptr);
 
     /**
      * @brief Displays screen.

@@ -118,10 +118,10 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
     render(texture, source, &dest, 0.0f, &origin, tint);
 }
 
-// TODO: Maybe add a flip parameter?
 void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
                           const SDL_FRect* dest, double angle,
-                          const SDL_FPoint* center, const SDL_Color* tint)
+                          const SDL_FPoint* center, const SDL_Color* tint,
+                          const SDL_RendererFlip* flip)
 {
     // Check if texture is valid
     if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
@@ -129,10 +129,17 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
         if (tint)
             // Apply tint to texture
             SDL_SetTextureColorMod(texture, tint->r, tint->g, tint->b);
-        // NOTE: Texture will not flip.
-        // TODO: Test if angle is not null.
-        SDL_RenderCopyExF(renderer, texture, source, dest, angle, center,
-                          SDL_FLIP_NONE);
+
+        if (flip)
+        {
+            SDL_RenderCopyExF(renderer, texture, source, dest, angle, center,
+                              *flip);
+        }
+        else
+        {
+            SDL_RenderCopyExF(renderer, texture, source, dest, angle, center,
+                              SDL_FLIP_NONE);
+        }
     }
 }
 

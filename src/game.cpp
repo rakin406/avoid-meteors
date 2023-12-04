@@ -163,7 +163,8 @@ void Game::init()
                                      animation->frameSize.y *
                                          transform.scale.y };
                     window.render(sprite.texture, &animation->frameRec, &dest,
-                                  transform.rotation, nullptr, sprite.color);
+                                  transform.rotation, nullptr, sprite.color,
+                                  animation->flip);
                 }
             });
 
@@ -185,6 +186,7 @@ void Game::init()
         .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                             static_cast<int>(player::FRAME_SIZE) },
                           { player::FRAME_SIZE, player::FRAME_SIZE },
+                          nullptr,
                           player::FRAME_DURATION })
         .set<Velocity>({ player::SPEED, 0.0f });
 }
