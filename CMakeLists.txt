@@ -76,7 +76,6 @@ FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
 # FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
-  include/clock.h
   include/colors.h
   include/components.h
   include/constants.h
@@ -88,7 +87,6 @@ set(MY_INCLUDES
 )
 
 set(MY_SRCS
-  src/clock.cpp
   src/game.cpp
   src/main.cpp
   src/renderWindow.cpp

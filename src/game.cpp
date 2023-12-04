@@ -87,25 +87,12 @@ void Game::init()
 {
     using namespace constants;
 
-    Uint64 now { SDL_GetPerformanceCounter() };
-    Uint64 lastTime { 0 };
-
     world
         .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
-        .each(
-            [&now, &lastTime](flecs::entity entity, Transform& transform,
-                              const Velocity& vel, const Player& tag)
+        .iter(
+            [this](flecs::iter& it, flecs::entity entity, Transform& transform,
+                   const Velocity& vel, const Player& tag)
             {
-                lastTime = now;
-                now = SDL_GetPerformanceCounter();
-
-                double deltaTime { ((now - lastTime) * 1000) /
-                                   static_cast<double>(
-                                       SDL_GetPerformanceFrequency()) };
-
-                std::cout << lastTime << std::endl; // stays the same, why?
-                // std::cout << deltaTime << std::endl;
-
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
@@ -113,13 +100,13 @@ void Game::init()
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
                     entity.add(Movement::Running).add(Direction::Left);
-                    transform.position.x -= vel.x * deltaTime;
+                    transform.position.x -= vel.x * it.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
                     entity.add(Movement::Running).add(Direction::Right);
-                    transform.position.x += vel.x * deltaTime;
+                    transform.position.x += vel.x * it.delta_time();
                 }
                 else
                 {
