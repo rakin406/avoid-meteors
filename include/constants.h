@@ -8,6 +8,7 @@
 #include <array>
 #include <string_view>
 
+// TODO: Create separate namespaces.
 namespace constants
 {
     inline constexpr int WINDOW_WIDTH { 1280 };
