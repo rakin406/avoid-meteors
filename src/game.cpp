@@ -113,10 +113,7 @@ void Game::init()
                         it.entity(i)
                             .add(Movement::Running)
                             .add(Direction::Right);
-                        // FIX: Position not changing.
                         transform->position.x += vel->x * it.delta_time();
-                        //std::cout << vel->x << "\n"; // 5
-                        //std::cout << transform->position.x << "\n"; // same
                     }
                     else
                     {
@@ -135,6 +132,7 @@ void Game::init()
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
+                // NOTE: This assumes you have 6 frames in each row.
                 int currentFrame { (currentTime / animation.frameDuration) %
                                    6 };
 
@@ -166,10 +164,10 @@ void Game::init()
                 if (entity.has<Player>() && entity.has<Animation>())
                 {
                     Animation* animation { entity.get_mut<Animation>() };
-                    SDL_Rect dest { transform.position.x, transform.position.y,
-                                    animation->frameSize.x * transform.scale.x,
-                                    animation->frameSize.y *
-                                        transform.scale.y };
+                    SDL_FRect dest { transform.position.x, transform.position.y,
+                                     animation->frameSize.x * transform.scale.x,
+                                     animation->frameSize.y *
+                                         transform.scale.y };
                     window.render(sprite.texture, &animation->frameRec, &dest,
                                   transform.rotation, nullptr, sprite.color);
                 }
@@ -186,14 +184,15 @@ void Game::init()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ player::STARTING_POSITION,
-                          0,
+                          0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })
         .set<Sprite>({ playerSprite, nullptr })
         // TODO: Set sdl_rect nullptr.
-        .set<Animation>({ { 0, 0, player::FRAME_SIZE, player::FRAME_SIZE },
+        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                            static_cast<int>(player::FRAME_SIZE) },
                           { player::FRAME_SIZE, player::FRAME_SIZE },
                           250 })
-        .set<Velocity>({ player::SPEED, 0 });
+        .set<Velocity>({ player::SPEED, 0.0f });
 }
 
 void Game::update()

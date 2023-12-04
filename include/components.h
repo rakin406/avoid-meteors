@@ -8,9 +8,9 @@
  */
 struct Transform
 {
-    SDL_Point position {}; // 2D position (x, y)
-    double rotation {};    // Rotation angle in degrees
-    SDL_Point scale {};    // Scale factors (x, y)
+    SDL_FPoint position {}; // 2D position (x, y)
+    double rotation {};     // Rotation angle in degrees
+    SDL_FPoint scale {};    // Scale factors (x, y)
 };
 
 /**
@@ -27,8 +27,8 @@ struct Sprite
  */
 struct Velocity
 {
-    int x {};
-    int y {};
+    float x {};
+    float y {};
 };
 
 /**
@@ -37,7 +37,7 @@ struct Velocity
 struct Animation
 {
     SDL_Rect frameRec {};
-    SDL_Point frameSize {};
+    SDL_FPoint frameSize {};
     int frameDuration {}; //  NOTE: Unit is milliseconds
 };
 

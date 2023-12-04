@@ -18,7 +18,7 @@ namespace tools
      * @param texture
      * @return Size
      */
-    SDL_Point getSize(SDL_Texture* texture);
+    SDL_FPoint getSize(SDL_Texture* texture);
 } // namespace tools
 
 #endif

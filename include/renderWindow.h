@@ -36,7 +36,7 @@ public:
      * @param posY
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, int posX, int posY,
+    void render(SDL_Texture* texture, float posX, float posY,
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -45,7 +45,7 @@ public:
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, const SDL_Point& position,
+    void render(SDL_Texture* texture, const SDL_FPoint& position,
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -60,8 +60,9 @@ public:
      * @param scale Texture scale. Default = { 1, 1 }
      * @param tint Additional color value. By default, it's null.
      */
-    void render(SDL_Texture* texture, const SDL_Point& position, double angle,
-                const SDL_Point* center, const SDL_Point& scale = { 1, 1 },
+    void render(SDL_Texture* texture, const SDL_FPoint& position, double angle,
+                const SDL_FPoint* center,
+                const SDL_FPoint& scale = { 1.0, 1.0 },
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -72,7 +73,7 @@ public:
      * @param tint Default = null
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
-                const SDL_Point& position, const SDL_Color* tint = nullptr);
+                const SDL_FPoint& position, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a part of a texture defined by a rectangle with 'pro'
@@ -90,7 +91,7 @@ public:
      * @param tint Additional color value. By default, it's null.
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
-                const SDL_Rect* dest, double angle, const SDL_Point* center,
+                const SDL_FRect* dest, double angle, const SDL_FPoint* center,
                 const SDL_Color* tint = nullptr);
 
     /**

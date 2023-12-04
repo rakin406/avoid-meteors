@@ -10,9 +10,17 @@ int tools::getRandomValue(int min, int max)
     return dist(mt);
 }
 
-SDL_Point tools::getSize(SDL_Texture* texture)
+SDL_FPoint tools::getSize(SDL_Texture* texture)
 {
-    SDL_Point size {};
-    SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
+    SDL_FPoint size {};
+
+    // Can't directly get size since it's float. Use integer pointers.
+    int* width {};
+    int* height {};
+    SDL_QueryTexture(texture, nullptr, nullptr, width, height);
+
+    size.x = *width;
+    size.y = *height;
+
     return size;
 }
