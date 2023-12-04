@@ -13,18 +13,21 @@ namespace constants::assets
                                                      "res/gfx/player.png" };
 } // namespace constants::assets
 
-namespace constants::player
-{
-    inline constexpr int SPEED { 10 };
-    inline constexpr SDL_Point SCALE { 4, 4 };
-    inline constexpr SDL_Point FRAME_SIZE { 32, 32 };
-} // namespace constants::player
-
 namespace constants::window
 {
     inline constexpr int WIDTH { 1280 };
     inline constexpr int HEIGHT { 720 };
     inline constexpr std::string_view TITLE { "Avoid Meteors" };
 } // namespace constants::window
+
+namespace constants::player
+{
+    inline constexpr int SPEED { 10 };
+    inline constexpr SDL_Point FRAME_SCALE { 4, 4 };
+    inline constexpr SDL_Point FRAME_SIZE { 32, 32 };
+    inline constexpr SDL_Point STARTING_POSITION {
+        (window::WIDTH / 2) - (FRAME_SIZE.x * (FRAME_SCALE.x / 2)), 200
+    };
+} // namespace constants::player
 
 #endif

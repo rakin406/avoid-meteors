@@ -175,7 +175,7 @@ void Game::init()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
-        .set<Transform>({ { window::WIDTH / 2, 200 }, 0, player::SCALE })
+        .set<Transform>({ player::STARTING_POSITION, 0, player::FRAME_SCALE })
         .set<Sprite>({ playerSprite, nullptr })
         // TODO: Set sdl_rect nullptr.
         .set<Animation>({ { 0, 0, player::FRAME_SIZE.x, player::FRAME_SIZE.y },
