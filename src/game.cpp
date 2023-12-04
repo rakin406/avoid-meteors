@@ -14,6 +14,8 @@
 #include <array>
 #include <iostream>
 
+// TODO: Create singleton and observers.
+
 namespace
 {
     constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
@@ -41,30 +43,6 @@ namespace
         return false;
     }
 
-    // TODO: Finish this.
-    // void handleIdle(const Direction& direction, Animation& animation)
-    //{
-    //    using namespace constants;
-
-    //    switch (direction)
-    //    {
-    //    // TODO: Add flip for direction.
-    //    case Direction::Left:
-    //        animation.currentClip =
-    //            &animation.spriteClips[animation.currentFrame /
-    //            PLAYER_FRAMES];
-    //        break;
-    //    case Direction::Right:
-    //        animation.currentClip =
-    //            &animation.spriteClips[animation.currentFrame /
-    //            PLAYER_FRAMES];
-    //        break;
-    //    default:
-    //        break;
-    //    }
-    //}
-
-    // handleRunning();
 } // namespace
 
 Game::Game()
