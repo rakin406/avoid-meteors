@@ -20,7 +20,7 @@ public:
     float getDeltaTime() const;
 
 private:
-    std::chrono::high_resolution_clock::time_point lastTick {};
+    std::chrono::steady_clock::time_point lastTick {};
     float deltaTime {};
 };
 
