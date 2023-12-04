@@ -11,10 +11,15 @@
 #include "SDL_image.h"
 #include <flecs.h>
 
+#include <array>
 #include <iostream>
 
 namespace
 {
+    constexpr int GROUND_POS_Y { constants::window::HEIGHT - 10 };
+    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
+                                                        Direction::Right };
+
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -64,9 +69,10 @@ namespace
 } // namespace
 
 Game::Game()
-    : running { true }, window { constants::WINDOW_WIDTH,
-                                 constants::WINDOW_HEIGHT, "Avoid Meteors" },
-      background { window.loadTexture(constants::BG_IMG_PATH) }
+    : running { true },
+      window { constants::window::WIDTH, constants::window::HEIGHT,
+               constants::window::TITLE },
+      background { window.loadTexture(constants::assets::BACKGROUND) }
 {
 }
 
@@ -159,8 +165,7 @@ void Game::init()
             });
 
     auto player { world.entity("Player") };
-    SDL_Texture* playerSprite { window.loadTexture(
-        constants::PLAYER_SHEET_PATH) }; // Load player sprite sheet
+    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
     Direction randomDirection {
         ALL_DIRECTIONS[tools::getRandomValue(0, ALL_DIRECTIONS.size() - 1)]
     };
@@ -170,12 +175,13 @@ void Game::init()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
-        .set<Transform>({ { WINDOW_WIDTH / 2, 200 }, 0, PLAYER_SCALE })
+        .set<Transform>({ { window::WIDTH / 2, 200 }, 0, player::SCALE })
         .set<Sprite>({ playerSprite, nullptr })
         // TODO: Set sdl_rect nullptr.
-        .set<Animation>(
-            { { 0, 0, FRAME_SIZE.x, FRAME_SIZE.y }, FRAME_SIZE, 250 })
-        .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
+        .set<Animation>({ { 0, 0, player::FRAME_SIZE.x, player::FRAME_SIZE.y },
+                          player::FRAME_SIZE,
+                          250 })
+        .set<Velocity>({ player::SPEED, player::SPEED });
 }
 
 void Game::update()

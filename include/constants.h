@@ -1,32 +1,30 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#include "states.h"
-
 #include "SDL.h"
 
-#include <array>
 #include <string_view>
 
-// TODO: Create separate namespaces.
-namespace constants
+namespace constants::assets
 {
-    inline constexpr int WINDOW_WIDTH { 1280 };
-    inline constexpr int WINDOW_HEIGHT { 720 };
-    inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
-    inline constexpr int PLAYER_SPEED { 10 };
-    inline constexpr SDL_Point PLAYER_SCALE { 4, 4 };
+    inline constexpr std::string_view BACKGROUND { PROJECT_ROOT
+                                                   "res/gfx/background.jpg" };
+    inline constexpr std::string_view PLAYER_SHEET { PROJECT_ROOT
+                                                     "res/gfx/player.png" };
+} // namespace constants::assets
+
+namespace constants::player
+{
+    inline constexpr int SPEED { 10 };
+    inline constexpr SDL_Point SCALE { 4, 4 };
     inline constexpr SDL_Point FRAME_SIZE { 32, 32 };
+} // namespace constants::player
 
-    inline constexpr std::string_view BG_IMG_PATH { PROJECT_ROOT
-                                                    "res/gfx/background.jpg" };
-    inline constexpr std::string_view PLAYER_SHEET_PATH {
-        PROJECT_ROOT "res/gfx/player.png"
-    };
-
-    inline constexpr std::array<Direction, 2> ALL_DIRECTIONS {
-        Direction::Left, Direction::Right
-    };
-} // namespace constants
+namespace constants::window
+{
+    inline constexpr int WIDTH { 1280 };
+    inline constexpr int HEIGHT { 720 };
+    inline constexpr std::string_view TITLE { "Avoid Meteors" };
+} // namespace constants::window
 
 #endif
