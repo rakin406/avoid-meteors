@@ -111,8 +111,14 @@ if (WIN32)
   )
 endif()
 
+# Set compiler flags
 if (MSVC)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /OPT:REF /GF)
 else()
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(${PROJECT_NAME} PRIVATE
+    -Wall -Wextra -Wpedantic
+    -Wshadow -Wdouble-promotion -Wformat=2
+    -Wformat-truncation -Wundef -fno-common
+    -Wconversion
+  )
 endif()
