@@ -16,7 +16,6 @@
 
 namespace
 {
-    constexpr int GROUND_POS_Y { constants::window::HEIGHT - 10 };
     constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
                                                         Direction::Right };
 

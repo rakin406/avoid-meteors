@@ -23,10 +23,11 @@ namespace constants::window
 namespace constants::player
 {
     inline constexpr int SPEED { 10 };
-    inline constexpr SDL_Point FRAME_SCALE { 4, 4 };
+    inline constexpr SDL_Point FRAME_SCALE { 5, 5 };
     inline constexpr SDL_Point FRAME_SIZE { 32, 32 };
     inline constexpr SDL_Point STARTING_POSITION {
-        (window::WIDTH / 2) - (FRAME_SIZE.x * (FRAME_SCALE.x / 2)), 200
+        (window::WIDTH / 2) - (FRAME_SIZE.x * (FRAME_SCALE.x / 2)),
+        window::HEIGHT - 195 // Ground y-axis
     };
 } // namespace constants::player
 
