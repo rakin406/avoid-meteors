@@ -89,36 +89,30 @@ void Game::init()
 
     world
         .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
-        .iter(
-            [](flecs::iter& it, Transform* transform, const Velocity* vel,
-               const Player*)
+        .each(
+            [](flecs::iter& it, size_t index, Transform& transform,
+               const Velocity& vel, Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
-                // Iterate entities
-                for (auto i : it)
+                auto player { it.entity(index) };
+
+                // Continuous-response keys
+                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    // Continuous-response keys
-                    if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
-                    {
-                        it.entity(i)
-                            .add(Movement::Running)
-                            .add(Direction::Left);
-                        transform->position.x -= vel->x * it.delta_time();
-                    }
-                    else if (keyState[SDL_SCANCODE_RIGHT] ||
-                             keyState[SDL_SCANCODE_D])
-                    {
-                        it.entity(i)
-                            .add(Movement::Running)
-                            .add(Direction::Right);
-                        transform->position.x += vel->x * it.delta_time();
-                    }
-                    else
-                    {
-                        it.entity(i).add(Movement::Idle);
-                    }
+                    player.add(Movement::Running).add(Direction::Left);
+                    transform.position.x -= vel.x * it.delta_time();
+                }
+                else if (keyState[SDL_SCANCODE_RIGHT] ||
+                         keyState[SDL_SCANCODE_D])
+                {
+                    player.add(Movement::Running).add(Direction::Right);
+                    transform.position.x += vel.x * it.delta_time();
+                }
+                else
+                {
+                    player.add(Movement::Idle);
                 }
             });
 
