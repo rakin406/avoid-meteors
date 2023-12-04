@@ -105,9 +105,7 @@ void Game::init()
                         it.entity(i)
                             .add(Movement::Running)
                             .add(Direction::Left);
-                        // FIX: position not changing
-                        transform->position.x -=
-                            vel->x * static_cast<int>(it.delta_time());
+                        transform->position.x -= vel->x * it.delta_time();
                     }
                     else if (keyState[SDL_SCANCODE_RIGHT] ||
                              keyState[SDL_SCANCODE_D])
@@ -115,8 +113,10 @@ void Game::init()
                         it.entity(i)
                             .add(Movement::Running)
                             .add(Direction::Right);
-                        transform->position.x +=
-                            vel->x * static_cast<int>(it.delta_time());
+                        // FIX: Position not changing.
+                        transform->position.x += vel->x * it.delta_time();
+                        //std::cout << vel->x << "\n"; // 5
+                        //std::cout << transform->position.x << "\n"; // same
                     }
                     else
                     {
