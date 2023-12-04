@@ -3,8 +3,6 @@
 
 #include "SDL.h"
 
-#include <vector>
-
 /**
  * @brief Contains position, rotation, and scale information for an entity.
  */

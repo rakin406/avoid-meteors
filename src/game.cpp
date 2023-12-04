@@ -12,51 +12,9 @@
 #include <flecs.h>
 
 #include <iostream>
-#include <vector>
 
 namespace
 {
-    /**
-     * @brief Splits sprite sheet into a collection of rectangles.
-     * @param frames Total number of frames in sheet.
-     * @param rows Total rows in one column.
-     * @param columns Total number of columns.
-     * @param spriteSize Full sprite size.
-     * @return A vector of SDL rectangles.
-     */
-    std::vector<SDL_Rect> splitSpriteSheet(int frames, int rows, int columns,
-                                           const SDL_Point& spriteSize)
-    {
-        const int FRAME_WIDTH { spriteSize.x / rows };
-        const int FRAME_HEIGHT { spriteSize.y / columns };
-
-        std::vector<SDL_Rect> clips(frames);
-        SDL_Point currentPosition { 0, 0 };
-
-        for (int i { 0 }; auto& frame : clips)
-        {
-            frame.x = currentPosition.x;
-            frame.y = currentPosition.y;
-            // TODO: Set rect size based on texture size ratio.
-            frame.w = 64;
-            frame.h = 205;
-
-            if ((i + 1) % rows == 0)
-            {
-                currentPosition.x = 0;
-                currentPosition.y += FRAME_HEIGHT; // Go to next column
-            }
-            else
-            {
-                currentPosition.x += FRAME_WIDTH; // Go to next row
-            }
-
-            ++i;
-        }
-
-        return clips;
-    }
-
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
