@@ -173,7 +173,8 @@ void Game::init()
         .set<Transform>({ { WINDOW_WIDTH / 2, 200 }, 0, PLAYER_SCALE })
         .set<Sprite>({ playerSprite, nullptr })
         // TODO: Set sdl_rect nullptr.
-        .set<Animation>({ { 0, 0, 32, 32 }, { 32, 32 }, 250 })
+        .set<Animation>(
+            { { 0, 0, FRAME_SIZE.x, FRAME_SIZE.y }, FRAME_SIZE, 250 })
         .set<Velocity>({ PLAYER_SPEED, PLAYER_SPEED });
 }
 

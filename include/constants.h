@@ -15,6 +15,7 @@ namespace constants
     inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 10 };
     inline constexpr int PLAYER_SPEED { 10 };
     inline constexpr SDL_Point PLAYER_SCALE { 4, 4 };
+    inline constexpr SDL_Point FRAME_SIZE { 32, 32 };
 
     inline constexpr std::string_view BG_IMG_PATH { PROJECT_ROOT
                                                     "res/gfx/background.jpg" };
