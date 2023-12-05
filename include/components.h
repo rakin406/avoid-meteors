@@ -42,7 +42,7 @@ struct Velocity
 struct Animation
 {
     SDL_Rect frameRec {};
-    SDL_RendererFlip* flip {};
+    SDL_RendererFlip flip {};
     int frameDuration {}; //  NOTE: Unit is milliseconds
 };
 

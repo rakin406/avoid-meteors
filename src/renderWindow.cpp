@@ -106,7 +106,7 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_FPoint& position,
     SDL_FRect dest { position.x, position.y, textureSize.x * scale.x,
                      textureSize.y * scale.y };
 
-    render(texture, &source, &dest, angle, center, tint);
+    render(texture, &source, &dest, angle, center, SDL_FLIP_NONE, tint);
 }
 
 void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
@@ -115,31 +115,21 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
     SDL_FRect dest { position.x, position.y, source->w, source->h };
     SDL_FPoint origin { 0.0f, 0.0f };
 
-    render(texture, source, &dest, 0.0f, &origin, tint);
+    render(texture, source, &dest, 0.0f, &origin, SDL_FLIP_NONE, tint);
 }
 
 void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
                           const SDL_FRect* dest, double angle,
-                          const SDL_FPoint* center, const SDL_Color* tint,
-                          const SDL_RendererFlip* flip)
+                          const SDL_FPoint* center,
+                          const SDL_RendererFlip& flip, const SDL_Color* tint)
 {
     // Check if texture is valid
     if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
     {
+        // Apply tint to texture
         if (tint)
-            // Apply tint to texture
             SDL_SetTextureColorMod(texture, tint->r, tint->g, tint->b);
-
-        if (flip)
-        {
-            SDL_RenderCopyExF(renderer, texture, source, dest, angle, center,
-                              *flip);
-        }
-        else
-        {
-            SDL_RenderCopyExF(renderer, texture, source, dest, angle, center,
-                              SDL_FLIP_NONE);
-        }
+        SDL_RenderCopyExF(renderer, texture, source, dest, angle, center, flip);
     }
 }
 

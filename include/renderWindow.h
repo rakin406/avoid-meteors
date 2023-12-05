@@ -95,14 +95,14 @@ public:
      * @param center A pointer to a point indicating the point around which
      * dest will be rotated (if NULL, rotation will be done around
      * dest.w / 2, dest.h / 2).
-     * @param tint Additional color value. By default, it's null.
      * @param flip A SDL_RendererFlip value stating which flipping actions
      * should be performed on the texture.
+     * @param tint Additional color value. By default, it's null.
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
                 const SDL_FRect* dest, double angle, const SDL_FPoint* center,
-                const SDL_Color* tint = nullptr,
-                const SDL_RendererFlip* flip = nullptr);
+                const SDL_RendererFlip& flip = SDL_FLIP_NONE,
+                const SDL_Color* tint = nullptr);
 
     /**
      * @brief Displays screen.

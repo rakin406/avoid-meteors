@@ -77,8 +77,8 @@ void Game::init()
                                      animation->frameRec.h *
                                          transform.scale.y };
                     window.render(sprite.texture, &animation->frameRec, &dest,
-                                  transform.rotation, nullptr, sprite.color,
-                                  animation->flip);
+                                  transform.rotation, nullptr, animation->flip,
+                                  sprite.color);
                 }
             });
 

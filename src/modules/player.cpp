@@ -34,11 +34,10 @@ modules::Player::Player(flecs::world& world)
 
     world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                              static_cast<int>(player::FRAME_SIZE) },
-                           nullptr,
+                           SDL_FLIP_NONE,
                            player::FRAME_DURATION });
 
-    // TODO: Change this.
-    auto lastDirection { world.get_ref<Direction>() };
+    auto lastDirection { &randomDirection };
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
@@ -73,7 +72,7 @@ modules::Player::Player(flecs::world& world)
             {
                 // Get the current value of the states
                 const Movement* movement { world.get<Movement>() };
-                const Direction* direction { world.get<Direction>() };
+                Direction* direction { world.get_mut<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
@@ -91,19 +90,22 @@ modules::Player::Player(flecs::world& world)
                     animation.frameRec.y = 0;
                     break;
                 case Movement::Running:
-                    // TODO: Refactor this.
                     animation.frameRec.y = animation.frameRec.h;
                     break;
                 default:
                     break;
                 }
 
-                // if (direction == lastDirection.get())
-                //{
-                // }
-                // else
-                //{
-                // }
-                // lastDirection = *direction;
+                // Add a flip based on direction
+                if (direction == lastDirection)
+                {
+                    animation.flip = SDL_FLIP_NONE;
+                }
+                else
+                {
+                    animation.flip = SDL_FLIP_HORIZONTAL;
+                }
+
+                lastDirection = direction;
             });
 }
