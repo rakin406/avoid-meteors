@@ -18,6 +18,7 @@ namespace
 }
 
 modules::Player::Player(flecs::world& world)
+    : playerEntity { world.entity("Player") }
 {
     using namespace constants;
 
@@ -28,7 +29,6 @@ modules::Player::Player(flecs::world& world)
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
-    auto playerEntity { world.entity("Player") };
     playerEntity.add<tags::Player>()
         .add<tags::SpriteRenderer>()
         .add(Movement::Idle)
