@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Contains tags for the game.
+ */
+
 #ifndef TAGS_H
 #define TAGS_H
 

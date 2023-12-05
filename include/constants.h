@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Provides game related constants.
+ */
+
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 

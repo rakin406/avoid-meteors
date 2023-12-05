@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Provides RenderWindow class to initialize window and do rendering.
+ */
+
 #ifndef RENDER_WINDOW_H
 #define RENDER_WINDOW_H
 

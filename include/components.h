@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Provides components for entities.
+ */
+
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 

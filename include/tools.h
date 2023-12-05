@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Provides extra utility functions.
+ */
+
 #ifndef TOOLS_H
 #define TOOLS_H
 

@@ -1,10 +1,15 @@
+/**
+ * @file
+ * @brief Provides player module.
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//class Game
+// class Game
 //{
-//public:
-//private:
-//};
+// public:
+// private:
+// };
 
 #endif

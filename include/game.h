@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Contains Game class which provides the entry point to the game.
+ */
+
 #ifndef GAME_H
 #define GAME_H
 
