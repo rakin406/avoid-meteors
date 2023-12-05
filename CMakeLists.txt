@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.26)
+
+project(avoid-meteors)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -6,12 +8,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project(avoid-meteors)
-
-# Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ## Add dependencies
 
@@ -87,7 +84,7 @@ set(MY_INCLUDES
   include/tools.h
 )
 
-set(MY_SRCS
+set(MY_SOURCES
   src/modules/player.cpp
   src/game.cpp
   src/main.cpp
@@ -97,7 +94,7 @@ set(MY_SRCS
 
 set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
 
-add_executable(${PROJECT_NAME} ${MY_SRCS} ${MY_INCLUDES})
+add_executable(${PROJECT_NAME} ${MY_SOURCES} ${MY_INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
