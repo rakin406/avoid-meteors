@@ -3,22 +3,16 @@
 #include "components.h"
 #include "constants.h"
 #include "renderWindow.h"
-#include "states.h"
 #include "tags.h"
-#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include <flecs.h>
 
-#include <array>
 #include <iostream>
 
 namespace
 {
-    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
-                                                        Direction::Right };
-
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -63,69 +57,6 @@ void Game::init()
 {
     using namespace constants;
 
-    // Set singleton
-    world.add<tags::Player>();
-
-    world
-        .system<Transform, const Velocity, const tags::Player>("PlayerMovementSystem")
-        .each(
-            [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, tags::Player)
-            {
-                SDL_PumpEvents();
-                const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
-
-                auto player { it.entity(index) };
-
-                // Continuous-response keys
-                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
-                {
-                    player.add(Movement::Running).add(Direction::Left);
-                    transform.position.x -= vel.x * it.delta_time();
-                }
-                else if (keyState[SDL_SCANCODE_RIGHT] ||
-                         keyState[SDL_SCANCODE_D])
-                {
-                    player.add(Movement::Running).add(Direction::Right);
-                    transform.position.x += vel.x * it.delta_time();
-                }
-                else
-                {
-                    player.add(Movement::Idle);
-                }
-            });
-
-    world.system<Animation>("AnimationSystem")
-        .each(
-            [](flecs::entity entity, Animation& animation)
-            {
-                // Get the current value of the states
-                const Movement* movement { entity.get<Movement>() };
-                // const Direction* direction { entity.get<Direction>() };
-
-                // Calculate the current frame based on time
-                Uint32 currentTime { SDL_GetTicks() };
-                // NOTE: This assumes you have 6 frames in each row.
-                int currentFrame { (currentTime / animation.frameDuration) %
-                                   6 };
-
-                // Update the x-coordinate of the source rectangle
-                animation.frameRec.x = animation.frameSize.x * currentFrame;
-
-                switch (*movement)
-                {
-                case Movement::Idle:
-                    animation.frameRec.y = 0;
-                    break;
-                case Movement::Running:
-                    // TODO: Refactor this.
-                    animation.frameRec.y = animation.frameSize.y;
-                    break;
-                default:
-                    break;
-                }
-            });
-
     world
         .system<const Transform, const Sprite, const tags::SpriteRenderer>(
             "SpriteRendererSystem")
@@ -146,27 +77,6 @@ void Game::init()
                                   animation->flip);
                 }
             });
-
-    auto player { world.entity("Player") };
-    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
-    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
-        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
-
-    // Set player components
-    player.add<tags::SpriteRenderer>()
-        .add(Movement::Idle)
-        .add(randomDirection)
-        .set<Transform>({ player::STARTING_POSITION,
-                          0.0f,
-                          { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Sprite>({ playerSprite, nullptr })
-        // TODO: Set sdl_rect nullptr.
-        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                            static_cast<int>(player::FRAME_SIZE) },
-                          { player::FRAME_SIZE, player::FRAME_SIZE },
-                          nullptr,
-                          player::FRAME_DURATION })
-        .set<Velocity>({ player::SPEED, 0.0f });
 }
 
 void Game::update()

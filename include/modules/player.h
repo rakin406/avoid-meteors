@@ -6,8 +6,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "../tags.h"
-
 #include <flecs.h>
 
 namespace modules
