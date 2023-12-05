@@ -66,11 +66,14 @@ void Game::init()
 
     world.import <modules::Player>();
 
+    // Set singleton
+    world.add<tags::Player>();
+
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
-    // Set singleton
-    world.add<tags::Player>().add(Movement::Idle).add(randomDirection);
+    world.component<Movement>().add(Movement::Idle);
+    world.component<Direction>().add(randomDirection);
 
     // TODO: Set sdl_rect nullptr.
     world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
