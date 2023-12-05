@@ -61,6 +61,17 @@ void Game::init()
 
     world.import <modules::Player>();
 
+    // Load player sprite
+    world.system<tags::Player>("LoadPlayerSprite")
+        .kind(flecs::OnStart)
+        .each(
+            [this](flecs::entity entity, tags::Player)
+            {
+                SDL_Texture* playerSprite { window.loadTexture(
+                    assets::PLAYER_SHEET) };
+                entity.set<Sprite>({ playerSprite, nullptr });
+            });
+
     world
         .system<const Transform, const Sprite, tags::SpriteRenderer>(
             "SpriteRendererSystem")
@@ -81,18 +92,6 @@ void Game::init()
                                   sprite.color);
                 }
             });
-
-    auto player { world.entity("Player") };
-    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
-
-    // Set player components
-    player.add<tags::Player>()
-        .add<tags::SpriteRenderer>()
-        .set<Transform>({ player::STARTING_POSITION,
-                          0.0f,
-                          { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Sprite>({ playerSprite, nullptr })
-        .set<Velocity>({ player::SPEED, 0.0f });
 }
 
 void Game::update()

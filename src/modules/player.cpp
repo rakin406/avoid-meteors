@@ -28,14 +28,19 @@ modules::Player::Player(flecs::world& world)
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
-    // Set world states
-    world.set(Movement::Idle);
-    world.set(randomDirection);
-
-    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                             static_cast<int>(player::FRAME_SIZE) },
-                           SDL_FLIP_NONE,
-                           player::FRAME_DURATION });
+    auto playerEntity { world.entity("Player") };
+    playerEntity.add<tags::Player>()
+        .add<tags::SpriteRenderer>()
+        .add(Movement::Idle)
+        .add(randomDirection)
+        .set<Transform>({ player::STARTING_POSITION,
+                          0.0f,
+                          { player::FRAME_SCALE, player::FRAME_SCALE } })
+        .set<Velocity>({ player::SPEED, 0.0f })
+        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                            static_cast<int>(player::FRAME_SIZE) },
+                          SDL_FLIP_NONE,
+                          player::FRAME_DURATION });
 
     auto lastDirection { &randomDirection };
 
@@ -49,20 +54,18 @@ modules::Player::Player(flecs::world& world)
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    world.set(Movement::Running);
-                    world.set(Direction::Left);
+                    playerEntity.add(Movement::Running).add(Direction::Left);
                     transform.position.x -= vel.x * world.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    world.set(Movement::Running);
-                    world.set(Direction::Right);
+                    playerEntity.add(Movement::Running).add(Direction::Right);
                     transform.position.x += vel.x * world.delta_time();
                 }
                 else
                 {
-                    world.set(Movement::Idle);
+                    playerEntity.add(Movement::Idle);
                 }
             });
 
@@ -71,8 +74,8 @@ modules::Player::Player(flecs::world& world)
             [&](Animation& animation)
             {
                 // Get the current value of the states
-                const Movement* movement { world.get<Movement>() };
-                Direction* direction { world.get_mut<Direction>() };
+                const Movement* movement { playerEntity.get<Movement>() };
+                Direction* direction { playerEntity.get_mut<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
@@ -99,10 +102,12 @@ modules::Player::Player(flecs::world& world)
                 // Add a flip based on direction
                 if (direction == lastDirection)
                 {
+                    std::cout << "same direction\n";
                     animation.flip = SDL_FLIP_NONE;
                 }
                 else
                 {
+                    std::cout << "different direction\n";
                     animation.flip = SDL_FLIP_HORIZONTAL;
                 }
 
