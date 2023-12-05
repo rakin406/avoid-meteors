@@ -11,10 +11,10 @@ modules::Player::Player(flecs::world& world)
     world.module<Player>();
 
     world
-        .system<Transform, const Velocity, const tags::Player>("MovementSystem")
+        .system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
             [&world](flecs::iter& it, size_t, Transform& transform,
-               const Velocity& vel, tags::Player)
+                     const Velocity& vel, tags::Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -22,22 +22,22 @@ modules::Player::Player(flecs::world& world)
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    world.add(Movement::Running).add(Direction::Left);
+                    world.set(Direction::Left, Movement::Running);
                     transform.position.x -= vel.x * it.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    world.add(Movement::Running).add(Direction::Right);
+                    world.set(Direction::Right, Movement::Running);
                     transform.position.x += vel.x * it.delta_time();
                 }
                 else
                 {
-                    world.add(Movement::Idle);
+                    world.set(Movement::Idle);
                 }
             });
 
-    world.system<Animation, const tags::Player>("AnimationSystem")
+    world.system<Animation, tags::Player>("AnimationSystem")
         .each(
             [&world](Animation& animation, tags::Player)
             {

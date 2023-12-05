@@ -66,14 +66,12 @@ void Game::init()
 
     world.import <modules::Player>();
 
-    // Set singleton
-    world.add<tags::Player>();
-
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
-    world.component<Movement>().add(Movement::Idle);
-    world.component<Direction>().add(randomDirection);
+    // Set singletons
+    world.add<tags::Player>();
+    world.set<Movement, Direction>(randomDirection, Movement::Idle);
 
     // TODO: Set sdl_rect nullptr.
     world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
@@ -83,7 +81,7 @@ void Game::init()
                            player::FRAME_DURATION });
 
     world
-        .system<const Transform, const Sprite, const tags::SpriteRenderer>(
+        .system<const Transform, const Sprite, tags::SpriteRenderer>(
             "SpriteRendererSystem")
         .each(
             [this](flecs::entity entity, const Transform& transform,
