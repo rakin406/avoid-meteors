@@ -69,11 +69,7 @@ void Game::init()
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
-    // Set singletons
-    world.add<tags::Player>();
-
-    world.component<Movement>().add(flecs::Union);
-    world.component<Direction>().add(flecs::Union);
+    // Set world states
     world.set(Movement::Idle);
     world.set(randomDirection);
 
@@ -92,7 +88,7 @@ void Game::init()
                    const Sprite& sprite, tags::SpriteRenderer)
             {
                 // Render player
-                if (world.has<tags::Player>() && world.has<Animation>())
+                if (entity.has<tags::Player>() && world.has<Animation>())
                 {
                     Animation* animation { world.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
@@ -109,7 +105,8 @@ void Game::init()
     SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
 
     // Set player components
-    player.add<tags::SpriteRenderer>()
+    player.add<tags::Player>()
+        .add<tags::SpriteRenderer>()
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })

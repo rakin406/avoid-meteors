@@ -6,14 +6,17 @@
 #include "SDL.h"
 #include <flecs.h>
 
+#include <iostream>
+
 modules::Player::Player(flecs::world& world)
 {
     world.module<Player>();
+    world.component<Movement>().add(flecs::Union);
+    world.component<Direction>().add(flecs::Union);
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
-            [&world](flecs::iter& it, size_t, Transform& transform,
-                     const Velocity& vel, tags::Player)
+            [&](Transform& transform, const Velocity& vel, tags::Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -23,14 +26,14 @@ modules::Player::Player(flecs::world& world)
                 {
                     world.set(Movement::Running);
                     world.set(Direction::Left);
-                    transform.position.x -= vel.x * it.delta_time();
+                    transform.position.x -= vel.x * world.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
                     world.set(Movement::Running);
                     world.set(Direction::Right);
-                    transform.position.x += vel.x * it.delta_time();
+                    transform.position.x += vel.x * world.delta_time();
                 }
                 else
                 {
@@ -38,9 +41,9 @@ modules::Player::Player(flecs::world& world)
                 }
             });
 
-    world.system<Animation, tags::Player>("AnimationSystem")
+    world.system<Animation>("AnimationSystem")
         .each(
-            [&world](Animation& animation, tags::Player)
+            [&](Animation& animation)
             {
                 // Get the current value of the states
                 const Movement* movement { world.get<Movement>() };
