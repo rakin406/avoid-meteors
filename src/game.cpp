@@ -76,7 +76,6 @@ void Game::init()
     // TODO: Set sdl_rect nullptr.
     world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                              static_cast<int>(player::FRAME_SIZE) },
-                           { player::FRAME_SIZE, player::FRAME_SIZE },
                            nullptr,
                            player::FRAME_DURATION });
 
@@ -92,8 +91,8 @@ void Game::init()
                 {
                     Animation* animation { world.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
-                                     animation->frameSize.x * transform.scale.x,
-                                     animation->frameSize.y *
+                                     animation->frameRec.w * transform.scale.x,
+                                     animation->frameRec.h *
                                          transform.scale.y };
                     window.render(sprite.texture, &animation->frameRec, &dest,
                                   transform.rotation, nullptr, sprite.color,

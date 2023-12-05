@@ -14,6 +14,9 @@ modules::Player::Player(flecs::world& world)
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
 
+    // TODO: Change this.
+    auto lastDirection { world.get_ref<Direction>() };
+
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
             [&](Transform& transform, const Velocity& vel, tags::Player)
@@ -47,7 +50,7 @@ modules::Player::Player(flecs::world& world)
             {
                 // Get the current value of the states
                 const Movement* movement { world.get<Movement>() };
-                // const Direction* direction { player.get<Direction>() };
+                const Direction* direction { world.get<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
@@ -56,8 +59,9 @@ modules::Player::Player(flecs::world& world)
                                    6 };
 
                 // Update the x-coordinate of the source rectangle
-                animation.frameRec.x = animation.frameSize.x * currentFrame;
+                animation.frameRec.x = animation.frameRec.w * currentFrame;
 
+                // TODO: Turn into a separate function.
                 switch (*movement)
                 {
                 case Movement::Idle:
@@ -65,10 +69,18 @@ modules::Player::Player(flecs::world& world)
                     break;
                 case Movement::Running:
                     // TODO: Refactor this.
-                    animation.frameRec.y = animation.frameSize.y;
+                    animation.frameRec.y = animation.frameRec.h;
                     break;
                 default:
                     break;
                 }
+
+                // if (direction == lastDirection.get())
+                //{
+                // }
+                // else
+                //{
+                // }
+                // lastDirection = *direction;
             });
 }
