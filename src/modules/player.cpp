@@ -26,23 +26,21 @@ modules::Player::Player(flecs::world& world)
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
 
-    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
-        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+    //auto lastDirection { &randomDirection };
 
-    playerEntity.add<tags::Player>()
-        .add<tags::SpriteRenderer>()
-        .add(Movement::Idle)
-        .add(randomDirection)
-        .set<Transform>({ player::STARTING_POSITION,
-                          0.0f,
-                          { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Velocity>({ player::SPEED, 0.0f })
-        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                            static_cast<int>(player::FRAME_SIZE) },
-                          SDL_FLIP_NONE,
-                          player::FRAME_DURATION });
-
-    auto lastDirection { &randomDirection };
+    // FIX: Output only once.
+    // Create an observer for direction change
+    world.observer<>()
+        .event(flecs::OnAdd)
+        .term<Direction>()
+        .each(
+            [](flecs::entity entity)
+            {
+                // Add a flip based on direction
+                std::cout << "Direction changed\n";
+                Animation* animation { entity.get_mut<Animation>() };
+                animation->flip = SDL_FLIP_HORIZONTAL;
+            });
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
@@ -100,17 +98,32 @@ modules::Player::Player(flecs::world& world)
                 }
 
                 // Add a flip based on direction
-                if (direction == lastDirection)
-                {
-                    std::cout << "same direction\n";
-                    animation.flip = SDL_FLIP_NONE;
-                }
-                else
-                {
-                    std::cout << "different direction\n";
-                    animation.flip = SDL_FLIP_HORIZONTAL;
-                }
-
-                lastDirection = direction;
+                // if (direction == lastDirection)
+                //{
+                //    std::cout << "same direction\n";
+                //    animation.flip = SDL_FLIP_NONE;
+                //}
+                // else
+                //{
+                //    std::cout << "different direction\n";
+                //    animation.flip = SDL_FLIP_HORIZONTAL;
+                //    lastDirection = direction;
+                //}
             });
+
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+
+    playerEntity.add<tags::Player>()
+        .add<tags::SpriteRenderer>()
+        .add(Movement::Idle)
+        .add(randomDirection)
+        .set<Transform>({ player::STARTING_POSITION,
+                          0.0f,
+                          { player::FRAME_SCALE, player::FRAME_SCALE } })
+        .set<Velocity>({ player::SPEED, 0.0f })
+        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                            static_cast<int>(player::FRAME_SIZE) },
+                          SDL_FLIP_NONE,
+                          player::FRAME_DURATION });
 }
