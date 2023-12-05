@@ -14,8 +14,6 @@
 #include <array>
 #include <iostream>
 
-// TODO: Create singleton and observers.
-
 namespace
 {
     constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
@@ -64,6 +62,9 @@ void Game::run()
 void Game::init()
 {
     using namespace constants;
+
+    // Set singleton
+    world.add<Player>();
 
     world
         .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
@@ -152,8 +153,7 @@ void Game::init()
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
     // Set player components
-    player.add<Player>()
-        .add<SpriteRenderer>()
+    player.add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ player::STARTING_POSITION,
