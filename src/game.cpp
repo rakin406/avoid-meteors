@@ -1,3 +1,4 @@
+#include "modules/player.h"
 #include "game.h"
 #include "colors.h"
 #include "components.h"
@@ -56,6 +57,8 @@ void Game::run()
 void Game::init()
 {
     using namespace constants;
+
+    world.import<modules::Player>();
 
     world
         .system<const Transform, const Sprite, const tags::SpriteRenderer>(

@@ -1,6 +1,7 @@
 #include "modules/player.h"
 #include "components.h"
 #include "constants.h"
+#include "renderWindow.h"
 #include "states.h"
 #include "tags.h"
 #include "tools.h"
@@ -16,7 +17,7 @@ namespace
                                                         Direction::Right };
 }
 
-modules::Player::Player(flecs::world& world)
+modules::Player::Player(flecs::world& world, RenderWindow& window)
 {
     using namespace constants;
 
@@ -28,8 +29,8 @@ modules::Player::Player(flecs::world& world)
     world
         .system<Transform, const Velocity, const tags::Player>("MovementSystem")
         .each(
-            [this](flecs::iter& it, Transform& transform, const Velocity& vel,
-                   tags::Player)
+            [this](flecs::iter& it, size_t, Transform& transform,
+                   const Velocity& vel, tags::Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
