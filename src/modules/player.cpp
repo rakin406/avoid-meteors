@@ -1,18 +1,41 @@
 #include "modules/player.h"
 #include "components.h"
+#include "constants.h"
 #include "states.h"
 #include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include <flecs.h>
 
+#include <array>
 #include <iostream>
+
+namespace
+{
+    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
+                                                        Direction::Right };
+}
 
 modules::Player::Player(flecs::world& world)
 {
+    using namespace constants;
+
     world.module<Player>();
     world.component<Movement>().add(flecs::Union);
     world.component<Direction>().add(flecs::Union);
+
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+
+    // Set world states
+    world.set(Movement::Idle);
+    world.set(randomDirection);
+
+    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                             static_cast<int>(player::FRAME_SIZE) },
+                           nullptr,
+                           player::FRAME_DURATION });
 
     // TODO: Change this.
     auto lastDirection { world.get_ref<Direction>() };

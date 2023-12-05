@@ -6,20 +6,15 @@
 #include "renderWindow.h"
 #include "states.h"
 #include "tags.h"
-#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include <flecs.h>
 
-#include <array>
 #include <iostream>
 
 namespace
 {
-    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
-                                                        Direction::Right };
-
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -65,19 +60,6 @@ void Game::init()
     using namespace constants;
 
     world.import <modules::Player>();
-
-    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
-        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
-
-    // Set world states
-    world.set(Movement::Idle);
-    world.set(randomDirection);
-
-    // TODO: Set sdl_rect nullptr.
-    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                             static_cast<int>(player::FRAME_SIZE) },
-                           nullptr,
-                           player::FRAME_DURATION });
 
     world
         .system<const Transform, const Sprite, tags::SpriteRenderer>(
