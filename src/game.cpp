@@ -80,9 +80,9 @@ void Game::init()
                    const Sprite& sprite, tags::SpriteRenderer)
             {
                 // Render player
-                if (entity.has<tags::Player>() && world.has<Animation>())
+                if (entity.has<tags::Player>() && entity.has<Animation>())
                 {
-                    Animation* animation { world.get_mut<Animation>() };
+                    Animation* animation { entity.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation->frameRec.w * transform.scale.x,
                                      animation->frameRec.h *
