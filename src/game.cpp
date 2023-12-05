@@ -1,19 +1,25 @@
-#include "modules/player.h"
 #include "game.h"
 #include "colors.h"
 #include "components.h"
 #include "constants.h"
+#include "modules/player.h"
 #include "renderWindow.h"
+#include "states.h"
 #include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include <flecs.h>
 
+#include <array>
 #include <iostream>
 
 namespace
 {
+    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
+                                                        Direction::Right };
+
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -58,7 +64,20 @@ void Game::init()
 {
     using namespace constants;
 
-    world.import<modules::Player>();
+    world.import <modules::Player>();
+
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+
+    // Set singleton
+    world.add<tags::Player>().add(Movement::Idle).add(randomDirection);
+
+    // TODO: Set sdl_rect nullptr.
+    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                             static_cast<int>(player::FRAME_SIZE) },
+                           { player::FRAME_SIZE, player::FRAME_SIZE },
+                           nullptr,
+                           player::FRAME_DURATION });
 
     world
         .system<const Transform, const Sprite, const tags::SpriteRenderer>(
@@ -68,9 +87,9 @@ void Game::init()
                    const Sprite& sprite, tags::SpriteRenderer)
             {
                 // Render player
-                if (entity.has<tags::Player>() && entity.has<Animation>())
+                if (world.has<tags::Player>() && world.has<Animation>())
                 {
-                    Animation* animation { entity.get_mut<Animation>() };
+                    Animation* animation { world.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation->frameSize.x * transform.scale.x,
                                      animation->frameSize.y *
@@ -80,6 +99,17 @@ void Game::init()
                                   animation->flip);
                 }
             });
+
+    auto player { world.entity("Player") };
+    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
+
+    // Set player components
+    player.add<tags::SpriteRenderer>()
+        .set<Transform>({ player::STARTING_POSITION,
+                          0.0f,
+                          { player::FRAME_SCALE, player::FRAME_SCALE } })
+        .set<Sprite>({ playerSprite, nullptr })
+        .set<Velocity>({ player::SPEED, 0.0f });
 }
 
 void Game::update()
