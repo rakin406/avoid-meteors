@@ -64,13 +64,13 @@ void Game::init()
     using namespace constants;
 
     // Set singleton
-    world.add<Player>();
+    world.add<tags::Player>();
 
     world
-        .system<Transform, const Velocity, const Player>("PlayerMovementSystem")
+        .system<Transform, const Velocity, const tags::Player>("PlayerMovementSystem")
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, Player)
+               const Velocity& vel, tags::Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -127,14 +127,14 @@ void Game::init()
             });
 
     world
-        .system<const Transform, const Sprite, const SpriteRenderer>(
+        .system<const Transform, const Sprite, const tags::SpriteRenderer>(
             "SpriteRendererSystem")
         .each(
             [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, SpriteRenderer)
+                   const Sprite& sprite, tags::SpriteRenderer)
             {
                 // Render player
-                if (entity.has<Player>() && entity.has<Animation>())
+                if (entity.has<tags::Player>() && entity.has<Animation>())
                 {
                     Animation* animation { entity.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
@@ -153,7 +153,7 @@ void Game::init()
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
     // Set player components
-    player.add<SpriteRenderer>()
+    player.add<tags::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .set<Transform>({ player::STARTING_POSITION,
