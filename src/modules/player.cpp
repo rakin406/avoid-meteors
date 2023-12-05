@@ -10,8 +10,7 @@ modules::Player::Player(flecs::world& world)
 {
     world.module<Player>();
 
-    world
-        .system<Transform, const Velocity, tags::Player>("MovementSystem")
+    world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .each(
             [&world](flecs::iter& it, size_t, Transform& transform,
                      const Velocity& vel, tags::Player)
@@ -22,13 +21,15 @@ modules::Player::Player(flecs::world& world)
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    world.set(Direction::Left, Movement::Running);
+                    world.set(Movement::Running);
+                    world.set(Direction::Left);
                     transform.position.x -= vel.x * it.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    world.set(Direction::Right, Movement::Running);
+                    world.set(Movement::Running);
+                    world.set(Direction::Right);
                     transform.position.x += vel.x * it.delta_time();
                 }
                 else

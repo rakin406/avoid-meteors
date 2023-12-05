@@ -71,7 +71,11 @@ void Game::init()
 
     // Set singletons
     world.add<tags::Player>();
-    world.set<Movement, Direction>(randomDirection, Movement::Idle);
+
+    world.component<Movement>().add(flecs::Union);
+    world.component<Direction>().add(flecs::Union);
+    world.set(Movement::Idle);
+    world.set(randomDirection);
 
     // TODO: Set sdl_rect nullptr.
     world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
