@@ -8,6 +8,8 @@
 
 #include "../tags.h"
 
+#include <flecs.h>
+
 namespace modules
 {
     /**
@@ -16,7 +18,9 @@ namespace modules
     class Player
     {
     public:
-    private:
+        flecs::entity player {};
+
+        Player(flecs::world& world);
     };
 } // namespace modules
 
