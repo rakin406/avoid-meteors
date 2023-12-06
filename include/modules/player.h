@@ -13,11 +13,8 @@ namespace modules
     /**
      * @brief Player module.
      */
-    class Player
+    struct Player
     {
-    public:
-        flecs::entity playerEntity {};
-
         Player(flecs::world& world);
     };
 } // namespace modules

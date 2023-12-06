@@ -6,15 +6,20 @@
 #include "renderWindow.h"
 #include "states.h"
 #include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include <flecs.h>
 
+#include <array>
 #include <iostream>
 
 namespace
 {
+    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
+                                                        Direction::Right };
+
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&
@@ -61,28 +66,17 @@ void Game::init()
 
     world.import <modules::Player>();
 
-    // Load player sprite
-    world.system<tags::Player>("LoadPlayerSprite")
-        .kind(flecs::OnStart)
-        .each(
-            [this](flecs::entity entity, tags::Player)
-            {
-                SDL_Texture* playerSprite { window.loadTexture(
-                    assets::PLAYER_SHEET) };
-                entity.set<Sprite>({ playerSprite, nullptr });
-            });
-
     world
         .system<const Transform, const Sprite, tags::SpriteRenderer>(
             "SpriteRendererSystem")
         .each(
-            [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, tags::SpriteRenderer)
+            [this](const Transform& transform, const Sprite& sprite,
+                   tags::SpriteRenderer)
             {
                 // Render player
-                if (entity.has<tags::Player>() && entity.has<Animation>())
+                if (world.has<tags::Player>() && world.has<Animation>())
                 {
-                    Animation* animation { entity.get_mut<Animation>() };
+                    Animation* animation { world.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation->frameRec.w * transform.scale.x,
                                      animation->frameRec.h *
@@ -92,6 +86,29 @@ void Game::init()
                                   sprite.color);
                 }
             });
+
+    auto player { world.entity("Player") };
+
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
+
+    // Set world singletons
+    world.add<tags::Player>(player);
+    world.set<Movement>(Movement::Idle);
+    world.set<Direction>(randomDirection);
+    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                             static_cast<int>(player::FRAME_SIZE) },
+                           SDL_FLIP_NONE,
+                           player::FRAME_DURATION });
+
+    // Set player components
+    player.add<tags::SpriteRenderer>()
+        .set<Transform>({ player::STARTING_POSITION,
+                          0.0f,
+                          { player::FRAME_SCALE, player::FRAME_SCALE } })
+        .set<Sprite>({ playerSprite, nullptr })
+        .set<Velocity>({ player::SPEED, 0.0f });
 }
 
 void Game::update()
