@@ -17,7 +17,6 @@ public:
 
 private:
     bool running {};
-    SDL_Texture* background {};
     SDL_Event event {};
     flecs::world world {};
 

@@ -44,11 +44,7 @@ namespace
 
 } // namespace
 
-Game::Game()
-    : running { true },
-      background { window.loadTexture(constants::assets::BACKGROUND) }
-{
-}
+Game::Game() : running { true } {}
 
 void Game::run()
 {
@@ -83,12 +79,24 @@ void Game::init()
         .each(
             [this](RenderWindow& window, Sprite& sprite)
             {
+                // Get entities
+                auto background { world.entity<tags::Background>() };
                 auto player { world.entity<tags::Player>() };
+
+                // Load background texture
+                if (background.is_valid())
+                {
+                    SDL_Texture* bgTexture { window.loadTexture(
+                        assets::BACKGROUND) };
+                    background.set<Sprite>({ bgTexture, nullptr });
+                }
+
+                // Load player sprite sheet
                 if (player.is_valid())
                 {
-                    SDL_Texture* playerSprite { window.loadTexture(
+                    SDL_Texture* texture { window.loadTexture(
                         assets::PLAYER_SHEET) };
-                    player.set<Sprite>({ playerSprite, nullptr });
+                    player.set<Sprite>({ texture, nullptr });
                 }
             });
 
@@ -115,6 +123,9 @@ void Game::init()
                                   sprite.color);
                 }
             });
+
+    auto background { world.entity<tags::Background>() };
+    background.add<tags::Background>();
 
     auto player { world.entity<tags::Player>() };
 
