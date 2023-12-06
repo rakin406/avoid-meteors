@@ -6,8 +6,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "renderWindow.h"
-
 #include "SDL.h"
 #include <flecs.h>
 
@@ -19,7 +17,6 @@ public:
 
 private:
     bool running {};
-    RenderWindow window;
     SDL_Texture* background {};
     SDL_Event event {};
     flecs::world world {};

@@ -46,18 +46,21 @@ namespace
 
 Game::Game()
     : running { true },
-      window { constants::window::WIDTH, constants::window::HEIGHT,
-               constants::window::TITLE },
       background { window.loadTexture(constants::assets::BACKGROUND) }
 {
 }
 
 void Game::run()
 {
-    init();
-    while (running)
-        update();
-    stop();
+    // init();
+    // while (running)
+    //     update();
+    // stop();
+
+    // Run systems
+    while (world.progress())
+    {
+    }
 }
 
 void Game::init()
@@ -66,12 +69,37 @@ void Game::init()
 
     world.import <modules::Player>();
 
+    world.set_target_fps(1);
+
+    world.set<RenderWindow>({ constants::window::WIDTH,
+                              constants::window::HEIGHT,
+                              constants::window::TITLE });
+
+    // Load assets on startup
+    world.system<RenderWindow, Sprite>("LoadAssets")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .each(
+            [this](RenderWindow& window, Sprite& sprite)
+            {
+                auto player { world.entity<tags::Player>() };
+                if (player.is_valid())
+                {
+                    SDL_Texture* playerSprite { window.loadTexture(
+                        assets::PLAYER_SHEET) };
+                    player.set<Sprite>({ playerSprite, nullptr });
+                }
+            });
+
     world
-        .system<const Transform, const Sprite, tags::SpriteRenderer>(
-            "SpriteRendererSystem")
+        .system<const Transform, const Sprite, RenderWindow,
+                tags::SpriteRenderer>("SpriteRendererSystem")
+        .term_at(3)
+        .singleton()
         .each(
             [this](const Transform& transform, const Sprite& sprite,
-                   tags::SpriteRenderer)
+                   RenderWindow& window, tags::SpriteRenderer)
             {
                 // Render player
                 auto player { world.entity<tags::Player>() };
@@ -92,7 +120,6 @@ void Game::init()
 
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
-    SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
 
     // Set player components
     player.add<tags::Player>()
@@ -102,7 +129,6 @@ void Game::init()
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Sprite>({ playerSprite, nullptr })
         .set<Velocity>({ player::SPEED, 0.0f })
         .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                             static_cast<int>(player::FRAME_SIZE) },
