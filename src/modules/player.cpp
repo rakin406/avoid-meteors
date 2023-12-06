@@ -72,13 +72,8 @@ modules::Player::Player(flecs::world& world)
             [](flecs::iter& it, Animation* animation)
             {
                 // Get the current value of the states
-                auto movement { it.pair(1).second().to_constant<Movement>() };
-                auto direction { it.pair(1).second().to_constant<Direction>() };
-
-                // if (movement == Movement::Idle)
-                //{
-                //     std::cout << "Idle\n";
-                // }
+                auto movement { it.pair(2).second().to_constant<Movement>() };
+                auto direction { it.pair(3).second().to_constant<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };

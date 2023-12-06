@@ -97,8 +97,8 @@ void Game::init()
     // Set player components
     player.add<tags::Player>()
         .add<tags::SpriteRenderer>()
-        .set<Movement>(Movement::Idle)
-        .set<Direction>(randomDirection)
+        .add(Movement::Idle)
+        .add(randomDirection)
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })
