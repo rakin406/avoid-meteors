@@ -44,13 +44,9 @@ namespace
 
 } // namespace
 
-Game::Game() : running { true } {}
-
 void Game::run()
 {
     // init();
-    // while (running)
-    //     update();
     // stop();
 
     // Run systems
@@ -143,8 +139,7 @@ void Game::init()
                 while (SDL_PollEvent(&event))
                 {
                     if (isQuitRequested(event))
-                        // TODO: Change this
-                        running = false;
+                        world.quit();
                 }
 
                 window.clear(WHITE);

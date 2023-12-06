@@ -11,22 +11,15 @@
 class Game
 {
 public:
-    Game();
     void run();
 
 private:
-    bool running {};
     flecs::world world {};
 
     /**
      * @brief Initializes everything.
      */
     void init();
-
-    /**
-     * @brief Updates and draws game.
-     */
-    void update();
 
     /**
      * @brief Stops all subsystems.
