@@ -109,12 +109,14 @@ void Game::init()
             [this](const Transform& transform, const Sprite& sprite,
                    RenderWindow& window, tags::SpriteRenderer)
             {
-                // Render player
+                auto background { world.entity<tags::Background>() };
                 auto player { world.entity<tags::Player>() };
 
-                // Draw the background
-                window.render(background, nullptr, nullptr, 0, nullptr);
+                // Render background
+                // FIX:
+                window.render(sprite.texture, nullptr, nullptr, 0, nullptr, sprite.color);
 
+                // Render player
                 if (player.has<Animation>())
                 {
                     Animation* animation { player.get_mut<Animation>() };
@@ -149,8 +151,11 @@ void Game::init()
                 window.display();
             });
 
+    // Set background components
     auto background { world.entity<tags::Background>() };
-    background.add<tags::Background>();
+    background.add<tags::Background>()
+        .add<tags::SpriteRenderer>()
+        .add<Transform>();
 
     auto player { world.entity<tags::Player>() };
 
