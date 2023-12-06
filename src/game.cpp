@@ -74,9 +74,10 @@ void Game::init()
                    tags::SpriteRenderer)
             {
                 // Render player
-                if (world.has<tags::Player>() && world.has<Animation>())
+                auto player { world.entity<tags::Player>() };
+                if (player.has<Animation>())
                 {
-                    Animation* animation { world.get_mut<Animation>() };
+                    Animation* animation { player.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation->frameRec.w * transform.scale.x,
                                      animation->frameRec.h *
@@ -87,28 +88,26 @@ void Game::init()
                 }
             });
 
-    auto player { world.entity("Player") };
+    auto player { world.entity<tags::Player>() };
 
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
     SDL_Texture* playerSprite { window.loadTexture(assets::PLAYER_SHEET) };
 
-    // Set world singletons
-    world.add<tags::Player>(player);
-    world.set<Movement>(Movement::Idle);
-    world.set<Direction>(randomDirection);
-    world.set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                             static_cast<int>(player::FRAME_SIZE) },
-                           SDL_FLIP_NONE,
-                           player::FRAME_DURATION });
-
     // Set player components
-    player.add<tags::SpriteRenderer>()
+    player.add<tags::Player>()
+        .add<tags::SpriteRenderer>()
+        .set<Movement>(Movement::Idle)
+        .set<Direction>(randomDirection)
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })
         .set<Sprite>({ playerSprite, nullptr })
-        .set<Velocity>({ player::SPEED, 0.0f });
+        .set<Velocity>({ player::SPEED, 0.0f })
+        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
+                            static_cast<int>(player::FRAME_SIZE) },
+                          SDL_FLIP_NONE,
+                          player::FRAME_DURATION });
 }
 
 void Game::update()

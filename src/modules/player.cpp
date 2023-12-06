@@ -37,45 +37,40 @@ modules::Player::Player(flecs::world& world)
     //        });
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
-        .iter(
-            [](flecs::iter& it, Transform* transform, const Velocity* vel,
-               tags::Player*)
+        .each(
+            [&](Transform& transform, const Velocity& vel, tags::Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
-                std::cout << "Moving\n";
+                auto player { world.entity<tags::Player>() };
 
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    it.world().set(Movement::Running);
-                    it.world().set(Direction::Left);
-                    transform->position.x -= vel->x * it.delta_time();
+                    player.add(Movement::Running);
+                    player.add(Direction::Left);
+                    transform.position.x -= vel.x * world.delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    it.world().set(Movement::Running);
-                    it.world().set(Direction::Right);
-                    transform->position.x += vel->x * it.delta_time();
+                    player.add(Movement::Running);
+                    player.add(Direction::Right);
+                    transform.position.x += vel.x * world.delta_time();
                 }
                 else
                 {
-                    it.world().set(Movement::Idle);
+                    player.add(Movement::Idle);
                 }
             });
 
     world.system<Animation>("AnimationSystem")
         .with<Movement>(flecs::Wildcard)
-        .singleton()
         .with<Direction>(flecs::Wildcard)
-        .singleton()
         .iter(
             [](flecs::iter& it, Animation* animation)
             {
-                std::cout << "Animating\n";
-
                 // Get the current value of the states
                 auto movement { it.pair(1).second().to_constant<Movement>() };
                 auto direction { it.pair(1).second().to_constant<Direction>() };
