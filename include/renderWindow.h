@@ -23,6 +23,8 @@ public:
      */
     RenderWindow(int width, int height, std::string_view title);
 
+    ~RenderWindow();
+
     /**
      * @brief Sets background color.
      * @param color

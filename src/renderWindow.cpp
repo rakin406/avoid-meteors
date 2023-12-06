@@ -66,6 +66,8 @@ RenderWindow::RenderWindow(int width, int height, std::string_view title)
     }
 }
 
+RenderWindow::~RenderWindow() { close(); }
+
 void RenderWindow::clear(const SDL_Color& color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
