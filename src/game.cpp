@@ -59,7 +59,7 @@ void Game::init()
 
     world.import <modules::Player>();
 
-    world.set_target_fps(1);
+    world.set_target_fps(60);
 
     // Set window as a singleton
     world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
@@ -72,8 +72,6 @@ void Game::init()
         .each(
             [](flecs::entity entity, RenderWindow& window, Sprite& sprite)
             {
-                std::cout << "Loading assets...\n";
-
                 SDL_Texture* texture { nullptr };
 
                 // Load background texture
