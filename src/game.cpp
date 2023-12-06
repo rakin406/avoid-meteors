@@ -59,8 +59,6 @@ void Game::init()
 
     world.import <modules::Player>();
 
-    world.set_target_fps(60);
-
     // Set window as a singleton
     world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
 
