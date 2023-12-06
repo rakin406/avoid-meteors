@@ -61,9 +61,8 @@ void Game::init()
 
     world.set_target_fps(1);
 
-    world.set<RenderWindow>({ constants::window::WIDTH,
-                              constants::window::HEIGHT,
-                              constants::window::TITLE });
+    // Set window as a singleton
+    world.set<RenderWindow>({ window::WIDTH, window::HEIGHT, window::TITLE });
 
     // Load assets on startup
     world.system<RenderWindow, Sprite>("LoadAssets")
