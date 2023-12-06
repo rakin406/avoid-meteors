@@ -46,13 +46,12 @@ namespace
 
 void Game::run()
 {
-    // init();
-    // stop();
-
-    // Run systems
+    init();
     while (world.progress())
     {
+        // Run systems
     }
+    // stop();
 }
 
 void Game::init()
@@ -99,6 +98,7 @@ void Game::init()
     world
         .system<const Transform, const Sprite, RenderWindow,
                 tags::SpriteRenderer>("SpriteRendererSystem")
+        .kind(flecs::PostUpdate)
         .term_at(3)
         .singleton()
         .each(
@@ -130,6 +130,7 @@ void Game::init()
 
     // Update and render game
     world.system<RenderWindow>("UpdateWindow")
+        .kind(flecs::PostUpdate)
         .term_at(1)
         .singleton()
         .each(

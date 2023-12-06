@@ -37,6 +37,7 @@ modules::Player::Player(flecs::world& world)
     //        });
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
+        .kind(flecs::OnUpdate)
         .each(
             [&](Transform& transform, const Velocity& vel, tags::Player)
             {
@@ -66,6 +67,7 @@ modules::Player::Player(flecs::world& world)
             });
 
     world.system<Animation>("AnimationSystem")
+        .kind(flecs::OnUpdate)
         .with<Movement>(flecs::Wildcard)
         .with<Direction>(flecs::Wildcard)
         .iter(
