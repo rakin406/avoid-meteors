@@ -106,20 +106,20 @@ void Game::init()
         .term_at(3)
         .singleton()
         .each(
-            [this](const Transform& transform, const Sprite& sprite,
-                   RenderWindow& window, tags::SpriteRenderer)
+            [this](flecs::entity entity, const Transform& transform,
+                   const Sprite& sprite, RenderWindow& window,
+                   tags::SpriteRenderer)
             {
-                auto background { world.entity<tags::Background>() };
-                auto player { world.entity<tags::Player>() };
-
                 // Render background
-                // FIX:
-                window.render(sprite.texture, nullptr, nullptr, 0, nullptr, sprite.color);
-
-                // Render player
-                if (player.has<Animation>())
+                if (entity.has<tags::Background>())
                 {
-                    Animation* animation { player.get_mut<Animation>() };
+                    window.render(sprite.texture, nullptr, nullptr, 0, nullptr,
+                                  SDL_FLIP_NONE, sprite.color);
+                }
+                // Render player
+                else if (entity.has<tags::Player>() && entity.has<Animation>())
+                {
+                    Animation* animation { entity.get_mut<Animation>() };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation->frameRec.w * transform.scale.x,
                                      animation->frameRec.h *
