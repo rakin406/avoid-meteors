@@ -20,11 +20,6 @@ private:
      * @brief Initializes everything.
      */
     void init();
-
-    /**
-     * @brief Stops all subsystems.
-     */
-    void stop();
 };
 
 #endif

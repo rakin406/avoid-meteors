@@ -51,7 +51,6 @@ void Game::run()
     {
         // Run systems
     }
-    // stop();
 }
 
 void Game::init()
@@ -172,5 +171,3 @@ void Game::init()
                           SDL_FLIP_NONE,
                           player::FRAME_DURATION });
 }
-
-void Game::stop() { window.close(); }
