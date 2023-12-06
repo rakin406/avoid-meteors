@@ -8,6 +8,10 @@
 
 namespace tags
 {
+    struct Background
+    {
+    };
+
     struct Player
     {
     };
