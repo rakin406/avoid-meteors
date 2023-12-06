@@ -6,7 +6,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "SDL.h"
 #include <flecs.h>
 
 class Game
@@ -17,7 +16,6 @@ public:
 
 private:
     bool running {};
-    SDL_Event event {};
     flecs::world world {};
 
     /**

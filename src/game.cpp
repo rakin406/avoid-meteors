@@ -111,6 +111,10 @@ void Game::init()
             {
                 // Render player
                 auto player { world.entity<tags::Player>() };
+
+                // Draw the background
+                window.render(background, nullptr, nullptr, 0, nullptr);
+
                 if (player.has<Animation>())
                 {
                     Animation* animation { player.get_mut<Animation>() };
@@ -122,6 +126,27 @@ void Game::init()
                                   transform.rotation, nullptr, animation->flip,
                                   sprite.color);
                 }
+            });
+
+    SDL_Event event {};
+
+    // Update and render game
+    world.system<RenderWindow>("UpdateWindow")
+        .term_at(1)
+        .singleton()
+        .each(
+            [&](RenderWindow& window)
+            {
+                // Get our controls and events
+                while (SDL_PollEvent(&event))
+                {
+                    if (isQuitRequested(event))
+                        // TODO: Change this
+                        running = false;
+                }
+
+                window.clear(WHITE);
+                window.display();
             });
 
     auto background { world.entity<tags::Background>() };
@@ -145,25 +170,6 @@ void Game::init()
                             static_cast<int>(player::FRAME_SIZE) },
                           SDL_FLIP_NONE,
                           player::FRAME_DURATION });
-}
-
-void Game::update()
-{
-    // Get our controls and events
-    while (SDL_PollEvent(&event))
-    {
-        if (isQuitRequested(event))
-            running = false;
-    }
-
-    window.clear(WHITE);
-
-    // Draw the background
-    window.render(background, nullptr, nullptr, 0, nullptr);
-
-    world.progress();
-
-    window.display();
 }
 
 void Game::stop() { window.close(); }
