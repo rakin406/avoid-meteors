@@ -70,27 +70,24 @@ void Game::init()
         .term_at(1)
         .singleton()
         .each(
-            [this](RenderWindow& window, Sprite& sprite)
+            [](flecs::entity entity, RenderWindow& window, Sprite& sprite)
             {
-                // Get entities
-                auto background { world.entity<tags::Background>() };
-                auto player { world.entity<tags::Player>() };
+                std::cout << "Loading assets...\n";
+
+                SDL_Texture* texture { nullptr };
 
                 // Load background texture
-                if (background.is_valid())
+                if (entity.has<tags::Background>())
                 {
-                    SDL_Texture* bgTexture { window.loadTexture(
-                        assets::BACKGROUND) };
-                    background.set<Sprite>({ bgTexture, nullptr });
+                    texture = window.loadTexture(assets::BACKGROUND);
+                }
+                // Load player sprite sheet
+                else if (entity.has<tags::Player>())
+                {
+                    texture = window.loadTexture(assets::PLAYER_SHEET);
                 }
 
-                // Load player sprite sheet
-                if (player.is_valid())
-                {
-                    SDL_Texture* texture { window.loadTexture(
-                        assets::PLAYER_SHEET) };
-                    player.set<Sprite>({ texture, nullptr });
-                }
+                sprite.texture = texture;
             });
 
     world
@@ -100,9 +97,8 @@ void Game::init()
         .term_at(3)
         .singleton()
         .each(
-            [this](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, RenderWindow& window,
-                   tags::SpriteRenderer)
+            [](flecs::entity entity, const Transform& transform,
+               const Sprite& sprite, RenderWindow& window, tags::SpriteRenderer)
             {
                 // Render background
                 if (entity.has<tags::Background>())
@@ -149,7 +145,8 @@ void Game::init()
     auto background { world.entity<tags::Background>() };
     background.add<tags::Background>()
         .add<tags::SpriteRenderer>()
-        .add<Transform>();
+        .add<Transform>()
+        .add<Sprite>();
 
     auto player { world.entity<tags::Player>() };
 
@@ -161,6 +158,7 @@ void Game::init()
         .add<tags::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
+        .add<Sprite>()
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })
