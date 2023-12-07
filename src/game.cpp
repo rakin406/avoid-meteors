@@ -163,7 +163,6 @@ void Game::init()
 
     // Set player components
     player.add<tags::Player>()
-        .add<Collider>()
         .add<tags::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
