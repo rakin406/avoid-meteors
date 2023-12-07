@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Contains tags for the game.
+ * @brief Contains tags for the entities.
  */
 
 #ifndef TAGS_H
@@ -12,11 +12,15 @@ namespace tags
     {
     };
 
-    struct Player
+    struct Collider
     {
     };
 
     struct Meteor
+    {
+    };
+
+    struct Player
     {
     };
 
