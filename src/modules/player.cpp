@@ -12,11 +12,11 @@ modules::Player::Player(flecs::world& world)
 {
     world.module<Player>();
     world.component<tags::Player>();
-    world.component<tags::Collider>();
     world.component<tags::SpriteRenderer>();
     world.component<Movement>();
     world.component<Direction>();
     world.component<Animation>();
+    world.component<Collider>();
     world.component<Sprite>();
     world.component<Transform>();
     world.component<Velocity>();

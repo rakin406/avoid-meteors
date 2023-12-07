@@ -88,8 +88,7 @@ void Game::init()
             });
 
     // Check for collisions between entities
-    world.system<tags::Collider>("CollisionSystem")
-        .each([](tags::Collider) {});
+    world.system<Collider>("CollisionSystem").each([](Collider) {});
 
     auto spriteRendererSystem {
         world
@@ -164,7 +163,7 @@ void Game::init()
 
     // Set player components
     player.add<tags::Player>()
-        .add<tags::Collider>()
+        .add<Collider>()
         .add<tags::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)

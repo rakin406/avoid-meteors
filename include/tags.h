@@ -12,10 +12,6 @@ namespace tags
     {
     };
 
-    struct Collider
-    {
-    };
-
     struct Meteor
     {
     };

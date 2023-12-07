@@ -6,6 +6,8 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
+#include "enumFlags.h"
+
 #include "SDL.h"
 
 /**
@@ -15,7 +17,15 @@ struct Animation
 {
     SDL_Rect frameRec {};
     SDL_RendererFlip flip {};
-    int frameDuration {}; //  NOTE: Unit is milliseconds
+    int frameDuration {};
+};
+
+/**
+ * @brief Manages collision detection with other entities.
+ */
+struct Collider
+{
+    CollisionFlags flags {};
 };
 
 /**
