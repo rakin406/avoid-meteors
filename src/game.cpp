@@ -59,8 +59,9 @@ void Game::init()
 
     world.import <modules::Player>();
 
-    // Set window as a singleton
+    // Set singletons
     world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
+    world.add<SDL_Event>();
 
     // Load assets on startup
     world.system<RenderWindow, Sprite>("LoadAssets")
@@ -86,45 +87,50 @@ void Game::init()
                 sprite.texture = texture;
             });
 
-    world
-        .system<const Transform, const Sprite, RenderWindow,
-                tags::SpriteRenderer>("SpriteRendererSystem")
-        .kind(flecs::PostUpdate)
-        .term_at(3)
-        .singleton()
-        .each(
-            [](flecs::entity entity, const Transform& transform,
-               const Sprite& sprite, RenderWindow& window, tags::SpriteRenderer)
-            {
-                // Render background
-                if (entity.has<tags::Background>())
+    auto spriteRendererSystem {
+        world
+            .system<const Transform, const Sprite, RenderWindow,
+                    tags::SpriteRenderer>("SpriteRendererSystem")
+            .kind(0)
+            .term_at(3)
+            .singleton()
+            .each(
+                [](flecs::entity entity, const Transform& transform,
+                   const Sprite& sprite, RenderWindow& window,
+                   tags::SpriteRenderer)
                 {
-                    window.render(sprite.texture, nullptr, nullptr, 0, nullptr,
-                                  SDL_FLIP_NONE, sprite.color);
-                }
-                // Render player
-                else if (entity.has<tags::Player>() && entity.has<Animation>())
-                {
-                    Animation* animation { entity.get_mut<Animation>() };
-                    SDL_FRect dest { transform.position.x, transform.position.y,
-                                     animation->frameRec.w * transform.scale.x,
-                                     animation->frameRec.h *
-                                         transform.scale.y };
-                    window.render(sprite.texture, &animation->frameRec, &dest,
-                                  transform.rotation, nullptr, animation->flip,
-                                  sprite.color);
-                }
-            });
-
-    SDL_Event event {};
+                    // Render background
+                    if (entity.has<tags::Background>())
+                    {
+                        window.render(sprite.texture, nullptr, nullptr, 0,
+                                      nullptr, SDL_FLIP_NONE, sprite.color);
+                    }
+                    // Render player
+                    else if (entity.has<tags::Player>() &&
+                             entity.has<Animation>())
+                    {
+                        Animation* animation { entity.get_mut<Animation>() };
+                        SDL_FRect dest {
+                            transform.position.x, transform.position.y,
+                            animation->frameRec.w * transform.scale.x,
+                            animation->frameRec.h * transform.scale.y
+                        };
+                        window.render(sprite.texture, &animation->frameRec,
+                                      &dest, transform.rotation, nullptr,
+                                      animation->flip, sprite.color);
+                    }
+                })
+    };
 
     // Update and render game
-    world.system<RenderWindow>("UpdateWindow")
+    world.system<SDL_Event, RenderWindow>("UpdateWindow")
         .kind(flecs::PostUpdate)
         .term_at(1)
         .singleton()
+        .term_at(2)
+        .singleton()
         .each(
-            [&](RenderWindow& window)
+            [=](SDL_Event& event, RenderWindow& window)
             {
                 // Get our controls and events
                 while (SDL_PollEvent(&event))
@@ -134,6 +140,9 @@ void Game::init()
                 }
 
                 window.clear(WHITE);
+
+                spriteRendererSystem.run();
+
                 window.display();
             });
 
