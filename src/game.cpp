@@ -150,8 +150,8 @@ void Game::init()
     auto background { world.entity<tags::Background>() };
     background.add<tags::Background>()
         .add<tags::SpriteRenderer>()
-        .add<Transform>()
-        .add<Sprite>();
+        .add<Sprite>()
+        .add<Transform>();
 
     auto player { world.entity<tags::Player>() };
 
@@ -164,12 +164,12 @@ void Game::init()
         .add(Movement::Idle)
         .add(randomDirection)
         .add<Sprite>()
-        .set<Transform>({ player::STARTING_POSITION,
-                          0.0f,
-                          { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Velocity>({ player::SPEED, 0.0f })
         .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
                             static_cast<int>(player::FRAME_SIZE) },
                           SDL_FLIP_NONE,
-                          player::FRAME_DURATION });
+                          player::FRAME_DURATION })
+        .set<Transform>({ player::STARTING_POSITION,
+                          0.0f,
+                          { player::FRAME_SCALE, player::FRAME_SCALE } })
+        .set<Velocity>({ player::SPEED, 0.0f });
 }

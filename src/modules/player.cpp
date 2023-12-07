@@ -15,10 +15,10 @@ modules::Player::Player(flecs::world& world)
     world.component<tags::SpriteRenderer>();
     world.component<Movement>();
     world.component<Direction>();
-    world.component<Transform>();
-    world.component<Sprite>();
-    world.component<Velocity>();
     world.component<Animation>();
+    world.component<Sprite>();
+    world.component<Transform>();
+    world.component<Velocity>();
 
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .kind(flecs::OnUpdate)
