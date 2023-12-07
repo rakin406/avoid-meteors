@@ -164,6 +164,7 @@ void Game::init()
 
     // Set player components
     player.add<tags::Player>()
+        .add<tags::Collider>()
         .add<tags::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
@@ -172,7 +173,6 @@ void Game::init()
                             static_cast<int>(player::FRAME_SIZE) },
                           SDL_FLIP_NONE,
                           player::FRAME_DURATION })
-        .set<Collider>({CollisionLayer::Player})
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })

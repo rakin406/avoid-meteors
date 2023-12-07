@@ -21,6 +21,13 @@ namespace tags
     };
 
     /**
+     * @brief Manages collision detection with other entities.
+     */
+    struct Collider
+    {
+    };
+
+    /**
      * @brief Relationship tag for collision.
      */
     struct CollidesWith

@@ -1,4 +1,5 @@
 #include "modules/player.h"
+#include "collisionLayer.h"
 #include "components.h"
 #include "states.h"
 #include "tags.h"
@@ -12,11 +13,13 @@ modules::Player::Player(flecs::world& world)
 {
     world.module<Player>();
     world.component<tags::Player>();
+    world.component<tags::Collider>();
+    world.component<tags::CollidesWith>();
     world.component<tags::SpriteRenderer>();
+    world.component<CollisionLayer>();
     world.component<Movement>();
     world.component<Direction>();
     world.component<Animation>();
-    world.component<Collider>();
     world.component<Sprite>();
     world.component<Transform>();
     world.component<Velocity>();

@@ -6,8 +6,6 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include "collisionLayer.h"
-
 #include "SDL.h"
 
 /**
@@ -18,14 +16,6 @@ struct Animation
     SDL_Rect frameRec {};
     SDL_RendererFlip flip {};
     int frameDuration {};
-};
-
-/**
- * @brief Manages collision detection with other entities.
- */
-struct Collider
-{
-    CollisionLayer layer {};
 };
 
 /**
