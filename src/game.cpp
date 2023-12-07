@@ -87,6 +87,10 @@ void Game::init()
                 sprite.texture = texture;
             });
 
+    // Check for collisions between entities
+    world.system<tags::Collider>("CollisionSystem")
+        .each([](tags::Collider) {});
+
     auto spriteRendererSystem {
         world
             .system<const Transform, const Sprite, RenderWindow,

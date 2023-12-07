@@ -6,7 +6,7 @@
 #ifndef STATES_H
 #define STATES_H
 
-enum class CollisionFlags
+enum CollisionFlags
 {
     Barrier = 1 << 0,
     Ground = 1 << 1,
