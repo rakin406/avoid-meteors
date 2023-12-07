@@ -70,7 +70,6 @@ modules::Player::Player(flecs::world& world)
                 // Update the x-coordinate of the source rectangle
                 animation->frameRec.x = animation->frameRec.w * currentFrame;
 
-                // TODO: Turn into a separate function.
                 switch (movement)
                 {
                 case Movement::Idle:
