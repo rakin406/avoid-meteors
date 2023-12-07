@@ -84,13 +84,16 @@ modules::Player::Player(flecs::world& world)
                 }
 
                 // Add a flip based on direction
-                if (direction == Direction::Left)
+                switch (direction)
                 {
+                case Direction::Left:
                     animation->flip = SDL_FLIP_HORIZONTAL;
-                }
-                else
-                {
+                    break;
+                case Direction::Right:
                     animation->flip = SDL_FLIP_NONE;
+                    break;
+                default:
+                    break;
                 }
             });
 }
