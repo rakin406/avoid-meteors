@@ -6,7 +6,7 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include "enumFlags.h"
+#include "collisionLayer.h"
 
 #include "SDL.h"
 
@@ -25,7 +25,7 @@ struct Animation
  */
 struct Collider
 {
-    CollisionFlags flags {};
+    CollisionLayer layer {};
 };
 
 /**

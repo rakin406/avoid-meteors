@@ -8,10 +8,6 @@
 
 struct CollisionLayer
 {
-    struct Barrier
-    {
-    };
-
     struct Ground
     {
     };
@@ -21,6 +17,10 @@ struct CollisionLayer
     };
 
     struct Player
+    {
+    };
+
+    struct Wall
     {
     };
 };

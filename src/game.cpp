@@ -1,4 +1,5 @@
 #include "game.h"
+#include "collisionLayer.h"
 #include "colors.h"
 #include "components.h"
 #include "constants.h"
@@ -171,6 +172,7 @@ void Game::init()
                             static_cast<int>(player::FRAME_SIZE) },
                           SDL_FLIP_NONE,
                           player::FRAME_DURATION })
+        .set<Collider>({CollisionLayer::Player})
         .set<Transform>({ player::STARTING_POSITION,
                           0.0f,
                           { player::FRAME_SCALE, player::FRAME_SCALE } })

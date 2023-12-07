@@ -21,6 +21,13 @@ namespace tags
     };
 
     /**
+     * @brief Relationship tag for collision.
+     */
+    struct CollidesWith
+    {
+    };
+
+    /**
      * @brief Handles rendering 2D sprites on the screen.
      */
     struct SpriteRenderer
