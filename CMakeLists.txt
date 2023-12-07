@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(SDL2 QUIET)
 find_package(SDL2_image QUIET)
 find_package(flecs QUIET)
+find_package(magic_enum QUIET)
 # find_package(glm QUIET)
 
 include(FetchContent)
@@ -53,6 +54,17 @@ if (NOT flecs_FOUND)
   )
 endif()
 
+# magic enum
+if (NOT magic_enum_FOUND)
+  FetchContent_Declare(
+    magic_enum
+    GIT_REPOSITORY  https://github.com/Neargye/magic_enum.git
+    GIT_TAG         v0.9.5
+    GIT_SHALLOW     TRUE
+    GIT_PROGRESS    TRUE
+  )
+endif()
+
 # glm
 #if (NOT glm_FOUND)
 #  FetchContent_Declare(
@@ -69,7 +81,7 @@ set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
 # END ADDITION
 
-FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
+FetchContent_MakeAvailable(SDL2 SDL2_image flecs magic_enum)
 # FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
@@ -97,7 +109,7 @@ set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static
 add_executable(${PROJECT_NAME} ${MY_SOURCES} ${MY_INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/")
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static magic_enum)
 # target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES} flecs::flecs_static glm::glm)
 
 if (WIN32)
