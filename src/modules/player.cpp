@@ -20,22 +20,6 @@ modules::Player::Player(flecs::world& world)
     world.component<Velocity>();
     world.component<Animation>();
 
-    // auto lastDirection { &randomDirection };
-
-    // FIX: Output only once.
-    // Create an observer for direction change
-    // world.observer<>()
-    //    .event(flecs::OnAdd)
-    //    .term<Direction>()
-    //    .each(
-    //        [](flecs::entity entity)
-    //        {
-    //            // Add a flip based on direction
-    //            std::cout << "Direction changed\n";
-    //            Animation* animation { entity.get_mut<Animation>() };
-    //            animation->flip = SDL_FLIP_HORIZONTAL;
-    //        });
-
     world.system<Transform, const Velocity, tags::Player>("MovementSystem")
         .kind(flecs::OnUpdate)
         .each(
@@ -100,16 +84,13 @@ modules::Player::Player(flecs::world& world)
                 }
 
                 // Add a flip based on direction
-                // if (direction == lastDirection)
-                //{
-                //    std::cout << "same direction\n";
-                //    animation.flip = SDL_FLIP_NONE;
-                //}
-                // else
-                //{
-                //    std::cout << "different direction\n";
-                //    animation.flip = SDL_FLIP_HORIZONTAL;
-                //    lastDirection = direction;
-                //}
+                if (direction == Direction::Left)
+                {
+                    animation->flip = SDL_FLIP_HORIZONTAL;
+                }
+                else
+                {
+                    animation->flip = SDL_FLIP_NONE;
+                }
             });
 }
