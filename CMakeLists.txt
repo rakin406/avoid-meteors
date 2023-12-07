@@ -89,6 +89,7 @@ set(MY_INCLUDES
   include/colors.h
   include/components.h
   include/constants.h
+  include/enumFlags.h
   include/game.h
   include/renderWindow.h
   include/states.h
