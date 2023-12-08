@@ -89,7 +89,22 @@ void Game::init()
             });
 
     // Check for collisions between entities
-    world.system<Collider>("CollisionSystem").each([](Collider) {});
+    world.system<tags::Collider>("CollisionSystem")
+        .kind(flecs::PostUpdate)
+        .each(
+            [](flecs::entity entity, tags::Collider)
+            {
+                if (entity.has<tags::Player>())
+                {
+                    const Transform* transform { entity.get<Transform>() };
+                    // TODO: Make this check more accurate.
+                    if (transform->position.x <= 0 ||
+                        transform->position.x >= window::WIDTH)
+                    {
+                        entity.add<tags::CollidesWith, CollisionLayer::Wall>();
+                    }
+                }
+            });
 
     auto spriteRendererSystem {
         world
