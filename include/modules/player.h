@@ -11,7 +11,6 @@
 #include "SDL.h"
 #include <flecs.h>
 
-#include <array>
 #include <string_view>
 
 namespace modules
@@ -49,6 +48,10 @@ namespace modules
             int frameDuration {};
         };
 
+        struct PlayerTag
+        {
+        };
+
         /**
          * @brief Movement state.
          */
@@ -65,15 +68,6 @@ namespace modules
         {
             Left,
             Right
-        };
-
-        // Used for random starting direction
-        static constexpr std::array<Direction, 2> ALL_DIRECTIONS {
-            Direction::Left, Direction::Right
-        };
-
-        struct PlayerTag
-        {
         };
 
         /**

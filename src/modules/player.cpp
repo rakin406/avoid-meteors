@@ -6,6 +6,7 @@
 #include "SDL.h"
 #include <flecs.h>
 
+#include <array>
 #include <iostream>
 
 modules::Player::Player(flecs::world& world)
@@ -93,6 +94,11 @@ modules::Player::Player(flecs::world& world)
 
 void modules::Player::playerInit(flecs::world& world)
 {
+    // Used for random starting direction
+    static constexpr std::array<Direction, 2> ALL_DIRECTIONS {
+        Direction::Left, Direction::Right
+    };
+
     auto player { world.entity("Player") };
 
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
