@@ -43,33 +43,34 @@ modules::Player::Player(flecs::world& world)
                 }
             });
 
-    // System that takes input and moves player entity
+    // System that moves player entity
     world.system<Transform, const Velocity, PlayerTag>("Move")
         .kind(flecs::OnUpdate)
-        .each(
-            [](flecs::entity player, Transform& transform, const Velocity& vel,
-               PlayerTag)
+        .with<Direction>(flecs::Wildcard)
+        .iter(
+            [](flecs::iter& it, size_t index, Transform* transform,
+               const Velocity* vel, PlayerTag*)
             {
-                SDL_PumpEvents();
-                const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
+                auto direction { it.pair(4).second().to_constant<Direction>() };
+                auto player { it.entity(index) };
 
-                // Continuous-response keys
-                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+                switch (direction)
                 {
+                case Direction::Left:
                     player.add(Movement::Running);
                     player.add(Direction::Left);
-                    transform.position.x -= vel.x * player.world().delta_time();
-                }
-                else if (keyState[SDL_SCANCODE_RIGHT] ||
-                         keyState[SDL_SCANCODE_D])
-                {
+                    transform->position.x -=
+                        vel->x * player.world().delta_time();
+                    break;
+                case Direction::Right:
                     player.add(Movement::Running);
                     player.add(Direction::Right);
-                    transform.position.x += vel.x * player.world().delta_time();
-                }
-                else
-                {
+                    transform->position.x +=
+                        vel->x * player.world().delta_time();
+                    break;
+                default:
                     player.add(Movement::Idle);
+                    break;
                 }
             });
 
