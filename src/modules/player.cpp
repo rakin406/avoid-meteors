@@ -1,8 +1,5 @@
 #include "modules/player.h"
-#include "collisionLayer.h"
 #include "components.h"
-#include "states.h"
-#include "tags.h"
 
 #include "SDL.h"
 #include <flecs.h>
@@ -11,42 +8,29 @@
 
 modules::Player::Player(flecs::world& world)
 {
-    world.module<Player>();
-    world.component<tags::Player>();
-    world.component<tags::Collider>();
-    world.component<tags::CollidesWith>();
-    world.component<tags::SpriteRenderer>();
-    world.component<CollisionLayer>();
-    world.component<Movement>();
-    world.component<Direction>();
-    world.component<Animation>();
-    world.component<Sprite>();
-    world.component<Transform>();
-    world.component<Velocity>();
-
-    world.system<Transform, const Velocity, tags::Player>("MovementSystem")
+    // System that takes input and moves player entity
+    world.system<Transform, const Velocity, PlayerTag>("Move")
         .kind(flecs::OnUpdate)
         .each(
-            [&](Transform& transform, const Velocity& vel, tags::Player)
+            [](flecs::entity player, Transform& transform, const Velocity& vel,
+               PlayerTag)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
-
-                auto player { world.entity<tags::Player>() };
 
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
                     player.add(Movement::Running);
                     player.add(Direction::Left);
-                    transform.position.x -= vel.x * world.delta_time();
+                    transform.position.x -= vel.x * player.world().delta_time();
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
                     player.add(Movement::Running);
                     player.add(Direction::Right);
-                    transform.position.x += vel.x * world.delta_time();
+                    transform.position.x += vel.x * player.world().delta_time();
                 }
                 else
                 {
@@ -54,7 +38,8 @@ modules::Player::Player(flecs::world& world)
                 }
             });
 
-    world.system<Animation>("AnimationSystem")
+    // System that animates player entity
+    world.system<Animation>("Animate")
         .kind(flecs::OnUpdate)
         .with<Movement>(flecs::Wildcard)
         .with<Direction>(flecs::Wildcard)
