@@ -14,32 +14,30 @@ modules::Player::Player(flecs::world& world)
     // Setup player entity
     playerInit(world);
 
-    // System that processes user input
-    world.system<Input>("Input")
+    // System that processes player input
+    world.system<Movement, Direction, PlayerTag>("Input")
         .kind(flecs::PreUpdate)
         .each(
-            [](Input& input)
+            [](flecs::entity player, Movement, Direction, PlayerTag)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
-                // TODO: Refactor this chunk of code.
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    input.left = true;
-                    input.right = false;
+                    player.add(Movement::Running);
+                    player.add(Direction::Left);
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    input.left = false;
-                    input.right = true;
+                    player.add(Movement::Running);
+                    player.add(Direction::Right);
                 }
                 else
                 {
-                    input.left = false;
-                    input.right = false;
+                    player.add(Movement::Idle);
                 }
             });
 
@@ -48,28 +46,20 @@ modules::Player::Player(flecs::world& world)
         .kind(flecs::OnUpdate)
         .with<Direction>(flecs::Wildcard)
         .iter(
-            [](flecs::iter& it, size_t index, Transform* transform,
-               const Velocity* vel, PlayerTag*)
+            [&](flecs::iter& it, Transform* transform, const Velocity* vel,
+                PlayerTag*)
             {
                 auto direction { it.pair(4).second().to_constant<Direction>() };
-                auto player { it.entity(index) };
 
                 switch (direction)
                 {
                 case Direction::Left:
-                    player.add(Movement::Running);
-                    player.add(Direction::Left);
-                    transform->position.x -=
-                        vel->x * player.world().delta_time();
+                    transform->position.x -= vel->x * world.delta_time();
                     break;
                 case Direction::Right:
-                    player.add(Movement::Running);
-                    player.add(Direction::Right);
-                    transform->position.x +=
-                        vel->x * player.world().delta_time();
+                    transform->position.x += vel->x * world.delta_time();
                     break;
                 default:
-                    player.add(Movement::Idle);
                     break;
                 }
             });
