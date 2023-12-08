@@ -1,5 +1,6 @@
 #include "modules/player.h"
 #include "components.h"
+#include "renderWindow.h"
 #include "tags.h"
 #include "tools.h"
 
@@ -13,6 +14,14 @@ modules::Player::Player(flecs::world& world)
 {
     // Setup player entity
     playerInit(world);
+
+    // System that loads player sprite sheet on startup
+    world.system<RenderWindow, Sprite, PlayerTag>("LoadSpriteSheet")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .each([](RenderWindow& window, Sprite& sprite, PlayerTag)
+              { sprite.texture = window.loadTexture(SPRITE_SHEET); });
 
     // System that processes player input
     world.system<Movement, Direction, PlayerTag>("Input")

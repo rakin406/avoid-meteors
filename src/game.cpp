@@ -66,29 +66,13 @@ void Game::init()
         .add<Sprite>()
         .add<Transform>();
 
-    // System that loads assets on startup
-    world.system<RenderWindow, Sprite>("LoadAssets")
+    // System that loads background texture on startup
+    world.system<RenderWindow, Sprite, Background>("LoadBackground")
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each(
-            [](flecs::entity entity, RenderWindow& window, Sprite& sprite)
-            {
-                SDL_Texture* texture { nullptr };
-
-                // Load background texture
-                if (entity.has<Background>())
-                {
-                    texture = window.loadTexture(assets::BACKGROUND);
-                }
-                // Load player sprite sheet
-                else if (entity.has<Player::PlayerTag>())
-                {
-                    texture = window.loadTexture(Player::SPRITE_SHEET);
-                }
-
-                sprite.texture = texture;
-            });
+        .each([](RenderWindow& window, Sprite& sprite, Background)
+              { sprite.texture = window.loadTexture(assets::BACKGROUND); });
 
     // System that checks for collisions between entities
     world.system<Collider>("Collision")
