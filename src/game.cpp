@@ -59,6 +59,13 @@ void Game::init()
     world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
     world.add<SDL_Event>();
 
+    // Set background components
+    world.entity("Background")
+        .add<Background>()
+        .add<SpriteRenderer>()
+        .add<Sprite>()
+        .add<Transform>();
+
     // System that loads assets on startup
     world.system<RenderWindow, Sprite>("LoadAssets")
         .kind(flecs::OnStart)
@@ -162,11 +169,4 @@ void Game::init()
 
                 window.display();
             });
-
-    // Set background components
-    auto background { world.entity<Background>() };
-    background.add<Background>()
-        .add<SpriteRenderer>()
-        .add<Sprite>()
-        .add<Transform>();
 }
