@@ -6,7 +6,6 @@
 #include "modules/player.h"
 #include "renderWindow.h"
 #include "tags.h"
-#include "tools.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -52,14 +51,15 @@ void Game::run()
 void Game::init()
 {
     using namespace constants;
+    using namespace modules;
 
-    world.import <modules::Player>();
+    world.import <Player>();
 
     // Set singletons
     world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
     world.add<SDL_Event>();
 
-    // Load assets on startup
+    // System that loads assets on startup
     world.system<RenderWindow, Sprite>("LoadAssets")
         .kind(flecs::OnStart)
         .term_at(1)
@@ -75,28 +75,28 @@ void Game::init()
                     texture = window.loadTexture(assets::BACKGROUND);
                 }
                 // Load player sprite sheet
-                else if (entity.has<Player>())
+                else if (entity.has<Player::PlayerTag>())
                 {
-                    texture = window.loadTexture(assets::PLAYER_SHEET);
+                    texture = window.loadTexture(Player::SPRITE_SHEET);
                 }
 
                 sprite.texture = texture;
             });
 
-    // Check for collisions between entities
-    world.system<Collider>("CollisionSystem")
+    // System that checks for collisions between entities
+    world.system<Collider>("Collision")
         .kind(flecs::PostUpdate)
         .each(
             [](flecs::entity entity, Collider)
             {
-                if (entity.has<Player>())
+                if (entity.has<Player::PlayerTag>())
                 {
                     const Transform* transform { entity.get<Transform>() };
                     // NOTE: I have no idea how the hell this is working...
-                    if (transform->position.x <= -player::FRAME_SIZE ||
+                    if (transform->position.x <= -Player::FRAME_SIZE ||
                         transform->position.x >=
                             (window::WIDTH -
-                             (player::FRAME_SIZE * (player::FRAME_SCALE - 1))))
+                             (Player::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
                     {
                         entity.add<CollidesWith, CollisionLayer::Wall>();
                     }
@@ -121,9 +121,12 @@ void Game::init()
                                       nullptr, SDL_FLIP_NONE, sprite.color);
                     }
                     // Render player
-                    else if (entity.has<Player>() && entity.has<Animation>())
+                    else if (entity.has<Player::PlayerTag>() &&
+                             entity.has<Player::Animation>())
                     {
-                        Animation* animation { entity.get_mut<Animation>() };
+                        Player::Animation* animation {
+                            entity.get_mut<Player::Animation>()
+                        };
                         SDL_FRect dest {
                             transform.position.x, transform.position.y,
                             animation->frameRec.w * transform.scale.x,
@@ -136,7 +139,7 @@ void Game::init()
                 })
     };
 
-    // Update and render game
+    // System that updates and renders game
     world.system<SDL_Event, RenderWindow>("UpdateWindow")
         .kind(flecs::PostUpdate)
         .term_at(1)
