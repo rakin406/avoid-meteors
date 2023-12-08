@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Contains tags for the entities.
+ * @brief Contains global tags for the entities.
  */
 
 #ifndef TAGS_H

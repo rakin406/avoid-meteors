@@ -81,6 +81,13 @@ namespace modules
          * @param world
          */
         Player(flecs::world& world);
+
+    private:
+        /**
+         * @brief Initializes player entity and components.
+         * @param world
+         */
+        static void playerInit(flecs::world& world);
     };
 } // namespace modules
 

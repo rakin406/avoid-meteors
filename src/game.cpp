@@ -169,25 +169,4 @@ void Game::init()
         .add<tags::SpriteRenderer>()
         .add<Sprite>()
         .add<Transform>();
-
-    auto player { world.entity<tags::Player>() };
-
-    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
-        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
-
-    // Set player components
-    player.add<tags::Player>()
-        .add<tags::Collider>()
-        .add<tags::SpriteRenderer>()
-        .add(Movement::Idle)
-        .add(randomDirection)
-        .add<Sprite>()
-        .set<Animation>({ { 0, 0, static_cast<int>(player::FRAME_SIZE),
-                            static_cast<int>(player::FRAME_SIZE) },
-                          SDL_FLIP_NONE,
-                          player::FRAME_DURATION })
-        .set<Transform>({ player::STARTING_POSITION,
-                          0.0f,
-                          { player::FRAME_SCALE, player::FRAME_SCALE } })
-        .set<Velocity>({ player::SPEED, 0.0f });
 }

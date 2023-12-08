@@ -1,5 +1,7 @@
 #include "modules/player.h"
 #include "components.h"
+#include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 #include <flecs.h>
@@ -8,6 +10,9 @@
 
 modules::Player::Player(flecs::world& world)
 {
+    // Setup player entity
+    playerInit(world);
+
     // System that takes input and moves player entity
     world.system<Transform, const Velocity, PlayerTag>("Move")
         .kind(flecs::OnUpdate)
@@ -84,4 +89,27 @@ modules::Player::Player(flecs::world& world)
                     break;
                 }
             });
+}
+
+void modules::Player::playerInit(flecs::world& world)
+{
+    auto player { world.entity("Player") };
+
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+        0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+
+    // Set player components
+    player.add<PlayerTag>()
+        .add<tags::Collider>()
+        .add<tags::SpriteRenderer>()
+        .add(Movement::Idle)
+        .add(randomDirection)
+        .add<Sprite>()
+        .set<Animation>({ { 0, 0, static_cast<int>(FRAME_SIZE),
+                            static_cast<int>(FRAME_SIZE) },
+                          SDL_FLIP_NONE,
+                          FRAME_DURATION })
+        .set<Transform>(
+            { STARTING_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })
+        .set<Velocity>({ SPEED, 0.0f });
 }
