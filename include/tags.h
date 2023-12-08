@@ -16,10 +16,6 @@ namespace tags
     {
     };
 
-    struct Player
-    {
-    };
-
     /**
      * @brief Manages collision detection with other entities.
      */

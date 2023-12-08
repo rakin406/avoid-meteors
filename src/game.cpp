@@ -13,14 +13,10 @@
 #include "SDL_image.h"
 #include <flecs.h>
 
-#include <array>
 #include <iostream>
 
 namespace
 {
-    constexpr std::array<Direction, 2> ALL_DIRECTIONS { Direction::Left,
-                                                        Direction::Right };
-
     /**
      * @brief Returns true if user requests quit. For use in main loop.
      * @param event SDL_Event&

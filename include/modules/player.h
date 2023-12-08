@@ -6,15 +6,80 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "constants.h"
+
+#include "SDL.h"
 #include <flecs.h>
+
+#include <array>
+#include <string_view>
 
 namespace modules
 {
     /**
      * @brief Player module.
      */
-    struct Player
+    class Player
     {
+    public:
+        // -- Constants
+
+        static constexpr std::string_view SPRITE_SHEET { PROJECT_ROOT
+                                                         "res/gfx/player.png" };
+        static constexpr float SPEED { 300.0f };
+        static constexpr float FRAME_SCALE { 5.0f };
+        static constexpr float FRAME_SIZE { 32.0f };
+
+        // NOTE: I don't know what I'm doing here lol
+        static constexpr int FRAME_DURATION { static_cast<int>(SPEED) / 2 };
+        static constexpr SDL_FPoint STARTING_POSITION {
+            (constants::window::WIDTH / 2) - (FRAME_SIZE * (FRAME_SCALE / 2)),
+            constants::window::HEIGHT - 195 // Ground y-axis
+        };
+
+        // -- Components
+
+        /**
+         * @brief Manages animations.
+         */
+        struct Animation
+        {
+            SDL_Rect frameRec {};
+            SDL_RendererFlip flip {};
+            int frameDuration {};
+        };
+
+        /**
+         * @brief Movement state.
+         */
+        enum class Movement
+        {
+            Idle,
+            Running
+        };
+
+        /**
+         * @brief Direction state.
+         */
+        enum class Direction
+        {
+            Left,
+            Right
+        };
+
+        // Used for random starting direction
+        static constexpr std::array<Direction, 2> ALL_DIRECTIONS {
+            Direction::Left, Direction::Right
+        };
+
+        struct PlayerTag
+        {
+        };
+
+        /**
+         * @brief Module import function.
+         * @param world
+         */
         Player(flecs::world& world);
     };
 } // namespace modules
