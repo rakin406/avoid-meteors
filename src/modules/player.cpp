@@ -14,6 +14,33 @@ modules::Player::Player(flecs::world& world)
     // Setup player entity
     playerInit(world);
 
+    // System that processes user input
+    world.system<PlayerTag>("Input")
+        .kind(flecs::PreUpdate)
+        .each(
+            [](flecs::entity player, PlayerTag)
+            {
+                SDL_PumpEvents();
+                const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
+
+                // Continuous-response keys
+                if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
+                {
+                    player.add(Movement::Running);
+                    player.add(Direction::Left);
+                }
+                else if (keyState[SDL_SCANCODE_RIGHT] ||
+                         keyState[SDL_SCANCODE_D])
+                {
+                    player.add(Movement::Running);
+                    player.add(Direction::Right);
+                }
+                else
+                {
+                    player.add(Movement::Idle);
+                }
+            });
+
     // System that takes input and moves player entity
     world.system<Transform, const Velocity, PlayerTag>("Move")
         .kind(flecs::OnUpdate)

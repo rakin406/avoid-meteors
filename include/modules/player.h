@@ -48,6 +48,15 @@ namespace modules
             int frameDuration {};
         };
 
+        /**
+         * @brief Stores input-related data.
+        */
+        struct Input
+        {
+            bool left {};
+            bool right {};
+        };
+
         struct PlayerTag
         {
         };
