@@ -97,9 +97,11 @@ void Game::init()
                 if (entity.has<tags::Player>())
                 {
                     const Transform* transform { entity.get<Transform>() };
-                    // TODO: Make this check more accurate.
-                    if (transform->position.x <= 0 ||
-                        transform->position.x >= window::WIDTH)
+                    // NOTE: I have no idea how the hell this is working...
+                    if (transform->position.x <= -player::FRAME_SIZE ||
+                        transform->position.x >=
+                            (window::WIDTH -
+                             (player::FRAME_SIZE * (player::FRAME_SCALE - 1))))
                     {
                         entity.add<tags::CollidesWith, CollisionLayer::Wall>();
                     }
