@@ -6,36 +6,33 @@
 #ifndef TAGS_H
 #define TAGS_H
 
-namespace tags
+struct Background
 {
-    struct Background
-    {
-    };
+};
 
-    struct Meteor
-    {
-    };
+struct Meteor
+{
+};
 
-    /**
-     * @brief Manages collision detection with other entities.
-     */
-    struct Collider
-    {
-    };
+/**
+ * @brief Manages collision detection with other entities.
+ */
+struct Collider
+{
+};
 
-    /**
-     * @brief Relationship tag for collision.
-     */
-    struct CollidesWith
-    {
-    };
+/**
+ * @brief Relationship tag for collision.
+ */
+struct CollidesWith
+{
+};
 
-    /**
-     * @brief Handles rendering 2D sprites on the screen.
-     */
-    struct SpriteRenderer
-    {
-    };
-} // namespace tags
+/**
+ * @brief Handles rendering 2D sprites on the screen.
+ */
+struct SpriteRenderer
+{
+};
 
 #endif

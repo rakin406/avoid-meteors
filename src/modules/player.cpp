@@ -100,8 +100,8 @@ void modules::Player::playerInit(flecs::world& world)
 
     // Set player components
     player.add<PlayerTag>()
-        .add<tags::Collider>()
-        .add<tags::SpriteRenderer>()
+        .add<Collider>()
+        .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .add<Sprite>()

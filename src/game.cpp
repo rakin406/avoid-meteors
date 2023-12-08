@@ -70,12 +70,12 @@ void Game::init()
                 SDL_Texture* texture { nullptr };
 
                 // Load background texture
-                if (entity.has<tags::Background>())
+                if (entity.has<Background>())
                 {
                     texture = window.loadTexture(assets::BACKGROUND);
                 }
                 // Load player sprite sheet
-                else if (entity.has<tags::Player>())
+                else if (entity.has<Player>())
                 {
                     texture = window.loadTexture(assets::PLAYER_SHEET);
                 }
@@ -84,12 +84,12 @@ void Game::init()
             });
 
     // Check for collisions between entities
-    world.system<tags::Collider>("CollisionSystem")
+    world.system<Collider>("CollisionSystem")
         .kind(flecs::PostUpdate)
         .each(
-            [](flecs::entity entity, tags::Collider)
+            [](flecs::entity entity, Collider)
             {
-                if (entity.has<tags::Player>())
+                if (entity.has<Player>())
                 {
                     const Transform* transform { entity.get<Transform>() };
                     // NOTE: I have no idea how the hell this is working...
@@ -98,7 +98,7 @@ void Game::init()
                             (window::WIDTH -
                              (player::FRAME_SIZE * (player::FRAME_SCALE - 1))))
                     {
-                        entity.add<tags::CollidesWith, CollisionLayer::Wall>();
+                        entity.add<CollidesWith, CollisionLayer::Wall>();
                     }
                 }
             });
@@ -106,24 +106,22 @@ void Game::init()
     auto spriteRendererSystem {
         world
             .system<const Transform, const Sprite, RenderWindow,
-                    tags::SpriteRenderer>("SpriteRendererSystem")
+                    SpriteRenderer>("SpriteRendererSystem")
             .kind(0)
             .term_at(3)
             .singleton()
             .each(
                 [](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, RenderWindow& window,
-                   tags::SpriteRenderer)
+                   const Sprite& sprite, RenderWindow& window, SpriteRenderer)
                 {
                     // Render background
-                    if (entity.has<tags::Background>())
+                    if (entity.has<Background>())
                     {
                         window.render(sprite.texture, nullptr, nullptr, 0,
                                       nullptr, SDL_FLIP_NONE, sprite.color);
                     }
                     // Render player
-                    else if (entity.has<tags::Player>() &&
-                             entity.has<Animation>())
+                    else if (entity.has<Player>() && entity.has<Animation>())
                     {
                         Animation* animation { entity.get_mut<Animation>() };
                         SDL_FRect dest {
@@ -163,9 +161,9 @@ void Game::init()
             });
 
     // Set background components
-    auto background { world.entity<tags::Background>() };
-    background.add<tags::Background>()
-        .add<tags::SpriteRenderer>()
+    auto background { world.entity<Background>() };
+    background.add<Background>()
+        .add<SpriteRenderer>()
         .add<Sprite>()
         .add<Transform>();
 }
