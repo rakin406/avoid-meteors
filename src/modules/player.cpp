@@ -15,29 +15,31 @@ modules::Player::Player(flecs::world& world)
     playerInit(world);
 
     // System that processes user input
-    world.system<PlayerTag>("Input")
+    world.system<Input>("Input")
         .kind(flecs::PreUpdate)
         .each(
-            [](flecs::entity player, PlayerTag)
+            [](Input& input)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
 
+                // TODO: Refactor this chunk of code.
                 // Continuous-response keys
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
-                    player.add(Movement::Running);
-                    player.add(Direction::Left);
+                    input.left = true;
+                    input.right = false;
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
-                    player.add(Movement::Running);
-                    player.add(Direction::Right);
+                    input.left = false;
+                    input.right = true;
                 }
                 else
                 {
-                    player.add(Movement::Idle);
+                    input.left = false;
+                    input.right = false;
                 }
             });
 
