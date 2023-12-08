@@ -80,7 +80,6 @@ set(MY_INCLUDES
   include/constants.h
   include/game.h
   include/renderWindow.h
-  include/states.h
   include/tags.h
   include/tools.h
 )

@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Provides components for entities.
+ * @brief Provides global components for entities.
  */
 
 #ifndef COMPONENTS_H
