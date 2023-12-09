@@ -172,14 +172,15 @@ void modules::Player::playerInit(flecs::world& world)
         Direction::Left, Direction::Right
     };
 
-    auto player { world.entity("Player") };
-
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
+
+    auto player { world.entity("Player") };
 
     // Set player components
     player.add<PlayerTag>()
         .add<Collider>()
+        .add<CollisionLayer::Player>()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
