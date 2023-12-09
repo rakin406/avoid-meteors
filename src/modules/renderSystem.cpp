@@ -92,7 +92,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
         .term_at(2)
         .singleton()
         .each(
-            [](SDL_Event& event, RenderWindow& window)
+            [=, &world](SDL_Event& event, RenderWindow& window)
             {
                 // Get our controls and events
                 while (SDL_PollEvent(&event))
