@@ -179,6 +179,8 @@ void modules::Player::playerInit(flecs::world& world)
     // Set player components
     player.add<PlayerTag>()
         .add<CollisionLayer::Player>()
+        .add<CollisionMask::LeftWall>()
+        .add<CollisionMask::RightWall>()
         .add<modules::RenderSystem::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)

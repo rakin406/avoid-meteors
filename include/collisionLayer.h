@@ -23,10 +23,12 @@ struct CollisionLayer
     {
     };
 
-    enum class Wall
+    struct LeftWall
     {
-        Left,
-        Right
+    };
+
+    struct RightWall
+    {
     };
 };
 
