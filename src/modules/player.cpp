@@ -24,21 +24,21 @@ namespace
         // NOTE: I have no idea how the hell this is working...
         if (transform.position.x <= -Player::FRAME_SIZE)
         {
-            // NOTE: I should probably just remove CollidesWith tag.
-            player.add<CollidesWith>(CollisionLayer::Wall::Left);
+            player.add<CollisionMask::LeftWall>();
         }
         else if (transform.position.x >=
                  (RenderSystem::WINDOW_WIDTH -
                   (Player::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
         {
-            player.add<CollidesWith>(CollisionLayer::Wall::Right);
+            player.add<CollisionMask::RightWall>();
         }
         else
         {
             // NOTE: I feel like this is inefficient because the system
-            // will try to remove the pair even if it doesn't exist.
+            // will try to remove the tags even if they don't exist.
             // Maybe find an alternative way? Observers?? Idk...
-            player.remove<CollidesWith, CollisionLayer::Wall>();
+            player.remove<CollisionMask::LeftWall>();
+            player.remove<CollisionMask::RightWall>();
         }
     }
 } // namespace
@@ -99,12 +99,12 @@ modules::Player::Player(flecs::world& world)
 
                 // Move player unless there's a collision
                 if (direction == Direction::Left &&
-                    !player.has<CollidesWith>(CollisionLayer::Wall::Left))
+                    !player.has<CollisionMask::LeftWall>())
                 {
                     transform.position.x -= vel.x * it.delta_time();
                 }
                 else if (direction == Direction::Right &&
-                         !player.has<CollidesWith>(CollisionLayer::Wall::Right))
+                         !player.has<CollisionMask::RightWall>())
                 {
                     transform.position.x += vel.x * it.delta_time();
                 }
@@ -158,10 +158,11 @@ modules::Player::Player(flecs::world& world)
             });
 
     // System that checks for collisions between player and other entities
-    world.system<const Transform, PlayerTag, Collider>("PlayerCollision")
+    world.system<const Transform, CollisionLayer::Player>("PlayerCollision")
         .kind(flecs::PostUpdate)
-        .each([](flecs::entity player, const Transform& transform, PlayerTag,
-                 Collider) { handleWallCollision(player, transform); });
+        .each([](flecs::entity player, const Transform& transform,
+                 CollisionLayer::Player)
+              { handleWallCollision(player, transform); });
 }
 
 void modules::Player::playerInit(flecs::world& world)
