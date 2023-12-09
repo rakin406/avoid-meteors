@@ -78,7 +78,6 @@ set(MY_INCLUDES
   include/collisionLayer.h
   include/colors.h
   include/components.h
-  include/game.h
   include/renderWindow.h
   include/tags.h
   include/tools.h
@@ -87,7 +86,6 @@ set(MY_INCLUDES
 set(MY_SOURCES
   src/modules/player.cpp
   src/modules/renderSystem.cpp
-  src/game.cpp
   src/main.cpp
   src/renderWindow.cpp
   src/tools.cpp
