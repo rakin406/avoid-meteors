@@ -1,4 +1,5 @@
 #include "modules/player.h"
+#include "collisionLayer.h"
 #include "components.h"
 #include "renderWindow.h"
 #include "tags.h"
@@ -120,6 +121,21 @@ modules::Player::Player(flecs::world& world)
                     break;
                 default:
                     break;
+                }
+            });
+
+    // System that checks for collisions between player and other entities
+    world.system<Transform, PlayerTag, Collider>("PlayerCollision")
+        .kind(flecs::PostUpdate)
+        .each(
+            [](flecs::entity player, Transform& transform, PlayerTag, Collider)
+            {
+                // NOTE: I have no idea how the hell this is working...
+                if (transform.position.x <= -FRAME_SIZE ||
+                    transform.position.x >= (RenderSystem::WINDOW_WIDTH -
+                                             (FRAME_SIZE * (FRAME_SCALE - 1))))
+                {
+                    player.add<CollidesWith, CollisionLayer::Wall>();
                 }
             });
 }
