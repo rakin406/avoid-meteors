@@ -1,7 +1,7 @@
 #include "modules/renderSystem.h"
-#include "modules/player.h"
 #include "colors.h"
 #include "components.h"
+#include "modules/player.h"
 #include "renderWindow.h"
 #include "tags.h"
 
@@ -46,39 +46,41 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
         .each([](RenderWindow& window, Sprite& sprite, Background)
               { sprite.texture = window.loadTexture(BACKGROUND); });
 
-    auto spriteRendererSystem {
+    auto backgroundRenderer {
+        world
+            .system<const Sprite, RenderWindow, SpriteRenderer, Background>(
+                "RenderBackground")
+            .kind(0)
+            .term_at(2)
+            .singleton()
+            .each(
+                [](const Sprite& sprite, RenderWindow& window, SpriteRenderer,
+                   Background)
+                {
+                    window.render(sprite.texture, nullptr, nullptr, 0, nullptr,
+                                  SDL_FLIP_NONE, sprite.color);
+                })
+    };
+
+    auto playerRenderer {
         world
             .system<const Transform, const Sprite, RenderWindow,
-                    SpriteRenderer>("SpriteRendererSystem")
+                    Player::Animation, SpriteRenderer, Player::PlayerTag>(
+                "RenderPlayer")
             .kind(0)
             .term_at(3)
             .singleton()
             .each(
-                [](flecs::entity entity, const Transform& transform,
-                   const Sprite& sprite, RenderWindow& window, SpriteRenderer)
+                [](const Transform& transform, const Sprite& sprite,
+                   RenderWindow& window, Player::Animation& animation,
+                   SpriteRenderer, Player::PlayerTag)
                 {
-                    // Render background
-                    if (entity.has<Background>())
-                    {
-                        window.render(sprite.texture, nullptr, nullptr, 0,
-                                      nullptr, SDL_FLIP_NONE, sprite.color);
-                    }
-                    // Render player
-                    else if (entity.has<Player::PlayerTag>() &&
-                             entity.has<Player::Animation>())
-                    {
-                        Player::Animation* animation {
-                            entity.get_mut<Player::Animation>()
-                        };
-                        SDL_FRect dest {
-                            transform.position.x, transform.position.y,
-                            animation->frameRec.w * transform.scale.x,
-                            animation->frameRec.h * transform.scale.y
-                        };
-                        window.render(sprite.texture, &animation->frameRec,
-                                      &dest, transform.rotation, nullptr,
-                                      animation->flip, sprite.color);
-                    }
+                    SDL_FRect dest { transform.position.x, transform.position.y,
+                                     animation.frameRec.w * transform.scale.x,
+                                     animation.frameRec.h * transform.scale.y };
+                    window.render(sprite.texture, &animation.frameRec, &dest,
+                                  transform.rotation, nullptr, animation.flip,
+                                  sprite.color);
                 })
     };
 
@@ -90,7 +92,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
         .term_at(2)
         .singleton()
         .each(
-            [=](SDL_Event& event, RenderWindow& window)
+            [](SDL_Event& event, RenderWindow& window)
             {
                 // Get our controls and events
                 while (SDL_PollEvent(&event))
@@ -101,7 +103,9 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
                 window.clear(WHITE);
 
-                spriteRendererSystem.run();
+                // Render entities
+                backgroundRenderer.run();
+                playerRenderer.run();
 
                 window.display();
             });
