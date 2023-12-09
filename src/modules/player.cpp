@@ -11,6 +11,39 @@
 #include <array>
 #include <iostream>
 
+namespace
+{
+    /**
+     * @brief Handles player and wall collision.
+     * @param player Player entity.
+     * @param transform Transform component.
+     */
+    void handleWallCollision(flecs::entity& player, const Transform& transform)
+    {
+        using namespace modules;
+
+        // NOTE: I have no idea how the hell this is working...
+        if (transform.position.x <= -Player::FRAME_SIZE)
+        {
+            // NOTE: I should probably just remove CollidesWith tag.
+            player.add<CollidesWith>(CollisionLayer::Wall::Left);
+        }
+        else if (transform.position.x >=
+                 (RenderSystem::WINDOW_WIDTH -
+                  (Player::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
+        {
+            player.add<CollidesWith>(CollisionLayer::Wall::Right);
+        }
+        else
+        {
+            // NOTE: I feel like this is inefficient because the system
+            // will try to remove the pair even if it doesn't exist.
+            // Maybe find an alternative way? Observers?? Idk...
+            player.remove<CollidesWith, CollisionLayer::Wall>();
+        }
+    }
+} // namespace
+
 modules::Player::Player(flecs::world& world)
 {
     // Setup player entity
@@ -127,30 +160,8 @@ modules::Player::Player(flecs::world& world)
     // System that checks for collisions between player and other entities
     world.system<const Transform, PlayerTag, Collider>("PlayerCollision")
         .kind(flecs::PostUpdate)
-        .each(
-            [](flecs::entity player, const Transform& transform, PlayerTag,
-               Collider)
-            {
-                // NOTE: I have no idea how the hell this is working...
-                if (transform.position.x <= -FRAME_SIZE)
-                {
-                    // NOTE: I should probably just remove CollidesWith tag.
-                    player.add<CollidesWith>(CollisionLayer::Wall::Left);
-                }
-                else if (transform.position.x >=
-                         (RenderSystem::WINDOW_WIDTH -
-                          (FRAME_SIZE * (FRAME_SCALE - 1))))
-                {
-                    player.add<CollidesWith>(CollisionLayer::Wall::Right);
-                }
-                else
-                {
-                    // NOTE: I feel like this is inefficient because the system
-                    // will try to remove the pair even if it doesn't exist.
-                    // Maybe find an alternative way? Observers?? Idk...
-                    player.remove<CollidesWith, CollisionLayer::Wall>();
-                }
-            });
+        .each([](flecs::entity player, const Transform& transform, PlayerTag,
+                 Collider) { handleWallCollision(player, transform); });
 }
 
 void modules::Player::playerInit(flecs::world& world)
