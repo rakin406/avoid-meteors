@@ -22,8 +22,8 @@ void Game::init()
 {
     using namespace modules;
 
-    world.import <RenderSystem>();
     world.import <Player>();
+    world.import <RenderSystem>();
 
     // System that checks for collisions between entities
     world.system<Collider>("Collision")

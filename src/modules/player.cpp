@@ -24,10 +24,12 @@ modules::Player::Player(flecs::world& world)
               { sprite.texture = window.loadTexture(SPRITE_SHEET); });
 
     // System that processes player input
-    world.system<Movement, Direction, PlayerTag>("Input")
+    world.system<PlayerTag>("Input")
         .kind(flecs::PreUpdate)
+        .with<Movement>(flecs::Wildcard)
+        .with<Direction>(flecs::Wildcard)
         .each(
-            [](flecs::entity player, Movement, Direction, PlayerTag)
+            [](flecs::entity player, PlayerTag)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
