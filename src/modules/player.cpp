@@ -55,12 +55,13 @@ modules::Player::Player(flecs::world& world)
     // System that moves player entity
     world.system<Transform, const Velocity, PlayerTag>("Move")
         .kind(flecs::OnUpdate)
+        .with(Movement::Running)
         .with<Direction>(flecs::Wildcard)
         .iter(
             [](flecs::iter& it, Transform* transform, const Velocity* vel,
                PlayerTag*)
             {
-                auto direction { it.pair(4).second().to_constant<Direction>() };
+                auto direction { it.pair(5).second().to_constant<Direction>() };
 
                 switch (direction)
                 {
