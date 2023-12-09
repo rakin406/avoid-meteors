@@ -125,10 +125,11 @@ modules::Player::Player(flecs::world& world)
             });
 
     // System that checks for collisions between player and other entities
-    world.system<Transform, PlayerTag, Collider>("PlayerCollision")
+    world.system<const Transform, PlayerTag, Collider>("PlayerCollision")
         .kind(flecs::PostUpdate)
         .each(
-            [](flecs::entity player, Transform& transform, PlayerTag, Collider)
+            [](flecs::entity player, const Transform& transform, PlayerTag,
+               Collider)
             {
                 // NOTE: I have no idea how the hell this is working...
                 if (transform.position.x <= -FRAME_SIZE)
@@ -141,6 +142,13 @@ modules::Player::Player(flecs::world& world)
                           (FRAME_SIZE * (FRAME_SCALE - 1))))
                 {
                     player.add<CollidesWith>(CollisionLayer::Wall::Right);
+                }
+                else
+                {
+                    // NOTE: I feel like this is inefficient because the system
+                    // will try to remove the pair even if it doesn't exist.
+                    // Maybe find an alternative way? Observers?? Idk...
+                    player.remove<CollidesWith, CollisionLayer::Wall>();
                 }
             });
 }
