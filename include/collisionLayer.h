@@ -20,8 +20,10 @@ struct CollisionLayer
     {
     };
 
-    struct Wall
+    enum class Wall
     {
+        Left,
+        Right
     };
 };
 

@@ -131,11 +131,16 @@ modules::Player::Player(flecs::world& world)
             [](flecs::entity player, Transform& transform, PlayerTag, Collider)
             {
                 // NOTE: I have no idea how the hell this is working...
-                if (transform.position.x <= -FRAME_SIZE ||
-                    transform.position.x >= (RenderSystem::WINDOW_WIDTH -
-                                             (FRAME_SIZE * (FRAME_SCALE - 1))))
+                if (transform.position.x <= -FRAME_SIZE)
                 {
-                    player.add<CollidesWith, CollisionLayer::Wall>();
+                    // NOTE: I should probably just remove CollidesWith tag.
+                    player.add<CollidesWith>(CollisionLayer::Wall::Left);
+                }
+                else if (transform.position.x >=
+                         (RenderSystem::WINDOW_WIDTH -
+                          (FRAME_SIZE * (FRAME_SCALE - 1))))
+                {
+                    player.add<CollidesWith>(CollisionLayer::Wall::Right);
                 }
             });
 }
