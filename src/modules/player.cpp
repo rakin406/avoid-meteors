@@ -55,19 +55,18 @@ modules::Player::Player(flecs::world& world)
         .kind(flecs::OnUpdate)
         .with<Direction>(flecs::Wildcard)
         .iter(
-            [](flecs::iter& it, size_t index, Transform* transform,
-               const Velocity* vel, PlayerTag*)
+            [](flecs::iter& it, Transform* transform, const Velocity* vel,
+               PlayerTag*)
             {
                 auto direction { it.pair(4).second().to_constant<Direction>() };
-                const float deltaTime { it.entity(index).world().delta_time() };
 
                 switch (direction)
                 {
                 case Direction::Left:
-                    transform->position.x -= vel->x * deltaTime;
+                    transform->position.x -= vel->x * it.delta_time();
                     break;
                 case Direction::Right:
-                    transform->position.x += vel->x * deltaTime;
+                    transform->position.x += vel->x * it.delta_time();
                     break;
                 default:
                     break;
