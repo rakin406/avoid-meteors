@@ -9,8 +9,8 @@ int main(int argv, char** args)
 
     flecs::world world {};
 
-    world.import <Player>();
     world.import <RenderSystem>();
+    world.import <Player>();
 
     return world.app().run();
 }
