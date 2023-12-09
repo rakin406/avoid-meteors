@@ -15,13 +15,6 @@ struct Meteor
 };
 
 /**
- * @brief Manages collision detection with other entities.
- */
-struct Collider
-{
-};
-
-/**
  * @brief Handles rendering 2D sprites on the screen.
  */
 struct SpriteRenderer
