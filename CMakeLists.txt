@@ -78,7 +78,6 @@ set(MY_INCLUDES
   include/collisionLayer.h
   include/colors.h
   include/components.h
-  include/constants.h
   include/game.h
   include/renderWindow.h
   include/tags.h
