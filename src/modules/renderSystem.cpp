@@ -3,7 +3,6 @@
 #include "components.h"
 #include "modules/player.h"
 #include "renderWindow.h"
-#include "tags.h"
 
 #include "SDL.h"
 

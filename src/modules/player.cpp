@@ -2,7 +2,6 @@
 #include "collisionLayer.h"
 #include "components.h"
 #include "renderWindow.h"
-#include "tags.h"
 #include "tools.h"
 
 #include "SDL.h"
@@ -180,7 +179,7 @@ void modules::Player::playerInit(flecs::world& world)
     // Set player components
     player.add<PlayerTag>()
         .add<CollisionLayer::Player>()
-        .add<SpriteRenderer>()
+        .add<modules::RenderSystem::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .add<Sprite>()

@@ -28,6 +28,19 @@ namespace modules
             PROJECT_ROOT "res/gfx/background.jpg"
         };
 
+        // -- Components
+
+        struct Background
+        {
+        };
+
+        /**
+         * @brief Handles rendering 2D sprites on the screen.
+         */
+        struct SpriteRenderer
+        {
+        };
+
         /**
          * @brief Module import function.
          * @param world
