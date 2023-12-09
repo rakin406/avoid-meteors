@@ -92,21 +92,22 @@ modules::Player::Player(flecs::world& world)
         .with(Movement::Running)
         .with<Direction>(flecs::Wildcard)
         .iter(
-            [](flecs::iter& it, Transform* transform, const Velocity* vel,
-               PlayerTag*)
+            [](flecs::iter& it, size_t index, Transform* transform,
+               const Velocity* vel, PlayerTag*)
             {
+                auto player { it.entity(index) };
                 auto direction { it.pair(5).second().to_constant<Direction>() };
 
-                switch (direction)
+                // Move player unless there's a collision
+                if (direction == Direction::Left &&
+                    !player.has<CollidesWith>(CollisionLayer::Wall::Left))
                 {
-                case Direction::Left:
                     transform->position.x -= vel->x * it.delta_time();
-                    break;
-                case Direction::Right:
+                }
+                else if (direction == Direction::Right &&
+                         !player.has<CollidesWith>(CollisionLayer::Wall::Right))
+                {
                     transform->position.x += vel->x * it.delta_time();
-                    break;
-                default:
-                    break;
                 }
             });
 
