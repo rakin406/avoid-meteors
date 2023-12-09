@@ -74,6 +74,7 @@ FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
  
 set(MY_INCLUDES
   include/modules/player.h
+  include/modules/renderSystem.h
   include/collisionLayer.h
   include/colors.h
   include/components.h
@@ -86,6 +87,7 @@ set(MY_INCLUDES
 
 set(MY_SOURCES
   src/modules/player.cpp
+  src/modules/renderSystem.cpp
   src/game.cpp
   src/main.cpp
   src/renderWindow.cpp

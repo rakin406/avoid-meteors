@@ -6,7 +6,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "constants.h"
+#include "renderSystem.h"
 
 #include "SDL.h"
 #include <flecs.h>
@@ -32,8 +32,8 @@ namespace modules
         // NOTE: I don't know what I'm doing here lol
         static constexpr int FRAME_DURATION { static_cast<int>(SPEED) / 2 };
         static constexpr SDL_FPoint STARTING_POSITION {
-            (constants::window::WIDTH / 2) - (FRAME_SIZE * (FRAME_SCALE / 2)),
-            constants::window::HEIGHT - 195 // Ground y-axis
+            (RenderSystem::WINDOW_WIDTH / 2) - (FRAME_SIZE * (FRAME_SCALE / 2)),
+            RenderSystem::WINDOW_HEIGHT - 195 // Ground y-axis
         };
 
         // -- Components

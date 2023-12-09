@@ -8,36 +8,9 @@
 #include "tags.h"
 
 #include "SDL.h"
-#include "SDL_image.h"
 #include <flecs.h>
 
 #include <iostream>
-
-namespace
-{
-    /**
-     * @brief Returns true if user requests quit. For use in main loop.
-     * @param event SDL_Event&
-     * @return bool
-     */
-    bool isQuitRequested(const SDL_Event& event)
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            return true;
-        case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-                return true;
-            break;
-        default:
-            break;
-        }
-
-        return false;
-    }
-
-} // namespace
 
 void Game::run()
 {
@@ -54,17 +27,6 @@ void Game::init()
     using namespace modules;
 
     world.import <Player>();
-
-    // Set singletons
-    world.emplace<RenderWindow>(window::WIDTH, window::HEIGHT, window::TITLE);
-    world.add<SDL_Event>();
-
-    // Set background components
-    world.entity("Background")
-        .add<Background>()
-        .add<SpriteRenderer>()
-        .add<Sprite>()
-        .add<Transform>();
 
     // System that loads background texture on startup
     world.system<RenderWindow, Sprite, Background>("LoadBackground")
