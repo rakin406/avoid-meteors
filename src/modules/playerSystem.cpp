@@ -55,6 +55,7 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
     world.component<Direction>();
     world.component<CollisionLayer>();
     world.component<CollisionMask>();
+    world.component<SpriteRenderer>();
     world.component<Sprite>();
     world.component<Transform>();
     world.component<Velocity>();
@@ -201,7 +202,7 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
         .add<CollisionLayer::Player>()
         .add<CollisionMask::LeftWall>()
         .add<CollisionMask::RightWall>()
-        .add<RenderSystem::SpriteRenderer>()
+        .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .add<Sprite>()
