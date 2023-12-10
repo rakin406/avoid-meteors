@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(SDL2 QUIET)
 find_package(SDL2_image QUIET)
+find_package(SDL2_ttf QUIET)
 find_package(flecs QUIET)
 # find_package(glm QUIET)
 
@@ -37,6 +38,17 @@ if (NOT SDL2_image_FOUND)
     SDL2_image
     GIT_REPOSITORY  https://github.com/libsdl-org/SDL_image.git
     GIT_TAG         release-2.6.3
+    GIT_SHALLOW     TRUE
+    GIT_PROGRESS    TRUE
+  )
+endif()
+
+# SDL2_ttf
+if (NOT SDL2_ttf_FOUND)
+  FetchContent_Declare(
+    SDL2_ttf
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL_ttf.git
+    GIT_TAG         release-2.20.2
     GIT_SHALLOW     TRUE
     GIT_PROGRESS    TRUE
   )
@@ -69,7 +81,7 @@ set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
 # END ADDITION
 
-FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
+FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_ttf flecs)
 # FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
@@ -96,7 +108,11 @@ set(MY_SOURCES
   src/tools.cpp
 )
 
-set(SDL_LIBRARIES SDL2::SDL2main SDL2::SDL2-static SDL2_image::SDL2_image-static)
+set(SDL_LIBRARIES
+  SDL2::SDL2main SDL2::SDL2-static
+  SDL2_image::SDL2_image-static
+  SDL2_ttf::SDL2_ttf-static
+)
 
 add_executable(${PROJECT_NAME} ${MY_SOURCES} ${MY_INCLUDES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
