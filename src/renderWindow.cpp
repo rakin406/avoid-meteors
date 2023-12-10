@@ -142,6 +142,16 @@ bool RenderWindow::loadFont(std::string_view path, int size)
     return true;
 }
 
+bool RenderWindow::setFontSize(int size)
+{
+    if (TTF_SetFontSize(font, size) == -1)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 void RenderWindow::render(SDL_Texture* texture, float posX, float posY,
                           const SDL_Color* tint)
 {
