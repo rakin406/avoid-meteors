@@ -6,7 +6,7 @@
 #ifndef PLAYER_SYSTEM_H
 #define PLAYER_SYSTEM_H
 
-#include "constants.h"
+#include "../constants.h"
 
 #include "SDL.h"
 #include <flecs.h>

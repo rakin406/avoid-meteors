@@ -6,7 +6,13 @@
 #ifndef SCORE_SYSTEM_H
 #define SCORE_SYSTEM_H
 
+#include "../components.h"
+
+#include "SDL.h"
 #include <flecs.h>
+#include <SDL_ttf.h>
+
+#include <string_view>
 
 namespace modules
 {
@@ -21,6 +27,19 @@ namespace modules
         // -- Components
 
         using Score = int;
+
+        /**
+         * @brief Contains information about the text to be displayed on the
+         * screen.
+         */
+        struct Text
+        {
+            std::string_view content {}; // The actual text to be displayed
+            TTF_Font* font {};   // The font to be used for rendering the text
+            int size {};         // The size of the font
+            SDL_Color* color {}; // The color of the text
+            Transform transform {}; // The transform of the text
+        };
 
         /**
          * @brief Module import function.
