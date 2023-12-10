@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include <SDL_ttf.h>
 
 #include <iostream>
 #include <string_view>
@@ -31,6 +32,14 @@ namespace
         {
             std::cout << "IMG_init has failed. Error: " << SDL_GetError()
                       << std::endl;
+            success = false;
+        }
+
+        // Initialize SDL_ttf
+        if (TTF_Init() == -1)
+        {
+            std::cout << "SDL_ttf could not initialize. SDL_ttf Error: "
+                      << TTF_GetError() << std::endl;
             success = false;
         }
 
@@ -90,6 +99,32 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view path)
 SDL_Texture* RenderWindow::loadTexture(std::string_view textureText,
                                        const SDL_Color& textColor)
 {
+    // Render text surface
+    SDL_Surface* textSurface { TTF_RenderText_Solid(gFont, textureText,
+                                                    textColor) };
+    SDL_Texture* texture { nullptr };
+
+    if (textSurface == nullptr)
+    {
+        std::cout << "Failed to load text surface. SDL_ttf Error: "
+                  << TTF_GetError() << std::endl;
+    }
+    else
+    {
+        // Create texture from surface pixels
+        texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+        if (texture == nullptr)
+        {
+            std::cout << "Failed to create texture from rendered text. Error: "
+                      << SDL_GetError() << std::endl;
+        }
+
+        // Get rid of old surface
+        SDL_FreeSurface(textSurface);
+    }
+
+    return texture;
 }
 
 void RenderWindow::render(SDL_Texture* texture, float posX, float posY,
@@ -151,6 +186,7 @@ void RenderWindow::close()
     window = nullptr;
 
     // Quit SDL subsystems
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
