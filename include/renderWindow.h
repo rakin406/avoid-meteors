@@ -57,6 +57,14 @@ public:
     bool loadFont(std::string_view path, int size);
 
     /**
+     * @brief Sets font size dynamically.
+     * @param font The font to resize.
+     * @param size The new point size.
+     * @return True if successful.
+     */
+    bool setFontSize(TTF_Font* font, int size);
+
+    /**
      * @brief Renders a texture.
      * @param texture
      * @param posX
