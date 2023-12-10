@@ -1,4 +1,4 @@
-#include "modules/player.h"
+#include "modules/playerSystem.h"
 #include "collisionLayer.h"
 #include "components.h"
 #include "renderWindow.h"
@@ -23,13 +23,13 @@ namespace
         using namespace modules;
 
         // NOTE: I have no idea how the hell this is working...
-        if (transform.position.x <= -Player::FRAME_SIZE)
+        if (transform.position.x <= -PlayerSystem::FRAME_SIZE)
         {
             player.add<CollisionMask::LeftWall>();
         }
         else if (transform.position.x >=
                  (RenderSystem::WINDOW_WIDTH -
-                  (Player::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
+                  (PlayerSystem::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
         {
             player.add<CollisionMask::RightWall>();
         }
@@ -44,13 +44,13 @@ namespace
     }
 } // namespace
 
-modules::Player::Player(flecs::world& world)
+modules::PlayerSystem::PlayerSystem(flecs::world& world)
 {
-    world.module<Player>();
+    world.module<PlayerSystem>();
 
     // Register components
     world.component<Animation>();
-    world.component<PlayerTag>();
+    world.component<Player>();
     world.component<Movement>();
     world.component<Direction>();
     world.component<CollisionLayer>();
@@ -63,12 +63,12 @@ modules::Player::Player(flecs::world& world)
     playerInit(world);
 
     // System that loads player sprite sheet on startup
-    world.system<RenderWindow, Sprite, PlayerTag>("LoadSpriteSheet")
+    world.system<RenderWindow, Sprite, Player>("LoadSpriteSheet")
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
         .each(
-            [](RenderWindow& window, Sprite& sprite, PlayerTag)
+            [](RenderWindow& window, Sprite& sprite, Player)
             {
                 // FIX: Sprite sheet not loading.
                 std::cout << "Loading sprite sheet...\n";
@@ -76,12 +76,12 @@ modules::Player::Player(flecs::world& world)
             });
 
     // System that processes player input
-    world.system<PlayerTag>("Input")
+    world.system<Player>("Input")
         .kind(flecs::PreUpdate)
         .with<Movement>(flecs::Wildcard)
         .with<Direction>(flecs::Wildcard)
         .each(
-            [](flecs::entity player, PlayerTag)
+            [](flecs::entity player, Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -105,13 +105,13 @@ modules::Player::Player(flecs::world& world)
             });
 
     // System that moves player entity
-    world.system<Transform, const Velocity, PlayerTag>("Move")
+    world.system<Transform, const Velocity, Player>("Move")
         .kind(flecs::OnUpdate)
         .with(Movement::Running)
         .with<Direction>(flecs::Wildcard)
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, PlayerTag)
+               const Velocity& vel, Player)
             {
                 auto player { it.entity(index) };
                 auto direction { it.pair(5).second().to_constant<Direction>() };
@@ -184,7 +184,7 @@ modules::Player::Player(flecs::world& world)
               { handleWallCollision(player, transform); });
 }
 
-void modules::Player::playerInit(flecs::world& world)
+void modules::PlayerSystem::playerInit(flecs::world& world)
 {
     // Used for random starting direction
     static constexpr std::array<Direction, 2> ALL_DIRECTIONS {
@@ -197,7 +197,7 @@ void modules::Player::playerInit(flecs::world& world)
     auto player { world.entity("Player") };
 
     // Set player components
-    player.add<PlayerTag>()
+    player.add<Player>()
         .add<CollisionLayer::Player>()
         .add<CollisionMask::LeftWall>()
         .add<CollisionMask::RightWall>()

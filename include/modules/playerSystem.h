@@ -1,12 +1,10 @@
 /**
  * @file
- * @brief Provides player module.
+ * @brief Provides player system module.
  */
 
-#ifndef PLAYER_H
-#define PLAYER_H
-
-#include "renderSystem.h"
+#ifndef PLAYER_SYSTEM_H
+#define PLAYER_SYSTEM_H
 
 #include "SDL.h"
 #include <flecs.h>
@@ -16,9 +14,9 @@
 namespace modules
 {
     /**
-     * @brief Player module.
+     * @brief PlayerSystem module.
      */
-    class Player
+    class PlayerSystem
     {
     public:
         // -- Constants
@@ -60,7 +58,7 @@ namespace modules
          * @brief Module import function.
          * @param world
          */
-        Player(flecs::world& world);
+        PlayerSystem(flecs::world& world);
 
     private:
         /**

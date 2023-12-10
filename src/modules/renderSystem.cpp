@@ -44,7 +44,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
     world.component<Sprite>();
     world.component<Transform>();
     world.component<Animation>();
-    world.component<PlayerTag>();
+    world.component<Player>();
 
     // Setup window
     windowInit(world);
@@ -76,14 +76,14 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
     auto playerRenderer {
         world
             .system<const Transform, const Sprite, RenderWindow, Animation,
-                    SpriteRenderer, PlayerTag>("RenderPlayer")
+                    SpriteRenderer, Player>("RenderPlayer")
             .kind(0)
             .term_at(3)
             .singleton()
             .each(
                 [](const Transform& transform, const Sprite& sprite,
                    RenderWindow& window, Animation& animation, SpriteRenderer,
-                   PlayerTag)
+                   Player)
                 {
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation.frameRec.w * transform.scale.x,

@@ -1,4 +1,4 @@
-#include "modules/player.h"
+#include "modules/playerSystem.h"
 #include "modules/renderSystem.h"
 
 #include <flecs.h>
@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
     world.import <flecs::alerts>();
     world.import <flecs::units>(); // For better visualization
-    world.import <Player>();
+    world.import <PlayerSystem>();
     world.import <RenderSystem>();
 
     // Run application with REST interface

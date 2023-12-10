@@ -6,7 +6,7 @@
 #ifndef TAGS_H
 #define TAGS_H
 
-struct PlayerTag
+struct Player
 {
 };
 
