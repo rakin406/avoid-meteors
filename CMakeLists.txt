@@ -73,6 +73,7 @@ FetchContent_MakeAvailable(SDL2 SDL2_image flecs)
 # FetchContent_MakeAvailable(SDL2 SDL2_image flecs glm)
  
 set(MY_INCLUDES
+  include/modules/levelSystem.h
   include/modules/playerSystem.h
   include/modules/renderSystem.h
   include/collisionLayer.h
@@ -85,6 +86,7 @@ set(MY_INCLUDES
 )
 
 set(MY_SOURCES
+  src/modules/levelSystem.cpp
   src/modules/playerSystem.cpp
   src/modules/renderSystem.cpp
   src/main.cpp
