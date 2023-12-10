@@ -9,13 +9,13 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
     world.module<ScoreSystem>();
 
     // Register components
-    world.component<Level>();
+    world.component<Score>();
 
     scoreInit(world);
 }
 
 void modules::ScoreSystem::scoreInit(flecs::world& world)
 {
-    // Set singletons
-    world.set<Level>({ 1, INITIAL_METEORS });
+    // Set singleton
+    world.set<Score>({ 0 });
 }

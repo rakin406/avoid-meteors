@@ -20,6 +20,8 @@ namespace modules
 
         // -- Components
 
+        using Score = int;
+
         /**
          * @brief Module import function.
          * @param world
