@@ -87,6 +87,11 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view path)
     return texture;
 }
 
+SDL_Texture* RenderWindow::loadTexture(std::string_view textureText,
+                                       const SDL_Color& textColor)
+{
+}
+
 void RenderWindow::render(SDL_Texture* texture, float posX, float posY,
                           const SDL_Color* tint)
 {

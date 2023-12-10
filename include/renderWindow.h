@@ -39,6 +39,15 @@ public:
     SDL_Texture* loadTexture(std::string_view path);
 
     /**
+     * @brief Loads text as texture.
+     * @param textureText
+     * @param textColor
+     * @return Texture
+     */
+    SDL_Texture* loadTexture(std::string_view textureText,
+                             const SDL_Color& textColor);
+
+    /**
      * @brief Renders a texture.
      * @param texture
      * @param posX
