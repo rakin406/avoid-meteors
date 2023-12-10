@@ -18,6 +18,8 @@ namespace modules
     public:
         // -- Constants
 
+        static constexpr int INITIAL_METEORS { 5 };
+
         // -- Components
 
         /**
