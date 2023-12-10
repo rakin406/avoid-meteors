@@ -100,7 +100,7 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view textureText,
                                        const SDL_Color& textColor)
 {
     // Render text surface
-    SDL_Surface* textSurface { TTF_RenderText_Solid(gFont, textureText,
+    SDL_Surface* textSurface { TTF_RenderText_Solid(font, textureText.data(),
                                                     textColor) };
     SDL_Texture* texture { nullptr };
 

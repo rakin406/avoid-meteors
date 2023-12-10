@@ -49,6 +49,14 @@ public:
                              const SDL_Color& textColor);
 
     /**
+     * @brief Loads font from file.
+     * @param path Path to font file.
+     * @param size Point size to use for the newly-opened font.
+     * @return True if successful.
+     */
+    bool loadFont(std::string_view path, int size);
+
+    /**
      * @brief Renders a texture.
      * @param texture
      * @param posX
