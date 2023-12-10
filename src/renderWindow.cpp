@@ -194,6 +194,10 @@ void RenderWindow::display() { SDL_RenderPresent(renderer); }
 
 void RenderWindow::close()
 {
+    // Free global font
+    TTF_CloseFont(font);
+    font = nullptr;
+
     // Destroy window
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
