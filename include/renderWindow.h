@@ -7,6 +7,7 @@
 #define RENDER_WINDOW_H
 
 #include "SDL.h"
+#include <SDL_ttf.h>
 
 #include <string_view>
 
@@ -128,6 +129,7 @@ public:
 private:
     SDL_Window* window { nullptr };
     SDL_Renderer* renderer { nullptr };
+    TTF_Font* font { nullptr };
 };
 
 #endif
