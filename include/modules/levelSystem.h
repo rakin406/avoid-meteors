@@ -21,6 +21,15 @@ namespace modules
         // -- Components
 
         /**
+         * @brief Stores information about the current level.
+         */
+        struct Level
+        {
+            int levelNumber {};
+            int numMeteors {};
+        };
+
+        /**
          * @brief Module import function.
          * @param world
          */
