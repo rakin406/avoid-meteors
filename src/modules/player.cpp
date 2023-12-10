@@ -1,6 +1,7 @@
 #include "modules/player.h"
 #include "collisionLayer.h"
 #include "components.h"
+#include "modules/renderSystem.h"
 #include "renderWindow.h"
 #include "tools.h"
 
@@ -45,6 +46,19 @@ namespace
 
 modules::Player::Player(flecs::world& world)
 {
+    world.module<Player>();
+
+    // Register components
+    world.component<Animation>();
+    world.component<PlayerTag>();
+    world.component<Movement>();
+    world.component<Direction>();
+    world.component<CollisionLayer>();
+    world.component<CollisionMask>();
+    world.component<Sprite>();
+    world.component<Transform>();
+    world.component<Velocity>();
+
     // Setup player entity
     playerInit(world);
 
@@ -53,8 +67,13 @@ modules::Player::Player(flecs::world& world)
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each([](RenderWindow& window, Sprite& sprite, PlayerTag)
-              { sprite.texture = window.loadTexture(SPRITE_SHEET); });
+        .each(
+            [](RenderWindow& window, Sprite& sprite, PlayerTag)
+            {
+                // FIX: Sprite sheet not loading.
+                std::cout << "Loading sprite sheet...\n";
+                sprite.texture = window.loadTexture(SPRITE_SHEET);
+            });
 
     // System that processes player input
     world.system<PlayerTag>("Input")
@@ -182,7 +201,7 @@ void modules::Player::playerInit(flecs::world& world)
         .add<CollisionLayer::Player>()
         .add<CollisionMask::LeftWall>()
         .add<CollisionMask::RightWall>()
-        .add<modules::RenderSystem::SpriteRenderer>()
+        .add<RenderSystem::SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
         .add<Sprite>()

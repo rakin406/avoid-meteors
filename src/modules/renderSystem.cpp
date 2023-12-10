@@ -36,6 +36,14 @@ namespace
 
 modules::RenderSystem::RenderSystem(flecs::world& world)
 {
+    world.module<RenderSystem>();
+
+    // Register components
+    world.component<Background>();
+    world.component<SpriteRenderer>();
+    world.component<Sprite>();
+    world.component<Transform>();
+
     // Setup window
     windowInit(world);
 
