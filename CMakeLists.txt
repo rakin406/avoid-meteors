@@ -76,6 +76,7 @@ set(MY_INCLUDES
   include/modules/levelSystem.h
   include/modules/playerSystem.h
   include/modules/renderSystem.h
+  include/modules/scoreSystem.h
   include/collisionLayer.h
   include/colors.h
   include/components.h
@@ -89,6 +90,7 @@ set(MY_SOURCES
   src/modules/levelSystem.cpp
   src/modules/playerSystem.cpp
   src/modules/renderSystem.cpp
+  src/modules/scoreSystem.cpp
   src/main.cpp
   src/renderWindow.cpp
   src/tools.cpp
