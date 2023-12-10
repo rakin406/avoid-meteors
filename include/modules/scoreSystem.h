@@ -6,6 +6,7 @@
 #ifndef SCORE_SYSTEM_H
 #define SCORE_SYSTEM_H
 
+#include "../colors.h"
 #include "../components.h"
 
 #include "SDL.h"
@@ -24,6 +25,10 @@ namespace modules
     public:
         // -- Constants
 
+        // TODO: Create text position constant.
+        static constexpr int FONT_SIZE { 15 };
+        static constexpr SDL_Color TEXT_COLOR { BLACK };
+
         // -- Components
 
         using Score = int;
@@ -38,6 +43,7 @@ namespace modules
             TTF_Font* font {};   // The font to be used for rendering the text
             int size {};         // The size of the font
             SDL_Color* color {}; // The color of the text
+            // TODO: Replace transform with position?
             Transform transform {}; // The transform of the text
         };
 
