@@ -11,8 +11,6 @@
 
 #include <string_view>
 
-// TODO: Remove redundant render methods.
-
 class RenderWindow
 {
 public:
