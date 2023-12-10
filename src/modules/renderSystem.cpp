@@ -1,6 +1,7 @@
 #include "modules/renderSystem.h"
 #include "colors.h"
 #include "components.h"
+#include "constants.h"
 #include "renderWindow.h"
 #include "tags.h"
 

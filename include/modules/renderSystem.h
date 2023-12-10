@@ -20,10 +20,6 @@ namespace modules
     public:
         // -- Constants
 
-        static constexpr int WINDOW_WIDTH { 1280 };
-        static constexpr int WINDOW_HEIGHT { 720 };
-        static constexpr std::string_view WINDOW_TITLE { "Avoid Meteors" };
-
         static constexpr std::string_view BACKGROUND {
             PROJECT_ROOT "res/gfx/background.jpg"
         };

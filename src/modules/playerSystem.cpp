@@ -1,6 +1,7 @@
 #include "modules/playerSystem.h"
 #include "collisionLayer.h"
 #include "components.h"
+#include "constants.h"
 #include "renderWindow.h"
 #include "tags.h"
 #include "tools.h"
@@ -28,8 +29,8 @@ namespace
             player.add<CollisionMask::LeftWall>();
         }
         else if (transform.position.x >=
-                 (RenderSystem::WINDOW_WIDTH -
-                  (PlayerSystem::FRAME_SIZE * (Player::FRAME_SCALE - 1))))
+                 (WINDOW_WIDTH -
+                  (PlayerSystem::FRAME_SIZE * (PlayerSystem::FRAME_SCALE - 1))))
         {
             player.add<CollisionMask::RightWall>();
         }
@@ -68,13 +69,8 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each(
-            [](RenderWindow& window, Sprite& sprite, Player)
-            {
-                // FIX: Sprite sheet not loading.
-                std::cout << "Loading sprite sheet...\n";
-                sprite.texture = window.loadTexture(SPRITE_SHEET);
-            });
+        .each([](RenderWindow& window, Sprite& sprite, Player)
+              { sprite.texture = window.loadTexture(SPRITE_SHEET); });
 
     // System that processes player input
     world.system<Player>("Input")
