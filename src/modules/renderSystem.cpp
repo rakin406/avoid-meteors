@@ -1,8 +1,8 @@
 #include "modules/renderSystem.h"
 #include "colors.h"
 #include "components.h"
-#include "modules/player.h"
 #include "renderWindow.h"
+#include "tags.h"
 
 #include "SDL.h"
 
@@ -43,6 +43,8 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
     world.component<SpriteRenderer>();
     world.component<Sprite>();
     world.component<Transform>();
+    world.component<Animation>();
+    world.component<PlayerTag>();
 
     // Setup window
     windowInit(world);
@@ -73,16 +75,15 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
     auto playerRenderer {
         world
-            .system<const Transform, const Sprite, RenderWindow,
-                    Player::Animation, SpriteRenderer, Player::PlayerTag>(
-                "RenderPlayer")
+            .system<const Transform, const Sprite, RenderWindow, Animation,
+                    SpriteRenderer, PlayerTag>("RenderPlayer")
             .kind(0)
             .term_at(3)
             .singleton()
             .each(
                 [](const Transform& transform, const Sprite& sprite,
-                   RenderWindow& window, Player::Animation& animation,
-                   SpriteRenderer, Player::PlayerTag)
+                   RenderWindow& window, Animation& animation, SpriteRenderer,
+                   PlayerTag)
                 {
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      animation.frameRec.w * transform.scale.x,

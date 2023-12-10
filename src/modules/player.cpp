@@ -1,8 +1,8 @@
 #include "modules/player.h"
 #include "collisionLayer.h"
 #include "components.h"
-#include "modules/renderSystem.h"
 #include "renderWindow.h"
+#include "tags.h"
 #include "tools.h"
 
 #include "SDL.h"

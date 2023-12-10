@@ -9,9 +9,10 @@ int main(int argc, char* argv[])
 
     flecs::world world { argc, argv };
 
-    world.import <flecs::units>();   // For better visualization
-    world.import <RenderSystem>();
+    world.import <flecs::alerts>();
+    world.import <flecs::units>(); // For better visualization
     world.import <Player>();
+    world.import <RenderSystem>();
 
     // Run application with REST interface
     return world.app().enable_rest().run();

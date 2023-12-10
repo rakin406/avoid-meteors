@@ -9,6 +9,16 @@
 #include "SDL.h"
 
 /**
+ * @brief Manages animations.
+ */
+struct Animation
+{
+    SDL_Rect frameRec {};
+    SDL_RendererFlip flip {};
+    int frameDuration {};
+};
+
+/**
  * @brief Information about an entity’s visual representation.
  */
 struct Sprite

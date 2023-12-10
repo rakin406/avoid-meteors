@@ -6,7 +6,9 @@
 #ifndef TAGS_H
 #define TAGS_H
 
-// TODO: Delete this header.
+struct PlayerTag
+{
+};
 
 struct Meteor
 {

@@ -39,20 +39,6 @@ namespace modules
         // -- Components
 
         /**
-         * @brief Manages animations.
-         */
-        struct Animation
-        {
-            SDL_Rect frameRec {};
-            SDL_RendererFlip flip {};
-            int frameDuration {};
-        };
-
-        struct PlayerTag
-        {
-        };
-
-        /**
          * @brief Movement state.
          */
         enum class Movement
