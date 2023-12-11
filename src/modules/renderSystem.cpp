@@ -58,6 +58,14 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
         .each([](RenderWindow& window, Sprite& sprite, Background)
               { sprite.texture = window.loadTexture(BACKGROUND); });
 
+    // System that loads font on startup
+    world.system<RenderWindow>("LoadFont")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .each([](RenderWindow& window)
+              { window.loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE); });
+
     auto backgroundRenderer {
         world
             .system<const Sprite, RenderWindow, SpriteRenderer, Background>(

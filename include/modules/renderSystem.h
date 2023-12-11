@@ -28,6 +28,8 @@ namespace modules
             PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"
         };
 
+        static constexpr int DEFAULT_FONT_SIZE { 20 };
+
         // -- Components
 
         struct Background
