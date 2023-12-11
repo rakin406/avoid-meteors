@@ -2,6 +2,7 @@
 
 #include <flecs.h>
 
+#include <format>
 #include <iostream>
 
 modules::ScoreSystem::ScoreSystem(flecs::world& world)
@@ -13,6 +14,18 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
     world.component<Text>();
 
     scoreInit(world);
+
+    // Observer to update text upon score change
+    world.observer<const Score>("Score Change")
+        .event(flecs::OnSet)
+        .term_at(1)
+        .singleton()
+        .each(
+            [](flecs::iter& it, const Score& score)
+            {
+                Text* text { it.world().get_mut<Text>() };
+                text->content = std::format("Score: {}", score);
+            });
 }
 
 void modules::ScoreSystem::scoreInit(flecs::world& world)
