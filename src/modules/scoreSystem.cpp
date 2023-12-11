@@ -27,10 +27,9 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
         .term_at(2)
         .singleton()
         .each(
-            [](RenderWindow& window, Text& text)
-            {
-                window.setFontSize(text.size);
-                text.texture = window.loadTexture(text.content, text.color);
+            [](RenderWindow& window, Text& text) {
+                text.texture =
+                    window.loadTexture(text.content, text.size, text.color);
             });
 
     // Observer to update text texture upon score change
@@ -45,12 +44,10 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
                 Text* text { it.world().get_mut<Text>() };
                 RenderWindow* window { it.world().get_mut<RenderWindow>() };
 
-                // Match font size
-                window->setFontSize(text->size);
-
                 // Update texture
                 text->content = std::format("Score: {}", *score);
-                text->texture = window->loadTexture(text->content, text->color);
+                text->texture =
+                    window->loadTexture(text->content, text->size, text->color);
             });
 }
 
