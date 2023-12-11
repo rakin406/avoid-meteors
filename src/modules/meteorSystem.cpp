@@ -1,6 +1,7 @@
 #include "modules/meteorSystem.h"
 #include "collisionLayer.h"
 #include "components.h"
+#include "renderWindow.h"
 #include "tags.h"
 
 #include <flecs.h>
@@ -23,6 +24,14 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
     // Setup meteors
     meteorsInit(world);
+
+    // System that loads meteor sprite on startup
+    world.system<RenderWindow, Sprite, Meteor>("LoadMeteorSprite")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .each([](RenderWindow& window, Sprite& sprite, Meteor)
+              { sprite.texture = window.loadTexture(METEOR_SPRITE); });
 }
 
 void modules::MeteorSystem::meteorsInit(flecs::world& world)
