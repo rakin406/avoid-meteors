@@ -86,6 +86,7 @@ FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_ttf flecs)
  
 set(MY_INCLUDES
   include/modules/levelSystem.h
+  include/modules/meteorSystem.h
   include/modules/playerSystem.h
   include/modules/renderSystem.h
   include/modules/scoreSystem.h
@@ -100,6 +101,7 @@ set(MY_INCLUDES
 
 set(MY_SOURCES
   src/modules/levelSystem.cpp
+  src/modules/meteorSystem.cpp
   src/modules/playerSystem.cpp
   src/modules/renderSystem.cpp
   src/modules/scoreSystem.cpp
