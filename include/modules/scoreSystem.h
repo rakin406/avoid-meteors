@@ -25,9 +25,9 @@ namespace modules
     public:
         // -- Constants
 
-        // TODO: Create text position constant.
         static constexpr int FONT_SIZE { 15 };
         static constexpr SDL_Color TEXT_COLOR { BLACK };
+        static constexpr SDL_FPoint TEXT_POSITION { 10.0f, 10.0f };
 
         // -- Components
 
@@ -40,11 +40,9 @@ namespace modules
         struct Text
         {
             std::string_view content {}; // The actual text to be displayed
-            TTF_Font* font {};   // The font to be used for rendering the text
-            int size {};         // The size of the font
-            SDL_Color* color {}; // The color of the text
-            // TODO: Replace transform with position?
-            Transform transform {}; // The transform of the text
+            int size {};                 // The size of the font
+            SDL_Color color {};          // The color of the text
+            SDL_FPoint position {};      // The position of the text
         };
 
         /**
