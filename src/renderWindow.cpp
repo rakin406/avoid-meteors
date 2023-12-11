@@ -97,8 +97,10 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view path)
 }
 
 SDL_Texture* RenderWindow::loadTexture(std::string_view textureText,
-                                       const SDL_Color& textColor)
+                                       int fontSize, const SDL_Color& textColor)
 {
+    TTF_SetFontSize(font, fontSize);
+
     // Render text surface
     SDL_Surface* textSurface { TTF_RenderText_Solid(font, textureText.data(),
                                                     textColor) };
@@ -136,16 +138,6 @@ bool RenderWindow::loadFont(std::string_view path, int size)
     {
         std::cout << "Failed to load lazy font. SDL_ttf Error: "
                   << TTF_GetError() << std::endl;
-        return false;
-    }
-
-    return true;
-}
-
-bool RenderWindow::setFontSize(int size)
-{
-    if (TTF_SetFontSize(font, size) == -1)
-    {
         return false;
     }
 

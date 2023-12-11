@@ -40,10 +40,11 @@ public:
     /**
      * @brief Loads text as texture.
      * @param textureText
+     * @param fontSize
      * @param textColor
      * @return Texture
      */
-    SDL_Texture* loadTexture(std::string_view textureText,
+    SDL_Texture* loadTexture(std::string_view textureText, int fontSize,
                              const SDL_Color& textColor);
 
     /**
@@ -53,13 +54,6 @@ public:
      * @return True if successful.
      */
     bool loadFont(std::string_view path, int size);
-
-    /**
-     * @brief Sets font size dynamically.
-     * @param size The new point size.
-     * @return True if successful.
-     */
-    bool setFontSize(int size);
 
     /**
      * @brief Renders a texture.
