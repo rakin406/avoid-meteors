@@ -6,6 +6,8 @@
 #include <format>
 #include <iostream>
 
+// TODO: Update the score.
+
 modules::ScoreSystem::ScoreSystem(flecs::world& world)
 {
     world.module<ScoreSystem>();
