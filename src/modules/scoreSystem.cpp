@@ -26,7 +26,7 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
         .each([](RenderWindow& window, Text& text)
               { text.texture = window.loadTexture(text.content, text.color); });
 
-    // Observer to update text upon score change
+    // Observer to update text texture upon score change
     world.observer<const Score>("Score Change")
         .event(flecs::OnSet)
         .term_at(1)
@@ -34,9 +34,13 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
         .each(
             [](flecs::iter& it, const Score& score)
             {
+                // Get singletons
                 Text* text { it.world().get_mut<Text>() };
+                RenderWindow* window { it.world().get_mut<RenderWindow>() };
+
+                // Update texture
                 text->content = std::format("Score: {}", score);
-                // TODO: Update texture.
+                text->texture = window->loadTexture(text->content, text->color);
             });
 }
 
