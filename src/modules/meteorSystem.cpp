@@ -13,8 +13,15 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
     world.module<MeteorSystem>();
 
     // Register components
-    // world.component<Level>();
+    world.component<CollisionLayer>();
+    world.component<CollisionMask>();
+    world.component<Level>();
+    world.component<SpriteRenderer>();
+    world.component<Sprite>();
+    world.component<Transform>();
+    world.component<Velocity>();
 
+    // Setup meteors
     meteorsInit(world);
 }
 
