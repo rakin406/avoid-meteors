@@ -8,6 +8,8 @@
 
 #include <flecs.h>
 
+#include <string_view>
+
 namespace modules
 {
     /**
@@ -17,6 +19,11 @@ namespace modules
     {
     public:
         // -- Constants
+
+        static constexpr std::string_view METEOR_SPRITE { PROJECT_ROOT
+                                                         "res/gfx/meteor.png" };
+        static constexpr float METEOR_SCALE { 5.0f };
+        static constexpr float SPEED { 300.0f };
 
         // -- Components
 
