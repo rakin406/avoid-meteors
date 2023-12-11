@@ -41,6 +41,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
             {
                 // Load meteor sprite
                 sprite.texture = window.loadTexture(METEOR_SPRITE);
+                sprite.color = nullptr;
 
                 // Get random x-axis position
                 SDL_FPoint textureSize { getSize(sprite.texture) };

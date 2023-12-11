@@ -69,8 +69,12 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each([](RenderWindow& window, Sprite& sprite, Player)
-              { sprite.texture = window.loadTexture(SPRITE_SHEET); });
+        .each(
+            [](RenderWindow& window, Sprite& sprite, Player)
+            {
+                sprite.texture = window.loadTexture(SPRITE_SHEET);
+                sprite.color = nullptr;
+            });
 
     // System that processes player input
     world.system<Player>("Input")
