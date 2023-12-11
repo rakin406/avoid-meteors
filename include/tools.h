@@ -31,7 +31,7 @@ namespace tools
     {
         static std::random_device rd {};
         static std::mt19937 mt { rd() };
-        std::uniform_real_distribution<T> dist(min, max);
+        std::uniform_real_distribution<> dist(min, max);
         return dist(mt);
     }
 
