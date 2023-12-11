@@ -1,4 +1,5 @@
 #include "modules/scoreSystem.h"
+#include "components.h"
 #include "renderWindow.h"
 
 #include <flecs.h>

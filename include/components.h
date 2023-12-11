@@ -8,6 +8,8 @@
 
 #include "SDL.h"
 
+#include <string_view>
+
 /**
  * @brief Manages animations.
  */
@@ -25,6 +27,19 @@ struct Sprite
 {
     SDL_Texture* texture {};
     SDL_Color* color {};
+};
+
+/**
+ * @brief Contains information about the text to be displayed on the
+ * screen.
+ */
+struct Text
+{
+    std::string_view content {}; // The actual text to be displayed
+    int size {};                 // The size of the font
+    SDL_Texture* texture {};     // The TEXTure
+    SDL_Color color {};          // The color of the text
+    SDL_FPoint position {};      // The position of the text
 };
 
 /**

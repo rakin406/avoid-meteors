@@ -82,6 +82,12 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                 })
     };
 
+    auto textRenderer { world.system<RenderWindow>("RenderText")
+                             .kind(0)
+                             .term_at(2)
+                             .singleton()
+                             .each([](RenderWindow& window) {}) };
+
     auto playerRenderer {
         world
             .system<const Transform, const Sprite, RenderWindow, Animation,
