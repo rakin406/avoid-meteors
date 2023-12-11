@@ -51,6 +51,9 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                 // Set meteor position in the sky
                 transform.position = { randomPosX, -textureSize.y };
 
+                // Default rotation
+                transform.rotation = 0.0f;
+
                 // Set random scale
                 float randomScale { getRandomValue<float>(MIN_SCALE,
                                                           MAX_SCALE) };
