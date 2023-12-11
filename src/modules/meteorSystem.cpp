@@ -44,8 +44,8 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
                 // Get random x-axis position
                 SDL_FPoint textureSize { getSize(sprite.texture) };
-                float randomPosX { static_cast<float>(getRandomValue(
-                    0, WINDOW_WIDTH - static_cast<int>(textureSize.x))) };
+                float randomPosX { getRandomValue<float>(
+                    0.0f, static_cast<float>(WINDOW_WIDTH) - textureSize.x) };
 
                 // Set meteor position in the sky
                 transform.position = { randomPosX, -textureSize.y };

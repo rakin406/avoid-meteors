@@ -188,7 +188,7 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
         Direction::Left, Direction::Right
     };
 
-    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue(
+    Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue<int>(
         0, static_cast<int>(ALL_DIRECTIONS.size() - 1))] };
 
     auto player { world.entity("Player") };
