@@ -34,15 +34,15 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
         .event(flecs::OnSet)
         .term_at(1)
         .singleton()
-        .each(
-            [](flecs::iter& it, const Score& score)
+        .iter(
+            [](flecs::iter& it, const Score* score)
             {
                 // Get singletons
                 Text* text { it.world().get_mut<Text>() };
                 RenderWindow* window { it.world().get_mut<RenderWindow>() };
 
                 // Update texture
-                text->content = std::format("Score: {}", score);
+                text->content = std::format("Score: {}", *score);
                 text->texture = window->loadTexture(text->content, text->color);
             });
 }
