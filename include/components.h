@@ -21,6 +21,15 @@ struct Animation
 };
 
 /**
+ * @brief Stores information about the current level.
+ */
+struct Level
+{
+    int levelNumber {};
+    int numMeteors {};
+};
+
+/**
  * @brief Information about an entity’s visual representation.
  */
 struct Sprite

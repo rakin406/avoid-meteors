@@ -1,4 +1,5 @@
 #include "modules/levelSystem.h"
+#include "components.h"
 
 #include <flecs.h>
 
