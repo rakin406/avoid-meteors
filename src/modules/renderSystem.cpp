@@ -82,11 +82,18 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                 })
     };
 
-    auto textRenderer { world.system<RenderWindow>("RenderText")
-                             .kind(0)
-                             .term_at(2)
-                             .singleton()
-                             .each([](RenderWindow& window) {}) };
+    auto textRenderer { world.system<RenderWindow, const Text>("RenderText")
+                            .kind(0)
+                            .term_at(1)
+                            .singleton()
+                            .term_at(2)
+                            .singleton()
+                            .each(
+                                [](RenderWindow& window, const Text& text)
+                                {
+                                    window.setFontSize(text.size);
+                                    window.render(text.texture, text.position);
+                                }) };
 
     auto playerRenderer {
         world
@@ -130,6 +137,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
                 // Render entities
                 backgroundRenderer.run();
+                textRenderer.run();
                 playerRenderer.run();
 
                 window.display();
