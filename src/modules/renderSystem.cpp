@@ -89,9 +89,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                             .term_at(2)
                             .singleton()
                             .each(
-                                [](RenderWindow& window, const Text& text)
-                                {
-                                    window.setFontSize(text.size);
+                                [](RenderWindow& window, const Text& text) {
                                     window.render(text.texture, text.position);
                                 }) };
 

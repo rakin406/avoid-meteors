@@ -21,7 +21,7 @@ namespace modules
     public:
         // -- Constants
 
-        static constexpr int FONT_SIZE { 20 };
+        static constexpr int FONT_SIZE { 30 };
         static constexpr SDL_Color TEXT_COLOR { BLACK };
         static constexpr SDL_FPoint TEXT_POSITION { 10.0f, 10.0f };
 
