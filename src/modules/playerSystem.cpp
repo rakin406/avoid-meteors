@@ -196,6 +196,7 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
     // Set player components
     player.add<Player>()
         .add<CollisionLayer::Player>()
+        .add<CollisionMask::Meteor>()
         .add<CollisionMask::LeftWall>()
         .add<CollisionMask::RightWall>()
         .add<SpriteRenderer>()
