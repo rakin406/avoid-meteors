@@ -1,4 +1,5 @@
 #include "modules/scoreSystem.h"
+#include "renderWindow.h"
 
 #include <flecs.h>
 
@@ -15,6 +16,16 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
 
     scoreInit(world);
 
+    // System that loads text texture on startup
+    world.system<RenderWindow, Text>("LoadTextTexture")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .term_at(2)
+        .singleton()
+        .each([](RenderWindow& window, Text& text)
+              { text.texture = window.loadTexture(text.content, text.color); });
+
     // Observer to update text upon score change
     world.observer<const Score>("Score Change")
         .event(flecs::OnSet)
@@ -25,6 +36,7 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
             {
                 Text* text { it.world().get_mut<Text>() };
                 text->content = std::format("Score: {}", score);
+                // TODO: Update texture.
             });
 }
 
@@ -32,5 +44,6 @@ void modules::ScoreSystem::scoreInit(flecs::world& world)
 {
     // Set singletons
     world.set<Score>({ 0 });
-    world.set<Text>({ "Score: 0", FONT_SIZE, TEXT_COLOR, TEXT_POSITION });
+    world.set<Text>(
+        { "Score: 0", FONT_SIZE, nullptr, TEXT_COLOR, TEXT_POSITION });
 }
