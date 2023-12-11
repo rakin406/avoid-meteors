@@ -24,6 +24,10 @@ namespace modules
             PROJECT_ROOT "res/gfx/background.jpg"
         };
 
+        static constexpr std::string_view DEFAULT_FONT {
+            PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"
+        };
+
         // -- Components
 
         struct Background
