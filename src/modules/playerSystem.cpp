@@ -65,7 +65,7 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
     playerInit(world);
 
     // System that loads player sprite sheet on startup
-    world.system<RenderWindow, Sprite, Player>("LoadSpriteSheet")
+    world.system<RenderWindow, Sprite, Player>("LoadPlayerSprite")
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
