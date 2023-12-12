@@ -41,7 +41,6 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
             {
                 // Load meteor sprite
                 sprite.texture = window.loadTexture(METEOR_SPRITE);
-                sprite.color = nullptr;
 
                 // Get random x-axis position
                 SDL_FPoint textureSize { getSize(sprite.texture) };
@@ -50,14 +49,31 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
                 // Set meteor position in the sky
                 transform.position = { randomPosX, -textureSize.y };
+            });
 
-                // Default rotation
-                transform.rotation = 0.0f;
+    // System that moves player entity
+    world.system<Transform, const Velocity, Player>("Move")
+        .kind(flecs::OnUpdate)
+        .with(Movement::Running)
+        .with<Direction>(flecs::Wildcard)
+        .each(
+            [](flecs::iter& it, size_t index, Transform& transform,
+               const Velocity& vel, Player)
+            {
+                auto player { it.entity(index) };
+                auto direction { it.pair(5).second().to_constant<Direction>() };
 
-                // Set random scale
-                float randomScale { getRandomValue<float>(MIN_SCALE,
-                                                          MAX_SCALE) };
-                transform.scale = { randomScale, randomScale };
+                // Move player unless there's a collision
+                if (direction == Direction::Left &&
+                    !player.has<CollisionMask::LeftWall>())
+                {
+                    transform.position.x -= vel.x * it.delta_time();
+                }
+                else if (direction == Direction::Right &&
+                         !player.has<CollisionMask::RightWall>())
+                {
+                    transform.position.x += vel.x * it.delta_time();
+                }
             });
 }
 
@@ -67,14 +83,17 @@ void modules::MeteorSystem::meteorsInit(flecs::world& world)
 
     for (int i : std::views::iota(0, level->numMeteors))
     {
+        float randomScale { tools::getRandomValue<float>(MIN_SCALE,
+                                                         MAX_SCALE) };
+
         auto meteor { world.entity() };
         meteor.add<Meteor>()
             .add<CollisionLayer::Meteor>()
             .add<CollisionMask::Ground>()
             .add<CollisionMask::Player>()
             .add<SpriteRenderer>()
-            .add<Sprite>()
-            .add<Transform>()
+            .set<Sprite>({ nullptr, nullptr })
+            .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
             // TODO: Set velocity.
             .set<Velocity>({});
     }
