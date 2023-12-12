@@ -51,26 +51,21 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                 transform.position = { randomPosX, -textureSize.y };
             });
 
-    // System that moves player entity
-    world.system<Transform, const Velocity, Player>("Move")
+    // System that moves meteor entities
+    world.system<Transform, const Velocity, Meteor>("Move")
         .kind(flecs::OnUpdate)
-        .with(Movement::Running)
-        .with<Direction>(flecs::Wildcard)
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, Player)
+               const Velocity& vel, Meteor)
             {
-                auto player { it.entity(index) };
-                auto direction { it.pair(5).second().to_constant<Direction>() };
+                auto meteor { it.entity(index) };
 
-                // Move player unless there's a collision
-                if (direction == Direction::Left &&
-                    !player.has<CollisionMask::LeftWall>())
+                // TODO: Remove this.
+                if (!meteor.has<CollisionMask::LeftWall>())
                 {
                     transform.position.x -= vel.x * it.delta_time();
                 }
-                else if (direction == Direction::Right &&
-                         !player.has<CollisionMask::RightWall>())
+                else if (!meteor.has<CollisionMask::RightWall>())
                 {
                     transform.position.x += vel.x * it.delta_time();
                 }
