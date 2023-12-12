@@ -70,4 +70,13 @@ struct Velocity
     float y {};
 };
 
+/**
+ * @brief Direction state.
+ */
+enum class Direction
+{
+    Left,
+    Right
+};
+
 #endif

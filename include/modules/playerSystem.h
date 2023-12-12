@@ -48,15 +48,6 @@ namespace modules
         };
 
         /**
-         * @brief Direction state.
-         */
-        enum class Direction
-        {
-            Left,
-            Right
-        };
-
-        /**
          * @brief Module import function.
          * @param world
          */
