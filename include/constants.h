@@ -12,4 +12,6 @@ inline constexpr int WINDOW_WIDTH { 1280 };
 inline constexpr int WINDOW_HEIGHT { 720 };
 inline constexpr std::string_view WINDOW_TITLE { "Avoid Meteors" };
 
+inline constexpr int GROUND_POS_Y { WINDOW_HEIGHT - 195 };
+
 #endif
