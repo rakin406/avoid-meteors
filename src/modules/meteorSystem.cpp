@@ -23,6 +23,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
     world.component<Angle>();
     world.component<CollisionLayer>();
     world.component<CollisionMask>();
+    world.component<Direction>();
     world.component<Level>();
     world.component<SpriteRenderer>();
     world.component<Sprite>();
@@ -67,10 +68,12 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                     {
                         opposite = static_cast<float>(WINDOW_WIDTH) -
                                    transform.position.x;
+                        meteor.add(Direction::Right);
                     }
                     else if (transform.position.x >= middlePosX)
                     {
                         opposite = transform.position.x;
+                        meteor.add(Direction::Left);
                     }
 
                     // NOTE: Not accurate as well I guess.
@@ -89,15 +92,17 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
             {
                 auto meteor { it.entity(index) };
 
-                // TODO: Finish this.
-                //if ()
-                //{
-                //    transform.position.x -=
-                //        (velocity.x * std::cos(angle)) * it.delta_time();
-                //}
-                //else if ()
-                //{
-                //}
+                // Move meteor based on direction
+                if (meteor.has(Direction::Left))
+                {
+                    transform.position.x -=
+                        (velocity.x * std::cos(angle)) * it.delta_time();
+                }
+                else if (meteor.has(Direction::Right))
+                {
+                    transform.position.x +=
+                        (velocity.x * std::cos(angle)) * it.delta_time();
+                }
 
                 transform.position.y +=
                     (velocity.y * std::sin(angle)) * it.delta_time();
