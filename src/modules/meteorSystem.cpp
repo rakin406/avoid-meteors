@@ -53,7 +53,19 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                 // NOTE: This is probably not accurate.
                 float middlePosX { static_cast<float>(WINDOW_WIDTH / 2) -
                                    (textureSize.x * (transform.scale.x / 2)) };
+                float angle {};
+                // TODO: Take scaled position?
+                float opposite { static_cast<float>(WINDOW_WIDTH) -
+                                 transform.position.x };
+                float adjacent { WINDOW_HEIGHT };
                 if (transform.position.x == middlePosX)
+                {
+                    // TODO: Finish this block.
+                }
+                else if (transform.position.x <= middlePosX)
+                {
+                }
+                else if (transform.position.x >= middlePosX)
                 {
                 }
             });
