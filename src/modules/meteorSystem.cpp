@@ -9,6 +9,7 @@
 #include "SDL.h"
 #include <flecs.h>
 
+#include <cmath>
 #include <iostream>
 #include <ranges>
 
@@ -19,6 +20,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
     world.module<MeteorSystem>();
 
     // Register components
+    world.component<Angle>();
     world.component<CollisionLayer>();
     world.component<CollisionMask>();
     world.component<Level>();
@@ -31,17 +33,18 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
     meteorsInit(world);
 
     // System that loads meteor components on startup
-    world.system<RenderWindow, Sprite, Transform, Meteor>("LoadMeteors")
+    world.system<RenderWindow, Angle, Sprite, Transform, Meteor>("LoadMeteors")
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
         .each(
-            [](RenderWindow& window, Sprite& sprite, Transform& transform,
-               Meteor)
+            [](RenderWindow& window, Angle& angle, Sprite& sprite,
+               Transform& transform, Meteor)
             {
                 // Load meteor sprite
                 sprite.texture = window.loadTexture(METEOR_SPRITE);
 
+                // NOTE: This is probably not accurate.
                 // Get random x-axis position
                 SDL_FPoint textureSize { getSize(sprite.texture) };
                 float randomPosX { getRandomValue<float>(
@@ -50,23 +53,30 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                 // Set meteor position in the sky
                 transform.position = { randomPosX, -textureSize.y };
 
-                // NOTE: This is probably not accurate.
-                float middlePosX { static_cast<float>(WINDOW_WIDTH / 2) -
-                                   (textureSize.x * (transform.scale.x / 2)) };
-                float angle {};
-                // TODO: Take scaled position?
-                float opposite { static_cast<float>(WINDOW_WIDTH) -
-                                 transform.position.x };
-                float adjacent { WINDOW_HEIGHT };
-                if (transform.position.x == middlePosX)
                 {
-                    // TODO: Finish this block.
-                }
-                else if (transform.position.x <= middlePosX)
-                {
-                }
-                else if (transform.position.x >= middlePosX)
-                {
+                    // NOTE: Probably not accurate too.
+                    float middlePosX { static_cast<float>(WINDOW_WIDTH / 2) -
+                                       ((textureSize.x * transform.scale.x) /
+                                        2) };
+
+                    float opposite {};
+                    float adjacent { static_cast<float>(WINDOW_HEIGHT) };
+
+                    // Find opposite side length
+                    if (transform.position.x <= middlePosX)
+                    {
+                        opposite = static_cast<float>(WINDOW_WIDTH) -
+                                   transform.position.x;
+                    }
+                    else if (transform.position.x >= middlePosX)
+                    {
+                        opposite = transform.position.x;
+                    }
+
+                    // NOTE: Not accurate as well I guess.
+                    // Set random angle
+                    angle = tools::getRandomValue<float>(
+                        0.0f, std::tan(opposite / adjacent));
                 }
             });
 
@@ -106,6 +116,7 @@ void modules::MeteorSystem::meteorsInit(flecs::world& world)
             .add<CollisionMask::Ground>()
             .add<CollisionMask::Player>()
             .add<SpriteRenderer>()
+            .add<Angle>()
             .set<Sprite>({ nullptr, nullptr })
             .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
             .set<Velocity>({ INITIAL_SPEED, INITIAL_SPEED });

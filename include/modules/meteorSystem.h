@@ -29,6 +29,8 @@ namespace modules
 
         // -- Components
 
+        using Angle = float;
+
         /**
          * @brief Module import function.
          * @param world
