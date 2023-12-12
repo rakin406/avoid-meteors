@@ -69,12 +69,8 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each(
-            [](RenderWindow& window, Sprite& sprite, Player)
-            {
-                sprite.texture = window.loadTexture(SPRITE_SHEET);
-                sprite.color = nullptr;
-            });
+        .each([](RenderWindow& window, Sprite& sprite, Player)
+              { sprite.texture = window.loadTexture(SPRITE_SHEET); });
 
     // System that processes player input
     world.system<Player>("Input")
@@ -206,11 +202,11 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
         .add<SpriteRenderer>()
         .add(Movement::Idle)
         .add(randomDirection)
-        .add<Sprite>()
         .set<Animation>({ { 0, 0, static_cast<int>(FRAME_SIZE),
                             static_cast<int>(FRAME_SIZE) },
                           SDL_FLIP_NONE,
                           FRAME_DURATION })
+        .set<Sprite>({ nullptr, nullptr })
         .set<Transform>(
             { STARTING_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })
         .set<Velocity>({ SPEED, 0.0f });
