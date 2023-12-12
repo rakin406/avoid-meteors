@@ -94,7 +94,6 @@ void modules::MeteorSystem::meteorsInit(flecs::world& world)
             .add<SpriteRenderer>()
             .set<Sprite>({ nullptr, nullptr })
             .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
-            // TODO: Set velocity.
-            .set<Velocity>({});
+            .set<Velocity>({ INITIAL_SPEED, INITIAL_SPEED });
     }
 }

@@ -25,7 +25,7 @@ namespace modules
         };
         static constexpr float MIN_SCALE { 1.0f };
         static constexpr float MAX_SCALE { 5.0f };
-        static constexpr float SPEED { 300.0f };
+        static constexpr float INITIAL_SPEED { 300.0f };
 
         // -- Components
 
