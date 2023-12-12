@@ -19,19 +19,6 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
 
     scoreInit(world);
 
-    // System that loads text texture on startup
-    world.system<RenderWindow, Text>("LoadTextTexture")
-        .kind(flecs::OnStart)
-        .term_at(1)
-        .singleton()
-        .term_at(2)
-        .singleton()
-        .each(
-            [](RenderWindow& window, Text& text) {
-                text.texture =
-                    window.loadTexture(text.content, text.size, text.color);
-            });
-
     // Observer to update text texture upon score change
     world.observer<const Score>("Score Change")
         .event(flecs::OnSet)
@@ -48,6 +35,19 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
                 text->content = std::format("Score: {}", *score);
                 text->texture =
                     window->loadTexture(text->content, text->size, text->color);
+            });
+
+    // System that loads text texture on startup
+    world.system<RenderWindow, Text>("LoadTextTexture")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .term_at(2)
+        .singleton()
+        .each(
+            [](RenderWindow& window, Text& text) {
+                text.texture =
+                    window.loadTexture(text.content, text.size, text.color);
             });
 }
 
