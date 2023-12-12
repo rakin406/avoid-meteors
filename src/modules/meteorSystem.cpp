@@ -38,8 +38,8 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
         .term_at(1)
         .singleton()
         .each(
-            [](RenderWindow& window, Angle& angle, Sprite& sprite,
-               Transform& transform, Meteor)
+            [](flecs::entity meteor, RenderWindow& window, Angle& angle,
+               Sprite& sprite, Transform& transform, Meteor)
             {
                 // Load meteor sprite
                 sprite.texture = window.loadTexture(METEOR_SPRITE);
@@ -81,23 +81,26 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
             });
 
     // System that moves meteor entities
-    world.system<Transform, const Velocity, Meteor>("Move")
+    world.system<Transform, const Angle, const Velocity, Meteor>("Move")
         .kind(flecs::OnUpdate)
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, Meteor)
+               const Angle& angle, const Velocity& velocity, Meteor)
             {
                 auto meteor { it.entity(index) };
 
-                // TODO: Remove this.
-                if (!meteor.has<CollisionMask::LeftWall>())
-                {
-                    transform.position.x -= vel.x * it.delta_time();
-                }
-                else if (!meteor.has<CollisionMask::RightWall>())
-                {
-                    transform.position.x += vel.x * it.delta_time();
-                }
+                // TODO: Finish this.
+                //if ()
+                //{
+                //    transform.position.x -=
+                //        (velocity.x * std::cos(angle)) * it.delta_time();
+                //}
+                //else if ()
+                //{
+                //}
+
+                transform.position.y +=
+                    (velocity.y * std::sin(angle)) * it.delta_time();
             });
 }
 
