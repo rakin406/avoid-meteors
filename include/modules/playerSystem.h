@@ -32,7 +32,7 @@ namespace modules
         // NOTE: I don't know what I'm doing here lol
         static constexpr int FRAME_DURATION { static_cast<int>(SPEED) / 2 };
         static constexpr SDL_FPoint INITIAL_POSITION {
-            (WINDOW_WIDTH / 2) - (FRAME_SIZE * (FRAME_SCALE / 2)),
+            (WINDOW_WIDTH / 2) - ((FRAME_SIZE * FRAME_SCALE) / 2),
             WINDOW_HEIGHT - 195 // Ground y-axis
         };
 
