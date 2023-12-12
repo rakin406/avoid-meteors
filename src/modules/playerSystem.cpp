@@ -108,7 +108,7 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
         .with<Direction>(flecs::Wildcard)
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& vel, Player)
+               const Velocity& velocity, Player)
             {
                 auto player { it.entity(index) };
                 auto direction { it.pair(5).second().to_constant<Direction>() };
@@ -117,12 +117,12 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
                 if (direction == Direction::Left &&
                     !player.has<CollisionMask::LeftWall>())
                 {
-                    transform.position.x -= vel.x * it.delta_time();
+                    transform.position.x -= velocity.x * it.delta_time();
                 }
                 else if (direction == Direction::Right &&
                          !player.has<CollisionMask::RightWall>())
                 {
-                    transform.position.x += vel.x * it.delta_time();
+                    transform.position.x += velocity.x * it.delta_time();
                 }
             });
 
