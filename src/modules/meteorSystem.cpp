@@ -83,13 +83,12 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
     world.observer<CollisionMask::Ground>("Ground Collision")
         .event(flecs::OnRemove)
         .each(
-            [](flecs::entity meteor, CollisionMask::Ground)
+            [&](flecs::entity meteor, CollisionMask::Ground)
             {
                 Sprite* sprite { meteor.get_mut<Sprite>() };
                 SDL_DestroyTexture(sprite->texture);
                 meteor.destruct();
-                // TODO: Call a function to create another meteor
-                // to replace the destroyed meteor.
+                createMeteor(world); // Replace destroyed meteor
             });
 
     // System that loads meteor components on startup
