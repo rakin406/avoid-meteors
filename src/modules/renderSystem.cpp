@@ -4,6 +4,7 @@
 #include "constants.h"
 #include "renderWindow.h"
 #include "tags.h"
+#include "tools.h"
 
 #include "SDL.h"
 
@@ -82,6 +83,29 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                 })
     };
 
+    auto meteorsRenderer {
+        world
+            .system<const Transform, const Sprite, RenderWindow, SpriteRenderer,
+                    Meteor>("RenderMeteors")
+            .kind(0)
+            .term_at(3)
+            .singleton()
+            .each(
+                [](const Transform& transform, const Sprite& sprite,
+                   RenderWindow& window, SpriteRenderer, Meteor)
+                {
+                    // TODO: Since texture size is constant, maybe make
+                    // it part of a component to improve performance?
+                    SDL_FPoint textureSize { tools::getSize(sprite.texture) };
+                    SDL_FRect dest { transform.position.x, transform.position.y,
+                                     textureSize.x * transform.scale.x,
+                                     textureSize.y * transform.scale.y };
+                    window.render(sprite.texture, nullptr, &dest,
+                                  transform.rotation, nullptr, SDL_FLIP_NONE,
+                                  sprite.color);
+                })
+    };
+
     auto textRenderer { world.system<RenderWindow, const Text>("RenderText")
                             .kind(0)
                             .term_at(1)
@@ -135,6 +159,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
                 // Render entities
                 backgroundRenderer.run();
+                meteorsRenderer.run();
                 textRenderer.run();
                 playerRenderer.run();
 
