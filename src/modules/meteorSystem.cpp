@@ -49,6 +49,13 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
                 // Set meteor position in the sky
                 transform.position = { randomPosX, -textureSize.y };
+
+                // NOTE: This is probably not accurate.
+                float middlePosX { static_cast<float>(WINDOW_WIDTH / 2) -
+                                   (textureSize.x * (transform.scale.x / 2)) };
+                if (transform.position.x == middlePosX)
+                {
+                }
             });
 
     // System that moves meteor entities
