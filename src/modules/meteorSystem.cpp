@@ -13,6 +13,27 @@
 #include <iostream>
 #include <ranges>
 
+// TODO: Create separate collision systems that match specific collision
+// masks. That would make more sense rather than adding and removing the
+// collision masks.
+
+namespace
+{
+    /**
+     * @brief Handles meteor and ground collision.
+     * @param meteor Meteor entity.
+     * @param transform Transform component.
+     */
+    void handleGroundCollision(flecs::entity& meteor,
+                               const Transform& transform)
+    {
+        if (transform.position.y == GROUND_POS_Y)
+        {
+            meteor.remove<CollisionMask::Ground>();
+        }
+    }
+} // namespace
+
 modules::MeteorSystem::MeteorSystem(flecs::world& world)
 {
     using namespace tools;
@@ -129,6 +150,13 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                     break;
                 }
             });
+
+    // System that checks for collisions between meteor and other entities
+    world.system<const Transform, CollisionLayer::Meteor>("MeteorCollision")
+        .kind(flecs::PostUpdate)
+        .each([](flecs::entity meteor, const Transform& transform,
+                 CollisionLayer::Meteor)
+              { handleGroundCollision(meteor, transform); });
 }
 
 void modules::MeteorSystem::meteorsInit(flecs::world& world)
