@@ -208,6 +208,6 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
                           FRAME_DURATION })
         .set<Sprite>({ nullptr, nullptr })
         .set<Transform>(
-            { STARTING_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })
+            { INITIAL_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })
         .set<Velocity>({ SPEED, 0.0f });
 }
