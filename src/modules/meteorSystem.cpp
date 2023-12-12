@@ -20,6 +20,31 @@
 namespace
 {
     /**
+     * @brief Creates meteor entity with components.
+     * @param world
+     */
+    void createMeteor(flecs::world& world)
+    {
+        using namespace modules;
+
+        const float randomScale { tools::getRandomValue<float>(
+            MeteorSystem::MIN_SCALE, MeteorSystem::MAX_SCALE) };
+
+        auto meteor { world.entity() };
+
+        meteor.add<Meteor>()
+            .add<CollisionLayer::Meteor>()
+            .add<CollisionMask::Ground>()
+            .add<CollisionMask::Player>()
+            .add<SpriteRenderer>()
+            .add<MeteorSystem::Angle>()
+            .set<Sprite>({ nullptr, nullptr })
+            .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
+            .set<Velocity>(
+                { MeteorSystem::INITIAL_SPEED, MeteorSystem::INITIAL_SPEED });
+    }
+
+    /**
      * @brief Handles meteor and ground collision.
      * @param meteor Meteor entity.
      * @param transform Transform component.
@@ -178,18 +203,6 @@ void modules::MeteorSystem::meteorsInit(flecs::world& world)
 
     for (int i : std::views::iota(0, level->numMeteors))
     {
-        float randomScale { tools::getRandomValue<float>(MIN_SCALE,
-                                                         MAX_SCALE) };
-
-        auto meteor { world.entity() };
-        meteor.add<Meteor>()
-            .add<CollisionLayer::Meteor>()
-            .add<CollisionMask::Ground>()
-            .add<CollisionMask::Player>()
-            .add<SpriteRenderer>()
-            .add<Angle>()
-            .set<Sprite>({ nullptr, nullptr })
-            .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
-            .set<Velocity>({ INITIAL_SPEED, INITIAL_SPEED });
+        createMeteor(world);
     }
 }
