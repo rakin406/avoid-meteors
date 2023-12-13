@@ -114,7 +114,8 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                             .singleton()
                             .each(
                                 [](RenderWindow& window, const Text& text) {
-                                    window.render(text.texture, text.position);
+                                    window.render(text.texture, text.position.x,
+                                                  text.position.y);
                                 }) };
 
     auto playerRenderer {

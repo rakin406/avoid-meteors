@@ -7,8 +7,11 @@
 #define COMPONENTS_H
 
 #include "SDL.h"
+#include <glm/glm.hpp>
 
 #include <string_view>
+
+using Velocity = glm::vec2;
 
 /**
  * @brief Manages animations.
@@ -48,7 +51,7 @@ struct Text
     int size {};                 // The size of the font
     SDL_Texture* texture {};     // The TEXTure
     SDL_Color color {};          // The color of the text
-    SDL_FPoint position {};      // The position of the text
+    glm::vec2 position {};       // The position of the text
 };
 
 /**
@@ -56,27 +59,18 @@ struct Text
  */
 struct Transform
 {
-    SDL_FPoint position {}; // 2D position (x, y)
-    double rotation {};     // Rotation angle in degrees
-    SDL_FPoint scale {};    // Scale factors (x, y)
-};
-
-/**
- * @brief Represents an entity’s movement speed and direction.
- */
-struct Velocity
-{
-    float x {};
-    float y {};
+    glm::vec2 position {}; // 2D position (x, y)
+    double rotation {};    // Rotation angle in degrees
+    glm::vec2 scale {};    // Scale factors (x, y)
 };
 
 /**
  * @brief Direction state.
  */
-enum class Direction
-{
-    Left,
-    Right
-};
+// enum class Direction
+//{
+//     Left,
+//     Right
+// };
 
 #endif
