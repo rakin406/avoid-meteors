@@ -6,11 +6,17 @@
 #ifndef RENDER_WINDOW_H
 #define RENDER_WINDOW_H
 
+#include "colors.h"
+
+#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
 
 #include <string_view>
 
+/**
+ * @brief Window that serves as a target for 2D drawing.
+ */
 class RenderWindow
 {
 public:
@@ -25,10 +31,16 @@ public:
     ~RenderWindow();
 
     /**
-     * @brief Sets background color.
-     * @param color
+     * @brief Gets the size of the rendering region of the window.
+     * @return Size.
      */
-    void clear(const SDL_Color& color);
+    glm::ivec2 getSize() const;
+
+    /**
+     * @brief Clears the entire target with a single color.
+     * @param color Default is black.
+     */
+    void clear(const SDL_Color& color = BLACK);
 
     /**
      * @brief Loads image as texture.
@@ -124,12 +136,13 @@ public:
                 const SDL_Color* tint = nullptr);
 
     /**
-     * @brief Displays screen.
+     * @brief Displays on screen what has been rendered to the window
+     * so far.
      */
     void display();
 
     /**
-     * @brief Shuts down SDL.
+     * @brief Closes the window and destroys all the attached resources.
      */
     void close();
 
