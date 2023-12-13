@@ -24,7 +24,9 @@ void handleWallCollision(flecs::entity& player, const Transform& transform) {
     // NOTE: I have no idea how the hell this is working...
     if (transform.position.x <= -PlayerSystem::FRAME_SIZE) {
         player.add<CollisionMask::LeftWall>();
-    } else if (transform.position.x >= (WINDOW_WIDTH - (PlayerSystem::FRAME_SIZE * (PlayerSystem::FRAME_SCALE - 1)))) {
+    } else if (transform.position.x >=
+               (WINDOW_WIDTH -
+                (PlayerSystem::FRAME_SIZE * (PlayerSystem::FRAME_SCALE - 1)))) {
         player.add<CollisionMask::RightWall>();
     } else {
         // NOTE: I feel like this is inefficient because the system
@@ -59,7 +61,9 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world) {
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each([](RenderWindow& window, Sprite& sprite, Player) { sprite.texture = window.loadTexture(SPRITE_SHEET); });
+        .each([](RenderWindow& window, Sprite& sprite, Player) {
+            sprite.texture = window.loadTexture(SPRITE_SHEET);
+        });
 
     // System that processes player input
     world.system<Direction, Player>("Input")
@@ -85,8 +89,8 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world) {
     world.system<Transform, const Direction, const Velocity, Player>("Move")
         .kind(flecs::OnUpdate)
         .with(Movement::Running)
-        .each([](flecs::iter& it, size_t index, Transform& transform, const Direction& direction,
-                 const Velocity& velocity, Player) {
+        .each([](flecs::iter& it, size_t index, Transform& transform,
+                 const Direction& direction, const Velocity& velocity, Player) {
             auto player{it.entity(index)};
 
             // Move player unless there's a collision
@@ -106,7 +110,8 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world) {
     world.system<const Direction, Sprite, Animation>("Animate")
         .kind(flecs::OnUpdate)
         .with<Movement>(flecs::Wildcard)
-        .iter([](flecs::iter& it, const Direction* direction, Sprite* sprite, Animation* animation) {
+        .iter([](flecs::iter& it, const Direction* direction, Sprite* sprite,
+                 Animation* animation) {
             // Get the current value of the states
             auto movement{it.pair(3).second().to_constant<Movement>()};
 
@@ -140,17 +145,16 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world) {
     // System that checks for collisions between player and other entities
     world.system<const Transform, CollisionLayer::Player>("PlayerCollision")
         .kind(flecs::PostUpdate)
-        .each([](flecs::entity player, const Transform& transform, CollisionLayer::Player) {
-            handleWallCollision(player, transform);
-        });
+        .each([](flecs::entity player, const Transform& transform,
+                 CollisionLayer::Player) { handleWallCollision(player, transform); });
 }
 
 void modules::PlayerSystem::playerInit(flecs::world& world) {
     // Used for random starting direction
     static constexpr std::array<Direction, 2> ALL_DIRECTIONS{LEFT, RIGHT};
 
-    Direction randomDirection{
-        ALL_DIRECTIONS[tools::getRandomValue<int>(0, static_cast<int>(ALL_DIRECTIONS.size()) - 1)]};
+    Direction randomDirection{ALL_DIRECTIONS[tools::getRandomValue<int>(
+        0, static_cast<int>(ALL_DIRECTIONS.size()) - 1)]};
 
     auto player{world.entity("Player")};
 
@@ -164,7 +168,10 @@ void modules::PlayerSystem::playerInit(flecs::world& world) {
         .add(Movement::Idle)
         .set<Animation>({SDL_FLIP_NONE, FRAME_DURATION})
         .set<Direction>(randomDirection)
-        .set<Sprite>({nullptr, {0, 0, static_cast<int>(FRAME_SIZE), static_cast<int>(FRAME_SIZE)}, nullptr})
+        .set<Sprite>(
+            {nullptr,
+             {0, 0, static_cast<int>(FRAME_SIZE), static_cast<int>(FRAME_SIZE)},
+             nullptr})
         .set<Transform>({INITIAL_POSITION, 0.0f, {FRAME_SCALE, FRAME_SCALE}})
         .set<Velocity>({SPEED, 0.0f});
 }

@@ -1,5 +1,5 @@
 ---
 BasedOnStyle: Chromium
 IndentWidth: 4
-ColumnLimit: 120
+ColumnLimit: 88
 AccessModifierOffset: -2

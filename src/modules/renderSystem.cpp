@@ -53,58 +53,78 @@ modules::RenderSystem::RenderSystem(flecs::world& world) {
         .kind(flecs::OnStart)
         .term_at(1)
         .singleton()
-        .each(
-            [](RenderWindow& window, Sprite& sprite, Background) { sprite.texture = window.loadTexture(BACKGROUND); });
+        .each([](RenderWindow& window, Sprite& sprite, Background) {
+            sprite.texture = window.loadTexture(BACKGROUND);
+        });
 
     // System that loads font on startup
-    world.system<RenderWindow>("LoadFont").kind(flecs::OnStart).term_at(1).singleton().each([](RenderWindow& window) {
-        window.loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
-    });
+    world.system<RenderWindow>("LoadFont")
+        .kind(flecs::OnStart)
+        .term_at(1)
+        .singleton()
+        .each([](RenderWindow& window) {
+            window.loadFont(DEFAULT_FONT, DEFAULT_FONT_SIZE);
+        });
 
-    auto backgroundRenderer{world.system<const Sprite, RenderWindow, SpriteRenderer, Background>("RenderBackground")
-                                .kind(0)
-                                .term_at(2)
-                                .singleton()
-                                .each([](const Sprite& sprite, RenderWindow& window, SpriteRenderer, Background) {
-                                    window.render(sprite.texture, nullptr, nullptr, 0, nullptr, SDL_FLIP_NONE,
-                                                  sprite.color);
-                                })};
+    auto backgroundRenderer{
+        world
+            .system<const Sprite, RenderWindow, SpriteRenderer, Background>(
+                "RenderBackground")
+            .kind(0)
+            .term_at(2)
+            .singleton()
+            .each([](const Sprite& sprite, RenderWindow& window, SpriteRenderer,
+                     Background) {
+                window.render(sprite.texture, nullptr, nullptr, 0, nullptr,
+                              SDL_FLIP_NONE, sprite.color);
+            })};
 
     auto meteorsRenderer{
-        world.system<const Transform, const Sprite, RenderWindow, SpriteRenderer, Meteor>("RenderMeteors")
+        world
+            .system<const Transform, const Sprite, RenderWindow, SpriteRenderer,
+                    Meteor>("RenderMeteors")
             .kind(0)
             .term_at(3)
             .singleton()
-            .each([](const Transform& transform, const Sprite& sprite, RenderWindow& window, SpriteRenderer, Meteor) {
+            .each([](const Transform& transform, const Sprite& sprite,
+                     RenderWindow& window, SpriteRenderer, Meteor) {
                 // TODO: Since texture size is constant, maybe make
                 // it part of a component to improve performance?
                 glm::vec2 textureSize{tools::getSize(sprite.texture)};
-                SDL_FRect dest{transform.position.x, transform.position.y, textureSize.x * transform.scale.x,
+                SDL_FRect dest{transform.position.x, transform.position.y,
+                               textureSize.x * transform.scale.x,
                                textureSize.y * transform.scale.y};
-                window.render(sprite.texture, nullptr, &dest, transform.rotation, nullptr, SDL_FLIP_NONE, sprite.color);
+                window.render(sprite.texture, nullptr, &dest, transform.rotation,
+                              nullptr, SDL_FLIP_NONE, sprite.color);
             })};
 
-    auto textRenderer{
-        world.system<RenderWindow, const Text>("RenderText")
-            .kind(0)
-            .term_at(1)
-            .singleton()
-            .term_at(2)
-            .singleton()
-            .each([](RenderWindow& window, const Text& text) { window.render(text.texture, text.position); })};
+    auto textRenderer{world.system<RenderWindow, const Text>("RenderText")
+                          .kind(0)
+                          .term_at(1)
+                          .singleton()
+                          .term_at(2)
+                          .singleton()
+                          .each([](RenderWindow& window, const Text& text) {
+                              window.render(text.texture, text.position);
+                          })};
 
-    auto playerRenderer{
-        world.system<const Transform, const Sprite, RenderWindow, Animation, SpriteRenderer, Player>("RenderPlayer")
-            .kind(0)
-            .term_at(3)
-            .singleton()
-            .each([](const Transform& transform, const Sprite& sprite, RenderWindow& window, Animation& animation,
-                     SpriteRenderer, Player) {
-                SDL_FRect dest{transform.position.x, transform.position.y, sprite.textureRect.w * transform.scale.x,
-                               sprite.textureRect.h * transform.scale.y};
-                window.render(sprite.texture, &sprite.textureRect, &dest, transform.rotation, nullptr, animation.flip,
-                              sprite.color);
-            })};
+    auto playerRenderer{world
+                            .system<const Transform, const Sprite, RenderWindow,
+                                    Animation, SpriteRenderer, Player>("RenderPlayer")
+                            .kind(0)
+                            .term_at(3)
+                            .singleton()
+                            .each([](const Transform& transform, const Sprite& sprite,
+                                     RenderWindow& window, Animation& animation,
+                                     SpriteRenderer, Player) {
+                                SDL_FRect dest{
+                                    transform.position.x, transform.position.y,
+                                    sprite.textureRect.w * transform.scale.x,
+                                    sprite.textureRect.h * transform.scale.y};
+                                window.render(sprite.texture, &sprite.textureRect,
+                                              &dest, transform.rotation, nullptr,
+                                              animation.flip, sprite.color);
+                            })};
 
     // System that updates and renders game
     world.system<SDL_Event, RenderWindow>("UpdateWindow")

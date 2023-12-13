@@ -20,7 +20,8 @@ class RenderSystem {
 
     static constexpr std::string_view BACKGROUND{PROJECT_ROOT "res/gfx/background.jpg"};
 
-    static constexpr std::string_view DEFAULT_FONT{PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"};
+    static constexpr std::string_view DEFAULT_FONT{
+        PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"};
 
     static constexpr int DEFAULT_FONT_SIZE{20};
 

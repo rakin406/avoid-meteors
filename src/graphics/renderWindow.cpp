@@ -20,7 +20,8 @@ bool initSDL() {
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError() << std::endl;
+        std::cout << "HEY.. SDL_Init HAS FAILED. SDL_ERROR: " << SDL_GetError()
+                  << std::endl;
         success = false;
     }
 
@@ -32,7 +33,8 @@ bool initSDL() {
 
     // Initialize SDL_ttf
     if (TTF_Init() == -1) {
-        std::cout << "SDL_ttf could not initialize. SDL_ttf Error: " << TTF_GetError() << std::endl;
+        std::cout << "SDL_ttf could not initialize. SDL_ttf Error: " << TTF_GetError()
+                  << std::endl;
         success = false;
     }
 
@@ -43,16 +45,20 @@ bool initSDL() {
 RenderWindow::RenderWindow(int width, int height, std::string_view title) {
     if (initSDL()) {
         // Create window
-        window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
-                                  SDL_WINDOW_SHOWN);
+        window =
+            SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED,
+                             SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
         if (window) {
             // Create renderer for window
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            renderer = SDL_CreateRenderer(
+                window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (renderer == nullptr) {
-                std::cout << "Unable to create rendering context. Error: " << SDL_GetError() << std::endl;
+                std::cout << "Unable to create rendering context. Error: "
+                          << SDL_GetError() << std::endl;
             }
         } else {
-            std::cout << "Window failed to init. Error: " << SDL_GetError() << std::endl;
+            std::cout << "Window failed to init. Error: " << SDL_GetError()
+                      << std::endl;
         }
     }
 }
@@ -84,7 +90,9 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view path) {
     return texture;
 }
 
-SDL_Texture* RenderWindow::loadTexture(std::string_view textureText, int fontSize, const SDL_Color& textColor) {
+SDL_Texture* RenderWindow::loadTexture(std::string_view textureText,
+                                       int fontSize,
+                                       const SDL_Color& textColor) {
     TTF_SetFontSize(font, fontSize);
 
     // Render text surface
@@ -92,13 +100,15 @@ SDL_Texture* RenderWindow::loadTexture(std::string_view textureText, int fontSiz
     SDL_Texture* texture{nullptr};
 
     if (textSurface == nullptr) {
-        std::cout << "Failed to load text surface. SDL_ttf Error: " << TTF_GetError() << std::endl;
+        std::cout << "Failed to load text surface. SDL_ttf Error: " << TTF_GetError()
+                  << std::endl;
     } else {
         // Create texture from surface pixels
         texture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
         if (texture == nullptr) {
-            std::cout << "Failed to create texture from rendered text. Error: " << SDL_GetError() << std::endl;
+            std::cout << "Failed to create texture from rendered text. Error: "
+                      << SDL_GetError() << std::endl;
         }
 
         // Get rid of old surface
@@ -113,18 +123,24 @@ bool RenderWindow::loadFont(std::string_view path, int size) {
     font = TTF_OpenFont(path.data(), size);
 
     if (font == nullptr) {
-        std::cout << "Failed to load lazy font. SDL_ttf Error: " << TTF_GetError() << std::endl;
+        std::cout << "Failed to load lazy font. SDL_ttf Error: " << TTF_GetError()
+                  << std::endl;
         return false;
     }
 
     return true;
 }
 
-void RenderWindow::render(SDL_Texture* texture, float posX, float posY, const SDL_Color* tint) {
+void RenderWindow::render(SDL_Texture* texture,
+                          float posX,
+                          float posY,
+                          const SDL_Color* tint) {
     render(texture, {posX, posY}, 0, nullptr, {1.0f, 1.0f}, tint);
 }
 
-void RenderWindow::render(SDL_Texture* texture, const glm::vec2& position, const SDL_Color* tint) {
+void RenderWindow::render(SDL_Texture* texture,
+                          const glm::vec2& position,
+                          const SDL_Color* tint) {
     render(texture, position, 0, nullptr, {1.0f, 1.0f}, tint);
 }
 
@@ -136,7 +152,8 @@ void RenderWindow::render(SDL_Texture* texture,
                           const SDL_Color* tint) {
     glm::vec2 textureSize{tools::getSize(texture)};
     SDL_Rect source{0, 0, textureSize.x, textureSize.y};
-    SDL_FRect dest{position.x, position.y, textureSize.x * scale.x, textureSize.y * scale.y};
+    SDL_FRect dest{position.x, position.y, textureSize.x * scale.x,
+                   textureSize.y * scale.y};
 
     render(texture, &source, &dest, angle, center, SDL_FLIP_NONE, tint);
 }

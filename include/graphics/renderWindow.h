@@ -55,7 +55,9 @@ class RenderWindow {
      * @param textColor
      * @return Texture
      */
-    SDL_Texture* loadTexture(std::string_view textureText, int fontSize, const SDL_Color& textColor);
+    SDL_Texture* loadTexture(std::string_view textureText,
+                             int fontSize,
+                             const SDL_Color& textColor);
 
     /**
      * @brief Loads font from file.
@@ -72,7 +74,10 @@ class RenderWindow {
      * @param posY
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, float posX, float posY, const SDL_Color* tint = nullptr);
+    void render(SDL_Texture* texture,
+                float posX,
+                float posY,
+                const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a texture with position.
@@ -80,7 +85,9 @@ class RenderWindow {
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, const glm::vec2& position, const SDL_Color* tint = nullptr);
+    void render(SDL_Texture* texture,
+                const glm::vec2& position,
+                const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a texture with extended parameters.
