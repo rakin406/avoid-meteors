@@ -73,12 +73,11 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
               { sprite.texture = window.loadTexture(SPRITE_SHEET); });
 
     // System that processes player input
-    world.system<Player>("Input")
+    world.system<Direction, Player>("Input")
         .kind(flecs::PreUpdate)
         .with<Movement>(flecs::Wildcard)
-        .with<Direction>(flecs::Wildcard)
         .each(
-            [](flecs::entity player, Player)
+            [](flecs::entity player, Direction& direction, Player)
             {
                 SDL_PumpEvents();
                 const Uint8* keyState { SDL_GetKeyboardState(nullptr) };
@@ -87,13 +86,13 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
                 if (keyState[SDL_SCANCODE_LEFT] || keyState[SDL_SCANCODE_A])
                 {
                     player.add(Movement::Running);
-                    player.add(Direction::Left);
+                    direction = LEFT;
                 }
                 else if (keyState[SDL_SCANCODE_RIGHT] ||
                          keyState[SDL_SCANCODE_D])
                 {
                     player.add(Movement::Running);
-                    player.add(Direction::Right);
+                    direction = RIGHT;
                 }
                 else
                 {
@@ -102,41 +101,34 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
             });
 
     // System that moves player entity
-    world.system<Transform, const Velocity, Player>("Move")
+    world.system<Transform, const Direction, const Velocity, Player>("Move")
         .kind(flecs::OnUpdate)
         .with(Movement::Running)
-        .with<Direction>(flecs::Wildcard)
         .each(
             [](flecs::iter& it, size_t index, Transform& transform,
-               const Velocity& velocity, Player)
+               const Direction& direction, const Velocity& velocity, Player)
             {
                 auto player { it.entity(index) };
-                auto direction { it.pair(5).second().to_constant<Direction>() };
 
                 // Move player unless there's a collision
-                if (direction == Direction::Left &&
-                    !player.has<CollisionMask::LeftWall>())
+                if (!player.has<CollisionMask::LeftWall>() &&
+                    !player.has<CollisionMask::RightWall>())
                 {
-                    transform.position.x -= velocity.x * it.delta_time();
-                }
-                else if (direction == Direction::Right &&
-                         !player.has<CollisionMask::RightWall>())
-                {
-                    transform.position.x += velocity.x * it.delta_time();
+                    transform.position.x +=
+                        direction.x * velocity.x * it.delta_time();
                 }
             });
 
     // System that animates player entity
-    world.system<Animation>("Animate")
+    world.system<const Direction, Animation>("Animate")
         .kind(flecs::OnUpdate)
         .with<Movement>(flecs::Wildcard)
-        .with<Direction>(flecs::Wildcard)
         .iter(
-            [](flecs::iter& it, Animation* animation)
+            [](flecs::iter& it, const Direction* direction,
+               Animation* animation)
             {
                 // Get the current value of the states
                 auto movement { it.pair(2).second().to_constant<Movement>() };
-                auto direction { it.pair(3).second().to_constant<Direction>() };
 
                 // Calculate the current frame based on time
                 Uint32 currentTime { SDL_GetTicks() };
@@ -160,16 +152,13 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
                 }
 
                 // Add a flip based on direction
-                switch (direction)
+                if (*direction == LEFT)
                 {
-                case Direction::Left:
                     animation->flip = SDL_FLIP_HORIZONTAL;
-                    break;
-                case Direction::Right:
+                }
+                else if (*direction == RIGHT)
+                {
                     animation->flip = SDL_FLIP_NONE;
-                    break;
-                default:
-                    break;
                 }
             });
 
@@ -184,9 +173,7 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
 void modules::PlayerSystem::playerInit(flecs::world& world)
 {
     // Used for random starting direction
-    static constexpr std::array<Direction, 2> ALL_DIRECTIONS {
-        Direction::Left, Direction::Right
-    };
+    static constexpr std::array<Direction, 2> ALL_DIRECTIONS { LEFT, RIGHT };
 
     Direction randomDirection { ALL_DIRECTIONS[tools::getRandomValue<int>(
         0, static_cast<int>(ALL_DIRECTIONS.size()) - 1)] };
@@ -201,11 +188,11 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
         .add<CollisionMask::RightWall>()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
-        .add(randomDirection)
         .set<Animation>({ { 0, 0, static_cast<int>(FRAME_SIZE),
                             static_cast<int>(FRAME_SIZE) },
                           SDL_FLIP_NONE,
                           FRAME_DURATION })
+        .set<Direction>(randomDirection)
         .set<Sprite>({ nullptr, nullptr })
         .set<Transform>(
             { INITIAL_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })

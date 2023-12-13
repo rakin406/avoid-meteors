@@ -10,6 +10,7 @@
 
 #include "SDL.h"
 #include <flecs.h>
+#include <glm/glm.hpp>
 
 #include <string_view>
 
@@ -31,7 +32,7 @@ namespace modules
 
         // NOTE: I don't know what I'm doing here lol
         static constexpr int FRAME_DURATION { static_cast<int>(SPEED) / 2 };
-        static constexpr SDL_FPoint INITIAL_POSITION {
+        static constexpr glm::vec2 INITIAL_POSITION {
             (WINDOW_WIDTH / 2) - ((FRAME_SIZE * FRAME_SCALE) / 2), GROUND_POS_Y
         };
 
