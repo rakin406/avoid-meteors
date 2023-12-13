@@ -166,28 +166,6 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                     (velocity.y * std::sin(angle)) * it.delta_time();
             });
 
-    // System that rotates meteor entities
-    world.system<Transform, Meteor>("Rotate")
-        .kind(flecs::OnUpdate)
-        .with<Direction>(flecs::Wildcard)
-        .iter(
-            [](flecs::iter& it, Transform* transform, Meteor*)
-            {
-                auto direction { it.pair(3).second().to_constant<Direction>() };
-
-                switch (direction)
-                {
-                case Direction::Left:
-                    transform->rotation -= ROTATION_SPEED * it.delta_time();
-                    break;
-                case Direction::Right:
-                    transform->rotation += ROTATION_SPEED * it.delta_time();
-                    break;
-                default:
-                    break;
-                }
-            });
-
     // System that checks for collisions between meteor and other entities
     world.system<const Transform, CollisionLayer::Meteor>("MeteorCollision")
         .kind(flecs::PostUpdate)
