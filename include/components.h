@@ -11,6 +11,7 @@
 
 #include <string_view>
 
+using Direction = glm::vec2;
 using Velocity = glm::vec2;
 
 /**
