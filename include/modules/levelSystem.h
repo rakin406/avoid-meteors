@@ -8,33 +8,31 @@
 
 #include <flecs.h>
 
-namespace modules
-{
+namespace modules {
+/**
+ * @brief LevelSystem module.
+ */
+class LevelSystem {
+  public:
+    // -- Constants
+
+    static constexpr int INITIAL_METEORS{5};
+
+    // -- Components
+
     /**
-     * @brief LevelSystem module.
+     * @brief Module import function.
+     * @param world
      */
-    class LevelSystem
-    {
-    public:
-        // -- Constants
+    LevelSystem(flecs::world& world);
 
-        static constexpr int INITIAL_METEORS { 5 };
-
-        // -- Components
-
-        /**
-         * @brief Module import function.
-         * @param world
-         */
-        LevelSystem(flecs::world& world);
-
-    private:
-        /**
-         * @brief Sets level and components.
-         * @param world
-         */
-        static void levelInit(flecs::world& world);
-    };
-} // namespace modules
+  private:
+    /**
+     * @brief Sets level and components.
+     * @param world
+     */
+    static void levelInit(flecs::world& world);
+};
+}  // namespace modules
 
 #endif

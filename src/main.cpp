@@ -5,17 +5,16 @@
 
 #include <flecs.h>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     using namespace modules;
 
-    flecs::world world { argc, argv };
+    flecs::world world{argc, argv};
 
     world.import <flecs::alerts>();
-    world.import <flecs::units>(); // For better visualization
+    world.import <flecs::units>();  // For better visualization
 
     world.import <LevelSystem>();
-    //world.import <MeteorSystem>();
+    // world.import <MeteorSystem>();
     world.import <PlayerSystem>();
     world.import <RenderSystem>();
     world.import <ScoreSystem>();

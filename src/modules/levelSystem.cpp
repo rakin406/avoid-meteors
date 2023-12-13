@@ -5,8 +5,7 @@
 
 #include <iostream>
 
-modules::LevelSystem::LevelSystem(flecs::world& world)
-{
+modules::LevelSystem::LevelSystem(flecs::world& world) {
     world.module<LevelSystem>();
 
     // Register components
@@ -15,8 +14,7 @@ modules::LevelSystem::LevelSystem(flecs::world& world)
     levelInit(world);
 }
 
-void modules::LevelSystem::levelInit(flecs::world& world)
-{
+void modules::LevelSystem::levelInit(flecs::world& world) {
     // Set singletons
-    world.set<Level>({ 1, INITIAL_METEORS });
+    world.set<Level>({1, INITIAL_METEORS});
 }

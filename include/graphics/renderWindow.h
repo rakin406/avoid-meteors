@@ -8,18 +8,17 @@
 
 #include "colors.h"
 
-#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
+#include <glm/glm.hpp>
 
 #include <string_view>
 
 /**
  * @brief Window that serves as a target for 2D drawing.
  */
-class RenderWindow
-{
-public:
+class RenderWindow {
+  public:
     /**
      * @brief Initializes the window.
      * @param width Window width.
@@ -56,8 +55,7 @@ public:
      * @param textColor
      * @return Texture
      */
-    SDL_Texture* loadTexture(std::string_view textureText, int fontSize,
-                             const SDL_Color& textColor);
+    SDL_Texture* loadTexture(std::string_view textureText, int fontSize, const SDL_Color& textColor);
 
     /**
      * @brief Loads font from file.
@@ -74,8 +72,7 @@ public:
      * @param posY
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, float posX, float posY,
-                const SDL_Color* tint = nullptr);
+    void render(SDL_Texture* texture, float posX, float posY, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a texture with position.
@@ -83,8 +80,7 @@ public:
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, const glm::vec2& position,
-                const SDL_Color* tint = nullptr);
+    void render(SDL_Texture* texture, const glm::vec2& position, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a texture with extended parameters.
@@ -98,9 +94,11 @@ public:
      * @param scale Texture scale. Default = { 1, 1 }
      * @param tint Additional color value. By default, it's null.
      */
-    void render(SDL_Texture* texture, const glm::vec2& position, double angle,
+    void render(SDL_Texture* texture,
+                const glm::vec2& position,
+                double angle,
                 const glm::vec2* center,
-                const glm::vec2& scale = { 1.0f, 1.0f },
+                const glm::vec2& scale = {1.0f, 1.0f},
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -110,8 +108,10 @@ public:
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, const SDL_Rect* source,
-                const glm::vec2& position, const SDL_Color* tint = nullptr);
+    void render(SDL_Texture* texture,
+                const SDL_Rect* source,
+                const glm::vec2& position,
+                const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a part of a texture defined by a rectangle with 'pro'
@@ -130,8 +130,11 @@ public:
      * should be performed on the texture.
      * @param tint Additional color value. By default, it's null.
      */
-    void render(SDL_Texture* texture, const SDL_Rect* source,
-                const SDL_FRect* dest, double angle, const glm::vec2* center,
+    void render(SDL_Texture* texture,
+                const SDL_Rect* source,
+                const SDL_FRect* dest,
+                double angle,
+                const glm::vec2* center,
                 const SDL_RendererFlip& flip = SDL_FLIP_NONE,
                 const SDL_Color* tint = nullptr);
 
@@ -146,10 +149,10 @@ public:
      */
     void close();
 
-private:
-    SDL_Window* window { nullptr };
-    SDL_Renderer* renderer { nullptr };
-    TTF_Font* font { nullptr };
+  private:
+    SDL_Window* window{nullptr};
+    SDL_Renderer* renderer{nullptr};
+    TTF_Font* font{nullptr};
 };
 
 #endif

@@ -9,34 +9,21 @@
 /**
  * @brief This describes the layers that the object appears in.
  */
-struct CollisionLayer
-{
-    struct Ground
-    {
-    };
+struct CollisionLayer {
+    struct Ground {};
 
-    struct Meteor
-    {
-    };
+    struct Meteor {};
 
-    struct Player
-    {
-    };
+    struct Player {};
 
-    struct LeftWall
-    {
-    };
+    struct LeftWall {};
 
-    struct RightWall
-    {
-    };
+    struct RightWall {};
 };
 
 /**
  * @brief This describes what layers the body will scan for collisions.
  */
-struct CollisionMask : CollisionLayer
-{
-};
+struct CollisionMask : CollisionLayer {};
 
 #endif

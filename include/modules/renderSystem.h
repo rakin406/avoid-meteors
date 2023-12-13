@@ -10,45 +10,37 @@
 
 #include <string_view>
 
-namespace modules
-{
+namespace modules {
+/**
+ * @brief RenderSystem module.
+ */
+class RenderSystem {
+  public:
+    // -- Constants
+
+    static constexpr std::string_view BACKGROUND{PROJECT_ROOT "res/gfx/background.jpg"};
+
+    static constexpr std::string_view DEFAULT_FONT{PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"};
+
+    static constexpr int DEFAULT_FONT_SIZE{20};
+
+    // -- Components
+
+    struct Background {};
+
     /**
-     * @brief RenderSystem module.
+     * @brief Module import function.
+     * @param world
      */
-    class RenderSystem
-    {
-    public:
-        // -- Constants
+    RenderSystem(flecs::world& world);
 
-        static constexpr std::string_view BACKGROUND {
-            PROJECT_ROOT "res/gfx/background.jpg"
-        };
-
-        static constexpr std::string_view DEFAULT_FONT {
-            PROJECT_ROOT "res/font/Silkscreen/Silkscreen-Regular.ttf"
-        };
-
-        static constexpr int DEFAULT_FONT_SIZE { 20 };
-
-        // -- Components
-
-        struct Background
-        {
-        };
-
-        /**
-         * @brief Module import function.
-         * @param world
-         */
-        RenderSystem(flecs::world& world);
-
-    private:
-        /**
-         * @brief Initializes window.
-         * @param world
-         */
-        static void windowInit(flecs::world& world);
-    };
-} // namespace modules
+  private:
+    /**
+     * @brief Initializes window.
+     * @param world
+     */
+    static void windowInit(flecs::world& world);
+};
+}  // namespace modules
 
 #endif
