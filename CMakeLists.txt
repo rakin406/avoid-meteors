@@ -116,12 +116,11 @@ set(SDL_LIBRARIES
 
 # Set compiler warnings
 if (MSVC)
-    add_compile_options(/W4 /Wall /WX)
+    add_compile_options(/W4 /Wall)
 else()
     add_compile_options(
         -Wall
         -Wextra
-        -Werror
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         -Wno-unused-parameter
     )
