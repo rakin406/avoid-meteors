@@ -131,9 +131,9 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                    Player)
                 {
                     SDL_FRect dest { transform.position.x, transform.position.y,
-                                     animation.frameRec.w * transform.scale.x,
-                                     animation.frameRec.h * transform.scale.y };
-                    window.render(sprite.texture, &animation.frameRec, &dest,
+                                     sprite.textureRect.w * transform.scale.x,
+                                     sprite.textureRect.h * transform.scale.y };
+                    window.render(sprite.texture, &sprite.textureRect, &dest,
                                   transform.rotation, nullptr, animation.flip,
                                   sprite.color);
                 })

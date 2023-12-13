@@ -39,7 +39,7 @@ namespace
             .add<CollisionMask::Player>()
             .add<SpriteRenderer>()
             .add<MeteorSystem::Angle>()
-            .set<Sprite>({ nullptr, nullptr })
+            .add<Sprite>()
             .set<Transform>({ {}, 0.0f, { randomScale, randomScale } })
             .set<Velocity>(
                 { MeteorSystem::INITIAL_SPEED, MeteorSystem::INITIAL_SPEED });

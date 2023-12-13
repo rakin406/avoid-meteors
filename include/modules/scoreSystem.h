@@ -6,7 +6,7 @@
 #ifndef SCORE_SYSTEM_H
 #define SCORE_SYSTEM_H
 
-#include "../colors.h"
+#include "../graphics/colors.h"
 
 #include <flecs.h>
 #include <glm/glm.hpp>

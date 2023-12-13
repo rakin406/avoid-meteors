@@ -38,7 +38,7 @@ struct Level
 struct Sprite
 {
     SDL_Texture* texture {};
-    SDL_Rect* textureRect {};
+    SDL_Rect textureRect {};
     SDL_Color* color {};
 };
 

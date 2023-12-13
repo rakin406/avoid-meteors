@@ -125,11 +125,11 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
             });
 
     // System that animates player entity
-    world.system<const Direction, Animation>("Animate")
+    world.system<const Direction, Sprite, Animation>("Animate")
         .kind(flecs::OnUpdate)
         .with<Movement>(flecs::Wildcard)
         .iter(
-            [](flecs::iter& it, const Direction* direction,
+            [](flecs::iter& it, const Direction* direction, Sprite* sprite,
                Animation* animation)
             {
                 // Get the current value of the states
@@ -142,15 +142,15 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
                                    6 };
 
                 // Update the x-coordinate of the source rectangle
-                animation->frameRec.x = animation->frameRec.w * currentFrame;
+                sprite->textureRect.x = sprite->textureRect.w * currentFrame;
 
                 switch (movement)
                 {
                 case Movement::Idle:
-                    animation->frameRec.y = 0;
+                    sprite->textureRect.y = 0;
                     break;
                 case Movement::Running:
-                    animation->frameRec.y = animation->frameRec.h;
+                    sprite->textureRect.y = sprite->textureRect.h;
                     break;
                 default:
                     break;
@@ -193,12 +193,12 @@ void modules::PlayerSystem::playerInit(flecs::world& world)
         .add<CollisionMask::RightWall>()
         .add<SpriteRenderer>()
         .add(Movement::Idle)
-        .set<Animation>({ { 0, 0, static_cast<int>(FRAME_SIZE),
-                            static_cast<int>(FRAME_SIZE) },
-                          SDL_FLIP_NONE,
-                          FRAME_DURATION })
+        .set<Animation>({ SDL_FLIP_NONE, FRAME_DURATION })
         .set<Direction>(randomDirection)
-        .set<Sprite>({ nullptr, nullptr })
+        .set<Sprite>({ nullptr,
+                       { 0, 0, static_cast<int>(FRAME_SIZE),
+                         static_cast<int>(FRAME_SIZE) },
+                       nullptr })
         .set<Transform>(
             { INITIAL_POSITION, 0.0f, { FRAME_SCALE, FRAME_SCALE } })
         .set<Velocity>({ SPEED, 0.0f });
