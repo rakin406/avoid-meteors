@@ -137,7 +137,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
                     // NOTE: Not accurate as well I guess.
                     // Set random angle
-                    angle = tools::getRandomValue<float>(
+                    angle.value = tools::getRandomValue<float>(
                         0.0f, std::atan(opposite / adjacent));
                 }
             });
@@ -155,16 +155,16 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                 if (meteor.has(Direction::Left))
                 {
                     transform.position.x -=
-                        (velocity.x * std::cos(angle)) * it.delta_time();
+                        (velocity.x * std::cos(angle.value)) * it.delta_time();
                 }
                 else if (meteor.has(Direction::Right))
                 {
                     transform.position.x +=
-                        (velocity.x * std::cos(angle)) * it.delta_time();
+                        (velocity.x * std::cos(angle.value)) * it.delta_time();
                 }
 
                 transform.position.y +=
-                    (velocity.y * std::sin(angle)) * it.delta_time();
+                    (velocity.y * std::sin(angle.value)) * it.delta_time();
             });
 
     // System that checks for collisions between meteor and other entities

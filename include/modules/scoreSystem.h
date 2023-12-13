@@ -28,7 +28,12 @@ namespace modules
 
         // -- Components
 
-        using Score = int;
+        // TODO: Maybe store score outside of systems instead of adding
+        // it as a component?
+        struct Score
+        {
+            int value {};
+        };
 
         /**
          * @brief Module import function.

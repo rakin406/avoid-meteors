@@ -32,7 +32,7 @@ modules::ScoreSystem::ScoreSystem(flecs::world& world)
                 RenderWindow* window { it.world().get_mut<RenderWindow>() };
 
                 // Update texture
-                text->content = std::format("Score: {}", *score);
+                text->content = std::format("Score: {}", score->value);
                 text->texture =
                     window->loadTexture(text->content, text->size, text->color);
             });

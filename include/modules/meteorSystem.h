@@ -29,7 +29,10 @@ namespace modules
 
         // -- Components
 
-        using Angle = float;
+        struct Angle
+        {
+            float value {};
+        };
 
         /**
          * @brief Module import function.
