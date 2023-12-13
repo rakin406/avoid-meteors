@@ -6,7 +6,7 @@
 #ifndef RENDER_WINDOW_H
 #define RENDER_WINDOW_H
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include <SDL_ttf.h>
 
 #include <string_view>

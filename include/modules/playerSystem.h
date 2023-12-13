@@ -8,7 +8,6 @@
 
 #include "../constants.h"
 
-#include "SDL.h"
 #include <flecs.h>
 #include <glm/glm.hpp>
 

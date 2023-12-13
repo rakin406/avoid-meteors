@@ -6,7 +6,7 @@
 #ifndef COLORS_H
 #define COLORS_H
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 // Custom color palette
 

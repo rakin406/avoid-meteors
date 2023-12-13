@@ -6,8 +6,8 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include "SDL.h"
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 #include <string_view>
 

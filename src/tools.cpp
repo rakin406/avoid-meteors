@@ -1,7 +1,7 @@
 #include "tools.h"
 
-#include "SDL.h"
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 glm::vec2 tools::getSize(SDL_Texture* texture)
 {

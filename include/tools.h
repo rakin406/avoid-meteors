@@ -6,8 +6,8 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 
-#include "SDL.h"
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 #include <random>
 

@@ -8,9 +8,9 @@
 
 #include "../colors.h"
 
-#include "SDL.h"
 #include <flecs.h>
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 namespace modules
 {

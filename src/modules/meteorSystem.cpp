@@ -6,8 +6,8 @@
 #include "tags.h"
 #include "tools.h"
 
-#include "SDL.h"
 #include <flecs.h>
+#include <SDL2/SDL.h>
 
 #include <cmath>
 #include <iostream>
