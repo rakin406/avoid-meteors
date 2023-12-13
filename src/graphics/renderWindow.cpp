@@ -1,4 +1,4 @@
-#include "renderWindow.h"
+#include "graphics/renderWindow.h"
 #include "tools.h"
 
 #include <glm/glm.hpp>

@@ -84,28 +84,28 @@ set(BUILD_SHARED_LIBS FALSE)
 FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_ttf flecs glm)
  
 set(MY_INCLUDES
+  include/graphics/colors.h
+  include/graphics/renderWindow.h
   include/modules/levelSystem.h
   #include/modules/meteorSystem.h
   include/modules/playerSystem.h
   include/modules/renderSystem.h
   include/modules/scoreSystem.h
   include/collisionLayer.h
-  include/colors.h
   include/components.h
   include/constants.h
-  include/renderWindow.h
   include/tags.h
   include/tools.h
 )
 
 set(MY_SOURCES
+  src/graphics/renderWindow.cpp
   src/modules/levelSystem.cpp
   #src/modules/meteorSystem.cpp
   src/modules/playerSystem.cpp
   src/modules/renderSystem.cpp
   src/modules/scoreSystem.cpp
   src/main.cpp
-  src/renderWindow.cpp
   src/tools.cpp
 )
 
