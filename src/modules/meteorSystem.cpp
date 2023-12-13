@@ -7,6 +7,7 @@
 #include "tools.h"
 
 #include <flecs.h>
+#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 
 #include <cmath>
@@ -105,7 +106,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
 
                 // NOTE: This is probably not accurate.
                 // Get random x-axis position
-                SDL_FPoint textureSize { getSize(sprite.texture) };
+                glm::vec2 textureSize { getSize(sprite.texture) };
                 float randomPosX { getRandomValue<float>(
                     0.0f, static_cast<float>(WINDOW_WIDTH) - textureSize.x) };
 

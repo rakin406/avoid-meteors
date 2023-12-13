@@ -6,6 +6,7 @@
 #include "tags.h"
 #include "tools.h"
 
+#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 
 #include <iostream>
@@ -96,7 +97,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                 {
                     // TODO: Since texture size is constant, maybe make
                     // it part of a component to improve performance?
-                    SDL_FPoint textureSize { tools::getSize(sprite.texture) };
+                    glm::vec2 textureSize { tools::getSize(sprite.texture) };
                     SDL_FRect dest { transform.position.x, transform.position.y,
                                      textureSize.x * transform.scale.x,
                                      textureSize.y * transform.scale.y };
@@ -114,8 +115,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
                             .singleton()
                             .each(
                                 [](RenderWindow& window, const Text& text) {
-                                    window.render(text.texture, text.position.x,
-                                                  text.position.y);
+                                    window.render(text.texture, text.position);
                                 }) };
 
     auto playerRenderer {
@@ -160,7 +160,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
                 // Render entities
                 backgroundRenderer.run();
-                //meteorsRenderer.run();
+                // meteorsRenderer.run();
                 textRenderer.run();
                 playerRenderer.run();
 
