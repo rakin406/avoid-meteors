@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     world.import <flecs::units>(); // For better visualization
 
     world.import <LevelSystem>();
-    world.import <MeteorSystem>();
+    //world.import <MeteorSystem>();
     world.import <PlayerSystem>();
     world.import <RenderSystem>();
     world.import <ScoreSystem>();
