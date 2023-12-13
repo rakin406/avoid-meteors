@@ -1,6 +1,6 @@
 #include "modules/scoreSystem.h"
 #include "components.h"
-#include "renderWindow.h"
+#include "graphics/renderWindow.h"
 
 #include <flecs.h>
 
