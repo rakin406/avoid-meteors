@@ -78,6 +78,15 @@ RenderWindow::RenderWindow(int width, int height, std::string_view title)
 
 RenderWindow::~RenderWindow() { close(); }
 
+glm::ivec2 RenderWindow::getSize() const
+{
+    glm::ivec2 size {};
+
+    SDL_GetWindowSize(window, &size.x, &size.y);
+
+    return size;
+}
+
 void RenderWindow::clear(const SDL_Color& color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
