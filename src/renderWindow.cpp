@@ -1,6 +1,7 @@
 #include "renderWindow.h"
 #include "tools.h"
 
+#include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -150,17 +151,17 @@ void RenderWindow::render(SDL_Texture* texture, float posX, float posY,
     render(texture, { posX, posY }, 0, nullptr, { 1.0f, 1.0f }, tint);
 }
 
-void RenderWindow::render(SDL_Texture* texture, const SDL_FPoint& position,
+void RenderWindow::render(SDL_Texture* texture, const glm::vec2& position,
                           const SDL_Color* tint)
 {
     render(texture, position, 0, nullptr, { 1.0f, 1.0f }, tint);
 }
 
-void RenderWindow::render(SDL_Texture* texture, const SDL_FPoint& position,
-                          double angle, const SDL_FPoint* center,
-                          const SDL_FPoint& scale, const SDL_Color* tint)
+void RenderWindow::render(SDL_Texture* texture, const glm::vec2& position,
+                          double angle, const glm::vec2* center,
+                          const glm::vec2& scale, const SDL_Color* tint)
 {
-    SDL_FPoint textureSize { tools::getSize(texture) };
+    glm::vec2 textureSize { tools::getSize(texture) };
     SDL_Rect source { 0, 0, textureSize.x, textureSize.y };
     SDL_FRect dest { position.x, position.y, textureSize.x * scale.x,
                      textureSize.y * scale.y };
@@ -169,18 +170,18 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_FPoint& position,
 }
 
 void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
-                          const SDL_FPoint& position, const SDL_Color* tint)
+                          const glm::vec2& position, const SDL_Color* tint)
 {
     SDL_FRect dest { position.x, position.y, source->w, source->h };
-    SDL_FPoint origin { 0.0f, 0.0f };
+    glm::vec2 origin { 0.0f, 0.0f };
 
     render(texture, source, &dest, 0.0f, &origin, SDL_FLIP_NONE, tint);
 }
 
 void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
                           const SDL_FRect* dest, double angle,
-                          const SDL_FPoint* center,
-                          const SDL_RendererFlip& flip, const SDL_Color* tint)
+                          const glm::vec2* center, const SDL_RendererFlip& flip,
+                          const SDL_Color* tint)
 {
     // Check if texture is valid
     if (SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr) == 0)
@@ -188,7 +189,18 @@ void RenderWindow::render(SDL_Texture* texture, const SDL_Rect* source,
         // Apply tint to texture
         if (tint)
             SDL_SetTextureColorMod(texture, tint->r, tint->g, tint->b);
-        SDL_RenderCopyExF(renderer, texture, source, dest, angle, center, flip);
+
+        SDL_FPoint* sdlCenter { nullptr };
+
+        // Copy glm vector to SDL vector
+        if (center)
+        {
+            sdlCenter->x = center->x;
+            sdlCenter->y = center->y;
+        }
+
+        SDL_RenderCopyExF(renderer, texture, source, dest, angle, sdlCenter,
+                          flip);
     }
 }
 

@@ -83,7 +83,7 @@ public:
      * @param position
      * @param tint Default = null
      */
-    void render(SDL_Texture* texture, const SDL_FPoint& position,
+    void render(SDL_Texture* texture, const glm::vec2& position,
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -98,9 +98,9 @@ public:
      * @param scale Texture scale. Default = { 1, 1 }
      * @param tint Additional color value. By default, it's null.
      */
-    void render(SDL_Texture* texture, const SDL_FPoint& position, double angle,
-                const SDL_FPoint* center,
-                const SDL_FPoint& scale = { 1.0, 1.0 },
+    void render(SDL_Texture* texture, const glm::vec2& position, double angle,
+                const glm::vec2* center,
+                const glm::vec2& scale = { 1.0f, 1.0f },
                 const SDL_Color* tint = nullptr);
 
     /**
@@ -111,7 +111,7 @@ public:
      * @param tint Default = null
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
-                const SDL_FPoint& position, const SDL_Color* tint = nullptr);
+                const glm::vec2& position, const SDL_Color* tint = nullptr);
 
     /**
      * @brief Renders a part of a texture defined by a rectangle with 'pro'
@@ -131,7 +131,7 @@ public:
      * @param tint Additional color value. By default, it's null.
      */
     void render(SDL_Texture* texture, const SDL_Rect* source,
-                const SDL_FRect* dest, double angle, const SDL_FPoint* center,
+                const SDL_FRect* dest, double angle, const glm::vec2* center,
                 const SDL_RendererFlip& flip = SDL_FLIP_NONE,
                 const SDL_Color* tint = nullptr);
 
