@@ -19,7 +19,6 @@ using Velocity = glm::vec2;
  */
 struct Animation
 {
-    SDL_Rect frameRec {};
     SDL_RendererFlip flip {};
     int frameDuration {};
 };
@@ -39,6 +38,7 @@ struct Level
 struct Sprite
 {
     SDL_Texture* texture {};
+    SDL_Rect* textureRect {};
     SDL_Color* color {};
 };
 
