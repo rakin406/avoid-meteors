@@ -160,7 +160,7 @@ modules::RenderSystem::RenderSystem(flecs::world& world)
 
                 // Render entities
                 backgroundRenderer.run();
-                meteorsRenderer.run();
+                //meteorsRenderer.run();
                 textRenderer.run();
                 playerRenderer.run();
 
