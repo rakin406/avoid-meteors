@@ -7,6 +7,7 @@
 #define TOOLS_H
 
 #include "SDL.h"
+#include <glm/glm.hpp>
 
 #include <random>
 
@@ -17,7 +18,7 @@ namespace tools
      * @param texture
      * @return Size
      */
-    SDL_FPoint getSize(SDL_Texture* texture);
+    glm::vec2 getSize(SDL_Texture* texture);
 
     /**
      * @brief Gets a random value between min and max (both included).

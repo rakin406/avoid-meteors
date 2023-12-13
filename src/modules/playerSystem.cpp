@@ -111,12 +111,17 @@ modules::PlayerSystem::PlayerSystem(flecs::world& world)
                 auto player { it.entity(index) };
 
                 // Move player unless there's a collision
-                if (!player.has<CollisionMask::LeftWall>() &&
-                    !player.has<CollisionMask::RightWall>())
-                {
-                    transform.position.x +=
-                        direction.x * velocity.x * it.delta_time();
-                }
+                // if (!player.has<CollisionMask::LeftWall>() &&
+                //    !player.has<CollisionMask::RightWall>())
+                //{
+                //    transform.position.x +=
+                //        direction.x * velocity.x * it.delta_time();
+                //}
+
+                // FIX: Player only moving right.
+                transform.position.x +=
+                    direction.x * velocity.x * it.delta_time();
+                std::cout << transform.position.x << std::endl;
             });
 
     // System that animates player entity

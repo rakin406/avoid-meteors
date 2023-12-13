@@ -1,10 +1,11 @@
 #include "tools.h"
 
 #include "SDL.h"
+#include <glm/glm.hpp>
 
-SDL_FPoint tools::getSize(SDL_Texture* texture)
+glm::vec2 tools::getSize(SDL_Texture* texture)
 {
-    SDL_FPoint size {};
+    glm::vec2 size {};
 
     // Can't directly get size since it's float. Use integers.
     int width {};
