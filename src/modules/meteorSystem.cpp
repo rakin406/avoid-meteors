@@ -137,7 +137,7 @@ modules::MeteorSystem::MeteorSystem(flecs::world& world)
                     // NOTE: Not accurate as well I guess.
                     // Set random angle
                     angle = tools::getRandomValue<float>(
-                        0.0f, std::tan(opposite / adjacent));
+                        0.0f, std::atan(opposite / adjacent));
                 }
             });
 

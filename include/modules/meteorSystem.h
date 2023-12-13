@@ -24,7 +24,7 @@ namespace modules
             PROJECT_ROOT "res/gfx/meteor.png"
         };
         static constexpr float MIN_SCALE { 1.0f };
-        static constexpr float MAX_SCALE { 5.0f };
+        static constexpr float MAX_SCALE { 2.0f };
         static constexpr float INITIAL_SPEED { 300.0f };
         static constexpr double ROTATION_SPEED { 2 };
 
